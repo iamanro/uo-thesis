@@ -1,0 +1,40 @@
+unob-thesis — third-party and restricted assets
+================================================
+
+The MIT license in LICENSE covers the template SOURCE CODE only. The
+following bundled assets are NOT covered by the MIT license and are subject to
+separate terms.
+
+1. University of Defence visual identity (logos)
+------------------------------------------------
+
+Files:
+  - src/assets/logoFVL.svg
+  - src/assets/logoFVT.svg
+  - src/assets/logoUO.svg
+  - src/assets/logoVLF.svg
+
+These faculty and university logos are the intellectual property and
+registered visual identity of the University of Defence (Univerzita obrany),
+Brno, Czech Republic. They are bundled solely so that the template can
+generate the official title page.
+
+Conditions of use:
+  - The logos may be used ONLY as part of a genuine University of Defence
+    final thesis (bachelor's, master's, doctoral, or other student work)
+    produced within the framework of studies at the University of Defence.
+  - The logos must remain in their original, unaltered form. Modifying the
+    logo, changing its proportions or colors, or extracting it from the
+    template for any other purpose is prohibited without prior written
+    consent of the University of Defence.
+  - Any other use requires prior written permission from the University of
+    Defence.
+
+If you reuse this template's source code under the MIT license for a
+non-UNOB project, you must remove or replace these logo files with your own.
+
+2. Fonts (TeX Gyre family)
+--------------------------
+
+The fonts bundled in template/fonts/ are part of the TeX Gyre project and are
+distributed under the GUST Font License. See template/fonts/LICENSE-FONTS.txt.

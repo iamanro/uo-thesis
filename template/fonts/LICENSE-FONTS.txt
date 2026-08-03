@@ -1,0 +1,29 @@
+TeX Gyre fonts — license
+=========================
+
+The fonts bundled in this directory are part of the TeX Gyre collection:
+
+  - TeX Gyre Termes      (texgyretermes-*.otf)      — main text
+  - TeX Gyre Termes Math (texgyretermes-math.otf)   — mathematics
+  - TeX Gyre Cursor      (texgyrecursor-*.otf)      — code / listings
+
+Copyright (c) GUST (Polish TeX Users Group) e-foundry.
+
+These fonts are licensed under the GUST Font License (GFL), version 1.0,
+which is an authors' modification of the LaTeX Project Public License
+(LPPL), version 1.3c.
+
+Under the GFL you are free to use, copy, modify, and redistribute the fonts,
+provided that this license text accompanies the fonts and that modified
+versions are renamed. The full, canonical text of the license is available at:
+
+  https://www.gust.org.pl/projects/e-foundry/licenses
+  https://www.gust.org.pl/projects/e-foundry/licenses/GUST-FONT-LICENSE.txt
+
+The TeX Gyre project page:
+
+  https://www.gust.org.pl/projects/e-foundry/tex-gyre
+
+Only the three families actually used by this template are bundled. If you
+need other weights or families, download the complete TeX Gyre collection
+from the project page above.

@@ -1,0 +1,87 @@
+# ============================================================================
+#  Typografická konfigurace šablony unob-thesis.
+#  Jediné místo se všemi laditelnými hodnotami sazby. Styly v src/styling/*
+#  je čtou přes src/config.typ (nesahej do nich, uprav hodnoty zde).
+#
+#  Délky se píšou jako řetězec s jednotkou: "12pt", "0.7em", "35mm", "47%".
+#  Podporované jednotky: pt, mm, cm, in, em, %. Fonty = název, barvy = hex.
+# ============================================================================
+
+[text]
+# Fonty musí odpovídat rodinám přibaleným v template/fonts/ (TeX Gyre) — jinak
+# se sází jiným písmem, než uvádí README, a u rodin, které typst nemá vestavěné,
+# dojde k tiché náhradě. Hlídá to CI (krok „Fonts resolve without system fonts").
+font      = "TeX Gyre Termes"          # hlavní textové písmo
+math_font = "TeX Gyre Termes Math"     # matematika (fallback: New Computer Modern Math)
+raw_font  = "TeX Gyre Cursor"          # kód / raw
+size      = "12pt"                     # základní velikost textu
+
+[par]
+leading           = "0.7em"   # řádkování v odstavci
+first_line_indent = "7mm"     # odsazení prvního řádku odstavce
+list_indent       = "1em"     # odsazení seznamů (list i enum)
+list_spacing      = "auto"    # mezera mezi položkami odrážkového seznamu ("auto" = výchozí Typst)
+enum_spacing      = "auto"    # mezera mezi položkami číslovaného seznamu ("auto" = výchozí Typst)
+spacing_min       = "47%"     # dolní mez mezislovní mezery (default Typst 66.67 %)
+spacing_max       = "150%"    # horní mez mezislovní mezery
+
+[link]
+# Barva odkazů, když nejsou obarvené (theme.color = false, resp. bez fakultní barvy).
+# Barevný režim řídí parametr `theme` v main.typ, tato hodnota je jen „nebarevný" fallback.
+mono_color = "#000000"
+
+[page]
+paper          = "a4"
+margin_inside  = "35mm"   # vnitřní okraj (u hřbetu)
+margin_outside = "25mm"   # vnější okraj
+margin_y       = "25mm"   # horní a dolní okraj
+
+# Pracovní režim (draft: true) — široký pravý okraj na poznámky.
+[page.draft]
+margin_left   = "10mm"
+margin_right  = "50mm"
+margin_top    = "10mm"
+margin_bottom = "10mm"
+
+[heading]
+h1_size = "14pt"    # H1 (kapitola) – sází se VERZÁLKAMI a tučně
+h1_gap  = "1em"     # hlavní mezera nadpisů: pod H1 a NAD podnadpisy (H2–H4)
+h2_size = "14pt"
+h3_size = "13pt"
+h4_size = "12pt"
+sub_gap = "0.5em"   # mezera POD podnadpisem (H2–H4)
+
+[outline]
+depth = 3      # hloubka OBSAHU (počet úrovní nadpisů v obsahu)
+
+[table]
+size        = "10pt"    # velikost textu v tabulkách
+inset_x     = "6pt"     # vodorovný vnitřní okraj buňky
+inset_y     = "5pt"     # svislý vnitřní okraj buňky
+rule_inner  = "0.5pt"   # linka pod hlavičkou
+rule_outer  = "1pt"     # horní a dolní linka tabulky
+caption_gap = "0.45em"  # mezera nad/pod popiskem
+
+[figure]
+spacing     = "1em"     # svislá mezera kolem figur a blokových rovnic
+caption_gap = "0.45em"  # mezera nad/pod popiskem obrázků (tabulky mají vlastní v [table]; když se vynechá, použije se tabulková)
+
+[cover]
+logo_height       = "6.71cm"
+size_header       = "14pt"   # fakulta, program, specializace
+size_university   = "16pt"
+size_thesis_type  = "24pt"   # DISERTAČNÍ PRÁCE
+size_title        = "14pt"
+size_people       = "14pt"
+size_city_year    = "16pt"
+gap               = "20pt"   # jednotná mezera mezi bloky titulky
+paragraph_leading = "0.5em"  # řádkování víceřádkových bloků titulky
+title_leading     = "0.25em" # řádkování víceřádkového názvu práce
+
+# Oficiální vizuální identita Univerzity obrany. NEMĚNIT bez svolení UO
+# (viz NOTICE) – hodnoty odpovídají barvám fakultních log.
+[faculty]
+fvl = "#808205"
+fvt = "#6188cd"
+vlf = "#ea0738"
+uo  = "#fec820"

@@ -1,0 +1,75 @@
+# ============================================================================
+#  Konfigurace práce — VŠECHNA metadata a přepínače vyplňujte zde.
+#  main.typ tento soubor načítá (thesis-config) a obsahuje už jen obsahové
+#  části (abstrakt, úvod, kapitoly, bibliografii), které TOML nést nemůže.
+#
+#  Nepovinné hodnoty (suffix, genitive, …) stačí vynechat.
+#  POZOR: jednoduché klíče musí zůstat NAD tabulkami [thesis], [author], …
+#  (pravidlo TOML — klíč pod tabulkou by patřil té tabulce).
+# ============================================================================
+
+lang    = "cs"     # jazyk dokumentu: "cs" | "en"
+draft   = false    # pracovní režim (širší okraje, bez titulní strany)
+faculty = "fvl"    # "fvl" | "fvt" | "vlf" | "uo"; s logem UO: "uo-fvl" | "uo-fvt" | "uo-vlf"
+
+programme      = "Řízení a použití ozbrojených sil"
+specialisation = "Management informačních zdrojů"
+
+declaration = true     # čestné prohlášení
+ai_used     = true     # odstavec o použití AI v prohlášení
+
+docs          = false  # interní dokumentace API v PDF
+submit_check  = false  # přísná kontrola před odevzdáním
+# vlna = true          # nezlomitelné mezery; výchozí `auto` = zapnuto, v draftu vypnuto (rychlejší psaní)
+fancy_heading = false  # běžné („živé") záhlaví s názvem kapitoly
+twoside       = true   # oboustranný tisk (vakáty); false = elektronická verze
+
+[thesis]
+type  = "master"       # "bachelor" | "master" | "doctoral"
+title = "Název práce"
+
+[author]
+prefix  = "rtm."
+name    = "Jan"
+surname = "Novák"
+sex     = "M"          # "M" | "F" — řídí rodové tvary (Zpracoval/Zpracovala…)
+
+[supervisor]
+prefix  = "pplk. Ing."
+name    = "Jana"
+surname = "Nováková"
+suffix  = "Ph.D."
+sex     = "F"
+# genitive = "Jany Novákové"   # 2. pád jména pro prohlášení; vynech = automatika
+
+[first_advisor]
+prefix  = "Mgr."
+name    = "Jan"
+surname = "Novák"
+
+[second_advisor]
+prefix  = "Ing."
+name    = "František"
+surname = "Novák"
+
+[keywords]
+czech   = "klíčové slovo 1, klíčové slovo 2, klíčové slovo 3"
+english = "keyword 1, keyword 2, keyword 3"
+
+# Které generované seznamy sázet (vykreslí se jen při reálných položkách).
+[outlines]
+headings  = true
+acronyms  = true
+terms     = true
+symbols   = true
+figures   = true
+tables    = true
+equations = false
+listings  = false
+
+[theme]
+color           = true   # hlavní vypínač barev
+links_colored   = true
+faculty_colored = true
+# faculty_color = "#808205"  # vlastní barva místo fakultní; vynech = automatika
+# link_color    = "#0000ee"  # vlastní barva odkazů

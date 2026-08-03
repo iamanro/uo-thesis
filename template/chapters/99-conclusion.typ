@@ -1,0 +1,1 @@
+Závěrečné shrnutí výsledků práce.

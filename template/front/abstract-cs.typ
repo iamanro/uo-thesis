@@ -1,0 +1,1 @@
+Český abstrakt práce.

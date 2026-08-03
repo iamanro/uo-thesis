@@ -1,0 +1,248 @@
+#import "internal/i18n/index.typ": normalize-thesis-type as i18n-normalize-thesis-type, setup-language
+#import "../styling/styles.typ": apply-base-styles, apply-figure-styles, apply-heading-styles
+#import "../styling/theme.typ": resolve-theme
+#import "../styling/flex-caption.typ": apply-flex-caption-outline
+#import "appendix.typ": appendix as render-appendix
+#import "render.typ": render-draft-layout, render-final-layout
+#import "internal/validation.typ": validate-config, validate-submit-check, validate-image-alt, validate-no-todos, validate-bibliography
+#import "internal/config.typ": normalize-outlines, normalize-theme-config, resolve-frontmatter
+#import "internal/glossary-source.typ": has-entries, resolve-glossary-source
+#import "internal/people.typ": person
+#import "internal/glossary/index.typ": (
+  glossary-show, glossary-to-acronyms, glossary-to-symbols, glossary-to-terms,
+  has-used-symbols, init-glossary-runtime, normalize-glossary-input, validate-glossary-registry,
+)
+
+// Funkce: unob-thesis
+// Účel: Hlavní veřejný vstup šablony s inline konfigurací po vzoru SHAW/ZHAW.
+#let unob-thesis(
+  body,
+  lang: "cs",
+  draft: false,
+  faculty: "uo",
+  programme: [],
+  specialisation: [],
+  thesis: (
+    type: "bachelor",
+    title: [Název práce],
+  ),
+  author: person(name: "Jan", surname: "Novák", sex: "M"),
+  supervisor: person(name: "Jana", surname: "Nováková", sex: "F"),
+  first_advisor: person(),
+  second_advisor: person(),
+  assignment_front: none,
+  assignment_back: none,
+  acknowledgement: false,
+   declaration: true,
+  ai_used: false,
+  acronyms: false,
+  terms: false,
+  symbols: false,
+  abstract: (
+    czech: [],
+    english: [],
+  ),
+  keywords: (
+    czech: "",
+    english: "",
+  ),
+  theme: (
+    color: false,
+    links_colored: true,
+    faculty_colored: true,
+    faculty_color: none,
+    link_color: none,
+  ),
+  introduction: [],
+  outlines: (
+    headings: true,
+    acronyms: false,
+    terms: false,
+    figures: true,
+    tables: true,
+    equations: false,
+    listings: false,
+  ),
+  docs: false,
+  submit_check: false,
+  vlna: auto,
+  fancy_heading: false,
+  twoside: true,
+  bibliography: none,
+  appendix: none,
+) = {
+  show: setup-language.with(lang: lang)
+
+  // Časná kontrola tvaru `thesis` — čte se dříve než běží `validate-config`,
+  // takže bez ní by chybějící klíč skončil nesrozumitelnou chybou Typstu.
+  if type(thesis) != dictionary or thesis.at("type", default: none) == none or thesis.at("title", default: none) == none {
+    panic(
+      "Parametr `thesis` musí být slovník s klíči `type` a `title`, např. "
+        + "`thesis: (type: \"master\", title: \"Název práce\")`. / "
+        + "`thesis` must be a dictionary with `type` and `title`.",
+    )
+  }
+
+  let university = (faculty: faculty, programme: programme, specialisation: specialisation)
+  let assignment = (front: assignment_front, back: assignment_back)
+  let declaration_config = (declaration: declaration, ai_used: ai_used)
+  let outline_config = normalize-outlines(outlines)
+  let theme_config = normalize-theme-config(theme)
+
+  let normalized_thesis = (
+    type: i18n-normalize-thesis-type(thesis.type),
+    title: thesis.title,
+  )
+
+  // Rozhodnuti o zdroji glosáře: pokud je `true`, načte se výchozí soubor
+  let need-default = (acronyms == true) or (terms == true) or (symbols == true)
+  let has-custom-acronyms = (type(acronyms) in (str, raw)) or (type(acronyms) == dictionary and acronyms.len() > 0)
+  let has-custom-terms = (type(terms) in (str, raw)) or (type(terms) == dictionary and terms.len() > 0)
+  let has-custom-symbols = (type(symbols) in (str, raw)) or (type(symbols) == dictionary and symbols.len() > 0)
+  let glossary_source = if need-default {
+    resolve-glossary-source(true, "../../../template/glossary.toml")
+  } else if has-custom-acronyms {
+    resolve-glossary-source(acronyms, false)
+  } else if has-custom-terms {
+    resolve-glossary-source(terms, false)
+  } else if has-custom-symbols {
+    resolve-glossary-source(symbols, false)
+  } else {
+    false
+  }
+  let glossary_entries = normalize-glossary-input(glossary_source)
+  let want-acronyms = acronyms != false and acronyms != none
+  let want-terms = terms != false and terms != none
+  let want-symbols = symbols != false and symbols != none
+  let resolved_acronyms = if want-acronyms { glossary-to-acronyms(glossary_entries) } else { false }
+  let resolved_terms = if want-terms { glossary-to-terms(glossary_entries) } else { false }
+  let resolved_symbols = if want-symbols { glossary-to-symbols(glossary_entries) } else { false }
+
+  // Seznamy se zobrazí jen pokud existují položky k zobrazení
+  let show-acronyms = has-entries(resolved_acronyms) and outline_config.acronyms
+  let show-terms = has-entries(resolved_terms) and outline_config.terms
+  let show-symbols = has-used-symbols(resolved_symbols) and outline_config.at("symbols", default: false)
+  let effective-outlines = outline_config + (acronyms: show-acronyms, terms: show-terms, symbols: show-symbols)
+
+  let fm = resolve-frontmatter(acknowledgement, introduction, abstract, keywords)
+  let effective-theme = resolve-theme(theme_config, university.faculty)
+
+  validate-glossary-registry(resolved_acronyms, resolved_terms, symbols: resolved_symbols)
+
+  // `vlna: auto` — nezlomitelné mezery řeší finální řádkové zlomy; v draftu
+  // (jiné okraje, jiné zlomy) je jejich kontrola bezcenná a vlna jen zdražuje
+  // psací smyčku (+40–75 % času kompilace). Explicitní true/false vždy vyhrává.
+  let effective-vlna = if vlna == auto { draft != true } else { vlna }
+
+  validate-config((
+    lang: lang,
+    draft: draft,
+    university: university,
+    thesis: thesis,
+    author: author,
+    supervisor: supervisor,
+    first_advisor: first_advisor,
+    second_advisor: second_advisor,
+    declaration: declaration_config,
+    assignment: assignment,
+    outlines: effective-outlines,
+    acronyms: resolved_acronyms,
+    terms: resolved_terms,
+    symbols: resolved_symbols,
+    docs: docs,
+    submit_check: submit_check,
+    vlna: effective-vlna,
+    fancy_heading: fancy_heading,
+    twoside: twoside,
+  ))
+
+  validate-bibliography(bibliography)
+
+  validate-submit-check(
+    submit_check,
+    draft,
+    supervisor,
+    fm.abstract,
+    fm.keywords,
+    fm.introduction,
+    assignment,
+    bibliography,
+    (
+      title: thesis.title,
+      author: author,
+      abstract: abstract,
+      keywords: keywords,
+    ),
+  )
+
+  validate-image-alt(submit_check, lang)
+  validate-no-todos(submit_check, lang)
+
+  show: apply-base-styles.with(
+    draft: draft,
+    lang: lang,
+    author: author,
+    thesis: normalized_thesis,
+    abstract: fm.abstract,
+    keywords: fm.keywords,
+    theme: effective-theme,
+    vlna: effective-vlna,
+    fancy_heading: fancy_heading,
+    twoside: twoside,
+  )
+  show: apply-heading-styles.with(draft: draft, twoside: twoside)
+  show: apply-figure-styles
+  show: glossary-show
+  // Přepínání dlouhá/krátká verze popisků (flex-caption) i v šablonových seznamech.
+  show: apply-flex-caption-outline
+
+  [#metadata(draft) <unob-layout-draft>]
+  init-glossary-runtime(resolved_acronyms, terms: resolved_terms)
+
+  if draft {
+    render-draft-layout(
+      normalized_thesis,
+      author,
+      fm.abstract,
+      fm.keywords,
+      body,
+      lang: lang,
+    )
+  } else {
+    if docs != false {
+      include "internal/docs.typ"
+    }
+
+    render-final-layout(
+      (
+        university: university,
+        thesis: normalized_thesis,
+        author: author,
+        supervisor: supervisor,
+        first_advisor: first_advisor,
+        second_advisor: second_advisor,
+        assignment: assignment,
+        declaration: declaration_config,
+        acknowledgement: fm.acknowledgement,
+        abstract: fm.abstract,
+        keywords: fm.keywords,
+        outlines: effective-outlines,
+        glossary: (acronyms: resolved_acronyms, terms: resolved_terms, symbols: resolved_symbols),
+        introduction: fm.introduction,
+      ),
+      body,
+      lang: lang,
+    )
+  }
+
+  if bibliography != none {
+    // Podpora jedné i více bibliografií (Typst 0.15+)
+    let bibs = if type(bibliography) == array { bibliography } else { (bibliography,) }
+    for bib in bibs {
+      bib
+    }
+  }
+  if appendix != none {
+    render-appendix(draft: draft, lang: lang, twoside: twoside)[#appendix]
+  }
+}

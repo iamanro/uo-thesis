@@ -1,0 +1,10 @@
+# Výstupy kompilace
+*.pdf
+
+# Editory a nástroje
+.DS_Store
+.vscode/
+.idea/
+.zed/
+*.swp
+*.swo

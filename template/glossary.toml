@@ -1,0 +1,38 @@
+# Glosář: zkratky a pojmy v jednom souboru, jedna TOML tabulka na položku.
+#
+# - Položka BEZ klíče `glossary` = zkratka (vykreslí se v SEZNAMU ZKRATEK).
+#   Při prvním výskytu v textu se rozvine, dále se použije krátký tvar.
+# - Položka S klíčem `glossary` = pojem (vykreslí se v SEZNAMU POJMŮ s definicí).
+#
+# Pole: short (povinné), en a cs (rozvinutý tvar), glossary (definice pojmu).
+
+[iso]
+short = "ISO"
+en = "International Organization for Standardization"
+cs = "Mezinárodní organizace pro standardizaci"
+
+[acr]
+short = "AČR"
+cs = "Armáda České republiky"
+
+[llm]
+short = "LLM"
+en = "Large Language Model"
+cs = "Velký jazykový model"
+
+[zero_trust]
+short = "Zero Trust"
+cs = "nulová důvěra"
+glossary = "Bezpečnostní model, který implicitně nedůvěřuje žádnému prvku sítě a vyžaduje ověření každého přístupu."
+
+# Symbol = položka s klíčem `symbol` (sází se v matematickém režimu). Volitelně
+# `unit` (jednotka). Zobrazí se v SEZNAMU SYMBOLŮ (outlines.symbols = true).
+[rho]
+symbol = "rho"
+unit = "kg m^(-3)"
+cs = "hustota"
+
+[v_max]
+symbol = "v_max"
+unit = "m s^(-1)"
+cs = "maximální rychlost"
