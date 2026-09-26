@@ -64,7 +64,7 @@
 #let generate-symbols-list(symbols) = {
   let entries = get-symbol-entries(symbols)
   if entries.len() > 0 {
-    let as-math(s) = math.equation(block: false, eval(str(s), mode: "math"))
+    let as-math(s, alt) = math.equation(block: false, alt: alt, eval(str(s), mode: "math"))
     // Obalí písmenné úseky do uvozovek → v math módu vzpřímený text (jednotky).
     let quote-alpha(s) = {
       let out = ""
@@ -81,7 +81,7 @@
       if run.len() > 0 { out += "\"" + run + "\"" }
       out
     }
-    let as-unit(u) = math.equation(block: false, eval(quote-alpha(u), mode: "math"))
+    let as-unit(u, alt) = math.equation(block: false, alt: alt, eval(quote-alpha(u), mode: "math"))
     grid(
       columns: (auto, auto, 1fr),
       column-gutter: 5mm,
@@ -97,8 +97,8 @@
           if translation == none { meaning } else { stack(spacing: 2mm, meaning, translation) }
         })
         (
-          strong(as-math(entry.symbol)),
-          if has-glossary-value(unit) { as-unit(unit) } else { [] },
+          strong(as-math(entry.symbol, entry.symbol_alt)),
+          if has-glossary-value(unit) { as-unit(unit, entry.unit_alt) } else { [] },
           explanation,
         )
       }).flatten(),

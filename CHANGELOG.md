@@ -7,6 +7,17 @@ verzování dle [SemVer](https://semver.org/lang/cs/).
 ## [Nevydáno]
 
 ### Přidáno
+- **Typst CI/CD** — GitHub Actions pro PR, `main` a ruční spuštění; regresní
+  testy, instalace distribučního archivu přes `typst init`, sedm profilů šablony,
+  PDF/A-3b a PDF/UA-1. Připnuté akce a checksum kompilátoru, pouze bundlované
+  fonty, cache balíčků a PDF/distribuční artefakty s checksumy.
+- **Vydání z tagu** — tag `v<package.version>` spouští stejnou kontrolu a teprve
+  po úspěchu publikuje ověřené artefakty do GitHub Release. Bez automatického
+  publikování do Universe, bez přepisování existujících vydání.
+- **Alternativní text symbolů a jednotek** — volitelná pole `symbol_alt` a
+  `unit_alt` v glosáři se předávají do matematických prvků. Ukázkový glosář
+  obsahuje autorské popisy, takže PDF/UA-1 export již neselhává na chybějícím
+  alternativním textu seznamu symbolů; vizuální sazba zůstává stejná.
 - **Ukázková diplomová práce** (`examples/diplomka/`) — cca 10 stran textu
   předvádějících všechny funkce: citace (ISO 690), glosář `#trm` (zkratky,
   pojmy, množné číslo), symboly s jednotkami, číslované rovnice s křížovými

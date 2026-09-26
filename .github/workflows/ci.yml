@@ -1,0 +1,59 @@
+name: Typst CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      release-tag:
+        description: Exact v<package.version> tag required for release builds
+        type: string
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: typst-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  validate:
+    name: Test, build, and package Typst template
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      TYPST_PACKAGE_CACHE_PATH: ${{ github.workspace }}/.cache/typst
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Check out source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Install PDF inspection tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y poppler-utils
+      - name: Install checksum-verified Typst
+        run: bash scripts/install-typst.sh "$RUNNER_TEMP/typst"
+      - name: Cache downloaded Typst packages
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: ${{ env.TYPST_PACKAGE_CACHE_PATH }}
+          key: typst-packages-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('typst.toml', 'src/styling/packages.typ') }}
+          restore-keys: |
+            typst-packages-${{ runner.os }}-${{ runner.arch }}-
+      - name: Test public behavior and compile the distributable
+        env:
+          RELEASE_TAG: ${{ inputs.release-tag }}
+        run: python3 scripts/ci.py check --output dist --tag "$RELEASE_TAG"
+      - name: Upload validated PDFs and package
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: typst-dist
+          path: dist/*
+          if-no-files-found: error
+          retention-days: 14
