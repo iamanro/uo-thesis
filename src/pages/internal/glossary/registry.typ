@@ -10,13 +10,27 @@
 // právě jednou v `init-glossary-runtime` před sazbou obsahu a nikdy se nemění
 // — každé čtení `.get()` je proto ve všech iteracích sazby stejné a nezávisí
 // na stránkování (konvergenčně bezpečné).
-#let acronyms-registry = state("unob-acronyms-registry", (:))
-#let terms-registry = state("unob-terms-registry", (:))
-
-#let registry-definitions(registry) = {
-  let raw = registry.get()
-  if type(raw) == dictionary { raw } else { (:) }
+// Indexy vznikají jednou spolu s definicemi, ne při každém #trm.
+// Uchováváme všechny shody v pořadí definic kvůli diagnostice nejednoznačnosti.
+#let index-definitions(definitions) = {
+  let keys = (:)
+  let shorts = (:)
+  for (key, value) in definitions {
+    let folded = lower(key)
+    keys.insert(folded, keys.at(folded, default: ()) + (key,))
+    if type(value) == dictionary {
+      let short = value.at("short", default: none)
+      if short != none {
+        let folded-short = lower(str(short))
+        shorts.insert(folded-short, shorts.at(folded-short, default: ()) + (key,))
+      }
+    }
+  }
+  (definitions: definitions, keys: keys, shorts: shorts)
 }
+
+#let acronyms-registry = state("unob-acronyms-registry", index-definitions((:)))
+#let terms-registry = state("unob-terms-registry", index-definitions((:)))
 
 #let acronyms-to-glossary-entries(acronyms_dict) = {
   if type(acronyms_dict) != dictionary {
@@ -95,6 +109,6 @@
   let safe_acronyms = if type(acronyms) == dictionary { acronyms } else { (:) }
   let safe_terms = if type(terms) == dictionary { terms } else { (:) }
 
-  acronyms-registry.update(safe_acronyms)
-  terms-registry.update(safe_terms)
+  acronyms-registry.update(index-definitions(safe_acronyms))
+  terms-registry.update(index-definitions(safe_terms))
 }

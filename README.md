@@ -288,6 +288,42 @@ task pdfua          # PDF/UA-1 (přístupnost)
 task archive        # PDF/A-3b + PDF/UA-1
 ```
 
+### Výkon a regresní kontroly
+
+Při lokální kompilaci velké práce vyzkoušej `--jobs 8` u `typst compile`
+nebo `typst watch` místo automatického počtu vláken. Na měřeném 32vláknovém
+Ryzen AI MAX+ PRO 395 byl nižší počet vláken rychlejší; nejde o univerzální
+výchozí hodnotu. Porovnávej opakované běhy stejného dokumentu, se stejnými
+fonty a zahřátou cache balíčků. Pro psaní používej `draft: true`; před
+odevzdáním vždy ověř finální sazbu. Vypnutí vlny mění typografii, není to
+bezeztrátová optimalizace.
+
+Měření indexovaného glosáře a sjednocených importů (26. 9. 2026, Typst 0.15.1,
+vlna 0.3.0, syntetická práce o 300 stranách, 200 definic a 2 152 odkazů glosáře):
+
+| Vlákna | Před změnou, medián | Po změně, medián | Pokles času | Špičková RAM, medián |
+| --- | ---: | ---: | ---: | ---: |
+| 8 | 5,08 s | 4,89 s | 3,7 % | 766 → 736 MiB |
+| 32 | 6,93 s | 6,78 s | 2,2 % | 771 → 741 MiB |
+
+Sedm prokládaných párů na konfiguraci, zahřívací běhy nezapočteny; stejné fonty,
+verze balíčků a čas vytvoření. Výsledné PDF bylo bajtově shodné. Jde o malé
+zlepšení na sdílené pracovní stanici, nikoli záruku pro jiné práce. Odstavcový
+wrapper zůstává: jeho odstranění mění stránkování u hranic stran.
+
+Glosář při inicializaci vytváří indexy klíčů a krátkých názvů; `#trm` zachovává
+přednost přesného klíče, pak klíče bez rozlišení velikosti a nakonec `short`.
+Kontroly veřejného rozhraní (vyhledání, kolize, neznámé položky a odkazy podle
+dostupnosti seznamů) spustíš z kořene repozitáře:
+
+```bash
+python3 -m unittest discover -s tests -v
+```
+
+Vyžadují Python 3, Typst a `pdftotext` (Poppler). Proměnná `TYPST` může určit
+cestu ke konkrétní binárce. Testy sestavují skutečné PDF v dočasných adresářích
+a po doběhnutí je odstraní.
+
 ### Vzhled a typografie (`src/config.toml`)
 
 Veškeré laditelné hodnoty sazby jsou na jednom místě v [`src/config.toml`](src/config.toml) — velikosti nadpisů (H1–H4), písma (text, matematika, kód), řádkování a odsazení odstavce, okraje stránky, sazba tabulek, titulní strana a barvy fakult. Styly v `src/styling/*` je čtou přes `src/config.typ`, takže úprava vzhledu nevyžaduje zásah do Typst kódu.
@@ -306,7 +342,8 @@ Sekce `[faculty]` obsahuje oficiální barvy fakult — neměň je bez svolení 
 Šablona záměrně neexportuje vlastní boxy, callout bloky ani kreslicí nástroje. Pokud potřebuješ víc, použij balíčky z Typst Universe a importuj je přímo v práci (ne v jádru šablony): `@preview/showybox`, `@preview/frame-it`, `@preview/cetz`, `@preview/fletcher`, `@preview/physica`, `@preview/zero`, `@preview/subpar`.
 
 > **NEimportuj `@preview/vlna`.** Nezlomitelné mezery řeší šablona sama na celém
-> dokumentu (vendorovaná vlna 0.4.0 v `src/styling/vlna.typ`). Když balíček
+> dokumentu (`@preview/vlna:0.3.0`, jediná verze určená v
+> `src/styling/packages.typ`). Když balíček
 > naimportuješ a zavoláš `#show: apply-vlna` ve svém `main.typ`, pravidla se
 > aplikují **dvakrát** — výsledek je stejný, ale kompilace se výrazně zpomalí
 > (měřeno na reálné 544stránkové disertaci: **7,9 s → 11,2 s wall, tj. +42 %**). Pro vypnutí vlny v části textu použij `#vlna-off()` / `#vlna-on()`,
@@ -597,13 +634,51 @@ In the web app the fonts load automatically. Locally pass the folder via `--font
 
 When working directly in this repository there is a development sample `main.typ` in the root (it imports the local `lib.typ`) and a [Taskfile](https://taskfile.dev/): `task build`, `task watch`, `task draft`, `task fonts`, `task clean`, `task pdfa`, `task pdfua`, `task archive`.
 
+### Performance and regression checks
+
+For large local builds, try `--jobs 8` with `typst compile` or `typst watch`
+instead of the automatic worker count. Fewer workers were faster on the
+measured 32-thread Ryzen AI MAX+ PRO 395; this is not a universal default.
+Compare repeated builds of the same document with identical fonts and warm
+package caches. Use `draft: true` while writing and check final typesetting
+before submission. Disabling vlna changes typography; it is not a lossless
+optimization.
+
+Indexed-glossary and centralized-import measurements (26 September 2026,
+Typst 0.15.1, vlna 0.3.0, synthetic 300-page thesis with 200 definitions and
+2,152 glossary references):
+
+| Workers | Before, median | After, median | Elapsed reduction | Median peak RAM |
+| --- | ---: | ---: | ---: | ---: |
+| 8 | 5.08 s | 4.89 s | 3.7% | 766 → 736 MiB |
+| 32 | 6.93 s | 6.78 s | 2.2% | 771 → 741 MiB |
+
+Seven interleaved pairs per configuration, excluding warm-ups; identical fonts,
+package versions, and creation timestamp. The resulting PDFs were byte-identical.
+This is a modest improvement on a shared workstation, not a guarantee for other
+theses. The paragraph wrapper remains: removing it changes pagination near page
+boundaries.
+
+The glossary builds key and short-name indexes during initialization. `#trm`
+keeps exact-key precedence, followed by case-insensitive keys and then short
+names. Run the public-interface checks for resolution, collisions, unknown
+entries, and links with and without glossary lists from the repository root:
+
+```bash
+python3 -m unittest discover -s tests -v
+```
+
+These require Python 3, Typst, and `pdftotext` (Poppler). Set `TYPST` to select
+a compiler binary. Tests compile real PDFs in temporary directories and
+remove them afterward.
+
 ### Recommended additional packages
 
 The template intentionally does not export custom boxes, callout blocks, or drawing tools. If you need more, use packages from Typst Universe and import them directly in your thesis (not in the template core): `@preview/showybox`, `@preview/frame-it`, `@preview/cetz`, `@preview/fletcher`, `@preview/physica`, `@preview/zero`, `@preview/subpar`.
 
 > **Do not import `@preview/vlna`.** The template applies Czech non-breaking
-> spaces itself across the whole document (vendored vlna 0.4.0 in
-> `src/styling/vlna.typ`). Importing the package and calling
+> spaces itself across the whole document (`@preview/vlna:0.3.0`, pinned only in
+> `src/styling/packages.typ`). Importing the package and calling
 > `#show: apply-vlna` in your `main.typ` applies every rule **twice** — the
 > output is the same, but compilation gets markedly slower (measured on a real
 > 544-page dissertation: **7.9 s → 11.2 s wall, i.e. +42 %**). To

@@ -16,6 +16,17 @@ verzování dle [SemVer](https://semver.org/lang/cs/).
   examples/diplomka/main.typ`.
 
 ### Změněno
+- **Vyhledávání v glosáři** — indexy klíčů a `short` vznikají jednou při
+  inicializaci registrů místo procházení definic při vyhledání. Zachována
+  priorita přesného klíče, porovnání bez rozlišení velikosti, diagnostika kolizí
+  a odkazy pouze na dostupné seznamy. Regresní kontroly přes veřejné rozhraní:
+  `python3 -m unittest discover -s tests -v` (Typst + Poppler).
+- **Závislost vlna** — jediný import `@preview/vlna:0.3.0` v
+  `src/styling/packages.typ`; sazba i veřejné přepínače sdílejí stejný modul.
+  README již neuvádí neexistující vendorovanou 0.4.0. Verze se nemění.
+- **Ověřování výkonu** — README popisuje měření s omezeným počtem vláken.
+  Odstranění odstavcového wrapperu bylo zamítnuto: při zkoušce u hranic stran
+  měnilo stránkování. Pravidla finální sazby zůstávají beze změny.
 - **`#landscape[...]` otáčí obsah, ne stránku** — tabulka/obrázek se otočí
   o 90° na stojaté straně (horní okraj ke hřbetu, čtenář otáčí dokument po
   směru hodin); číslo strany i živé záhlaví zůstávají v normální poloze.

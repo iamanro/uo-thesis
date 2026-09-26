@@ -26,4 +26,5 @@
 // NEimportuj @preview/vlna zvlášť: pravidla by se aplikovala dvakrát a
 // kompilace se výrazně zpomalí (na 544stránkové práci +42 % času).
 // Tyto přepínače slouží k vypnutí/zapnutí uprostřed textu.
-#import "@preview/vlna:0.3.0": *
+#import "styling/packages.typ": vlna
+#import vlna: *

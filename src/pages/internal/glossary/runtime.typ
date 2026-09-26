@@ -13,7 +13,7 @@
 // jediný dotaz je existence návěští (množina návěští je za běhu konstantní).
 // Nic zde nezávisí na stránkování → systém nemůže rozbít konvergenci.
 #import "./parse.typ": acronym-fields-from-value
-#import "./registry.typ": acronyms-registry, registry-definitions, terms-registry
+#import "./registry.typ": acronyms-registry, terms-registry
 #import "./lookup.typ": find-key-or-short-case-insensitive, link-to-acronym-entry, link-to-term-entry, panic-unknown-key
 #import "./declension.typ": build-acronym-first-display
 
@@ -84,10 +84,12 @@
     if resolved_style == plural or resolved_style == first-plural { first-plural } else { first }
   } else { resolved_style }
 
-  let acronyms = registry-definitions(acronyms-registry)
-  let terms = registry-definitions(terms-registry)
-  let acronym_key = find-key-or-short-case-insensitive(requested_key, acronyms)
-  let term_key = find-key-or-short-case-insensitive(requested_key, terms)
+  let acronym-registry = acronyms-registry.get()
+  let term-registry = terms-registry.get()
+  let acronym_key = find-key-or-short-case-insensitive(requested_key, acronym-registry)
+  let term_key = find-key-or-short-case-insensitive(requested_key, term-registry)
+  let acronyms = acronym-registry.definitions
+  let terms = term-registry.definitions
 
   if acronym_key != none {
     // `display` zachová povrchový (skloňovaný) tvar z textu a jen ho prolinkuje.
