@@ -43,7 +43,9 @@
     .._acronym-fields(key, value),
     glossary: value.at("glossary", default: none),
     symbol: value.at("symbol", default: none),
+    symbol_alt: value.at("symbol_alt", default: none),
     unit: value.at("unit", default: none),
+    unit_alt: value.at("unit_alt", default: none),
   )
 }
 
@@ -123,7 +125,9 @@
   if symbol != none {
     (
       symbol: str(symbol),
+      symbol_alt: entry.at("symbol_alt", default: none),
       unit: entry.at("unit", default: none),
+      unit_alt: entry.at("unit_alt", default: none),
       cs: entry.at("cs", default: none),
       en: entry.at("en", default: none),
     )

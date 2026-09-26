@@ -86,7 +86,9 @@
       .map(((key, value)) => (
         key: str(key),
         symbol: str(value.at("symbol", default: str(key))),
+        symbol_alt: value.at("symbol_alt", default: none),
         unit: value.at("unit", default: none),
+        unit_alt: value.at("unit_alt", default: none),
         cs: value.at("cs", default: none),
         en: value.at("en", default: none),
       ))

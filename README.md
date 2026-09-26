@@ -324,6 +324,48 @@ Vyžadují Python 3, Typst a `pdftotext` (Poppler). Proměnná `TYPST` může ur
 cestu ke konkrétní binárce. Testy sestavují skutečné PDF v dočasných adresářích
 a po doběhnutí je odstraní.
 
+### CI/CD na GitHubu
+
+Workflow **Typst CI** (`.github/workflows/ci.yml`) běží pro pull requesty,
+změny na `main` a ruční spuštění. Používá Ubuntu 24.04, verzi Typstu z
+`package.compiler` v `typst.toml`, ověřený SHA-256 oficiální binárky a pouze
+bundlované fonty. GitHub Actions jsou připnuté na konkrétní commity; CI má
+jen právo číst repozitář a cache obsahuje pouze stažené Typst balíčky.
+
+Kontroluje regresní testy glosáře i distribuce a **skutečnou instalaci přes
+`typst init @local/…` z vytvořeného archivu**. Sestavuje sedm profilů šablony
+(CS/EN, final/draft, všech sedm variant fakulty, jednostranná i oboustranná
+sazba, živé záhlaví) a navíc exporty PDF/A-3b a PDF/UA-1. Varování kompilátoru
+jsou chyba. Artefakt `typst-dist` se uchovává 14 dní: PDF, distribuční
+`unob-thesis-<verze>.tar.gz`, `build-info.json` a `SHA256SUMS`.
+
+Lokální ekvivalent (Python 3.12+, Git a Poppler; instalátor je pro Linux x86_64):
+
+```bash
+bash scripts/install-typst.sh /tmp/unob-typst
+TYPST=/tmp/unob-typst/typst python3 scripts/ci.py check --output dist
+(cd dist && sha256sum --check --strict SHA256SUMS)
+```
+
+Výstupní adresář musí být prázdný. Archiv obsahuje jen verzované soubory
+`src/`, `template/` a vybrané kořenové soubory včetně licencí; nové soubory
+před lokální kontrolou přidej pomocí `git add`. Při změně verze kompilátoru
+aktualizuj také ověřený checksum v `scripts/install-typst.sh`.
+
+**Vydání:** po změně `package.version` a odpovídajících importů šablony
+vytvoř a pushni tag `v<package.version>`. Workflow **Typst release** znovu
+provede celou kontrolu přes sdílený CI workflow; jiný tag odmítne. Teprve
+poté job s `contents: write` ověří checksumy a založí GitHub Release s přesně
+otestovanými artefakty. Existující vydání nepřepisuje. Není potřeba PAT ani
+jiný vlastní secret; používá omezený `GITHUB_TOKEN`. Do Typst Universe se
+nic automaticky nepublikuje.
+
+PDF/UA vyžaduje u symbolů přirozený slovní popis `symbol_alt` a u jednotek
+`unit_alt`, například `symbol_alt = "ró, hustota"` a
+`unit_alt = "kilogram na metr krychlový"`. Šablona je předá do alternativního
+textu matematických prvků; nevymýšlí popisy za autora. Úspěšný export Typstem
+nenahrazuje nezávislé ověření přístupnosti (např. veraPDF a kontrolu čtečkou).
+
 ### Vzhled a typografie (`src/config.toml`)
 
 Veškeré laditelné hodnoty sazby jsou na jednom místě v [`src/config.toml`](src/config.toml) — velikosti nadpisů (H1–H4), písma (text, matematika, kód), řádkování a odsazení odstavce, okraje stránky, sazba tabulek, titulní strana a barvy fakult. Styly v `src/styling/*` je čtou přes `src/config.typ`, takže úprava vzhledu nevyžaduje zásah do Typst kódu.
@@ -671,6 +713,50 @@ python3 -m unittest discover -s tests -v
 These require Python 3, Typst, and `pdftotext` (Poppler). Set `TYPST` to select
 a compiler binary. Tests compile real PDFs in temporary directories and
 remove them afterward.
+
+### GitHub CI/CD
+
+**Typst CI** (`.github/workflows/ci.yml`) runs on pull requests, pushes to
+`main`, and manual dispatch. It uses Ubuntu 24.04, the compiler version in
+`typst.toml` (`package.compiler`), a SHA-256-verified official binary, and
+bundled fonts only. Actions are commit-pinned; CI has read-only repository
+permissions and caches only downloaded Typst packages.
+
+It runs glossary and distribution regression tests, then **installs the built
+archive using `typst init @local/…`**. Seven template profiles cover CS/EN,
+final/draft, all seven faculty variants, single-/double-sided layout, and
+running headers. Additional builds export PDF/A-3b and PDF/UA-1. Compiler
+warnings fail the job. The `typst-dist` artifact is retained for 14 days and
+contains PDFs, `unob-thesis-<version>.tar.gz`, `build-info.json`, and
+`SHA256SUMS`.
+
+Run the same checks locally (Python 3.12+, Git, and Poppler; installer targets
+Linux x86_64):
+
+```bash
+bash scripts/install-typst.sh /tmp/unob-typst
+TYPST=/tmp/unob-typst/typst python3 scripts/ci.py check --output dist
+(cd dist && sha256sum --check --strict SHA256SUMS)
+```
+
+Use an empty output directory. Packaging includes only tracked `src/`,
+`template/`, and selected root files, including licenses. Stage new files with
+`git add` before local checks. When changing the compiler version, update its
+verified archive checksum in `scripts/install-typst.sh` too.
+
+**Releasing:** update `package.version` and the matching template imports,
+then create and push `v<package.version>`. **Typst release** reruns the entire
+shared CI workflow and rejects a mismatched tag. Only its publishing job has
+`contents: write`: it verifies checksums and creates a GitHub Release from the
+exact tested artifacts. Existing releases are not overwritten. No PAT or
+custom secret is needed; it uses the scoped `GITHUB_TOKEN`. Nothing is
+submitted automatically to Typst Universe.
+
+For PDF/UA, author natural-language `symbol_alt` and `unit_alt` descriptions
+for glossary symbols and units (see `template/glossary.toml`). The template
+passes them to the math elements' alternative text; it does not invent
+descriptions. Successful Typst export is not independent accessibility
+certification; use tools such as veraPDF and assistive-technology review too.
 
 ### Recommended additional packages
 

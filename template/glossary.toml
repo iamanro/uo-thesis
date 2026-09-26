@@ -29,10 +29,14 @@ glossary = "Bezpečnostní model, který implicitně nedůvěřuje žádnému pr
 # `unit` (jednotka). Zobrazí se v SEZNAMU SYMBOLŮ (outlines.symbols = true).
 [rho]
 symbol = "rho"
+symbol_alt = "ró, hustota"
 unit = "kg m^(-3)"
+unit_alt = "kilogram na metr krychlový"
 cs = "hustota"
 
 [v_max]
 symbol = "v_max"
+symbol_alt = "vé s dolním indexem max, maximální rychlost"
 unit = "m s^(-1)"
+unit_alt = "metr za sekundu"
 cs = "maximální rychlost"
