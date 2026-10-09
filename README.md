@@ -83,14 +83,15 @@ english = "first, second, third"
   ..thesis-config(toml("config.toml")),
   acronyms: glossary, terms: glossary, symbols: glossary,
   bibliography: bibliography("references.bib", style: "iso-690-numeric", full: true),
+  acknowledgement: include "front/acknowledgement.typ",
+  abstract: (
+    czech: include "front/abstract-cs.typ",
+    english: include "front/abstract-en.typ",
+  ),
+  introduction: include "chapters/00-introduction.typ",
   appendix: [#include "appendix.typ"],
   // Výjimečné změny patří sem ZA spread — přepíšou hodnotu z config.toml.
 )
-
-#acknowledgement[#include "front/acknowledgement.typ"]
-#abstract-cs[#include "front/abstract-cs.typ"]
-#abstract-en[#include "front/abstract-en.typ"]
-#introduction[#include "chapters/00-introduction.typ"]
 
 #include "chapters/01-theory.typ"
 
@@ -125,7 +126,7 @@ chapters/           00-introduction.typ, 01-theory.typ, …, 99-conclusion.typ
 appendix.typ        přílohy
 ```
 
-Úvodní části se vkládají helpery (`#introduction[…]`, `#abstract-cs[…]`, …), závěr helperem `#conclusion[#include "chapters/99-conclusion.typ"]` na konci `main.typ`. V souborech kapitol importuj pomocné funkce **z balíčku** (`#import "@preview/unob-thesis:0.4.0": trm, flex-caption`), ne z `src/…`.
+Úvodní části se předávají parametry `acknowledgement`, `abstract` a `introduction` v `unob-thesis.with(...)`, závěr helperem `#conclusion[#include "chapters/99-conclusion.typ"]` na konci `main.typ`. V souborech kapitol importuj pomocné funkce **z balíčku** (`#import "@preview/unob-thesis:0.4.0": trm, flex-caption`), ne z `src/…`.
 
 ## Pokročilé
 
@@ -156,7 +157,7 @@ Metadata práce se čtou z `config.toml` přes `thesis-config()` (`#show: unob-t
 | `terms` | `false` \| `true` \| slovník | `false` | Pojmy |
 | `abstract` | `(czech, english)` | prázdné | Abstrakty |
 | `keywords` | `(czech, english)` | prázdné | Klíčová slova |
-| `introduction` | obsah | `[]` | Úvod (lze i přes `#introduction[...]`) |
+| `introduction` | obsah | `[]` | Úvod |
 | `outlines` | slovník | viz níže | Generované seznamy |
 | `theme` | slovník | viz níže | Barevné přepínače |
 | `bibliography` | `none` \| `bibliography(...)` \| pole | `none` | Bibliografie |
@@ -181,7 +182,7 @@ Kořenový `lib.typ` exportuje:
 - `unob-thesis`: hlavní šablona pro `#show`.
 - `person(...)`: konfigurace autora, vedoucího a konzultantů.
 - `thesis-config(...)`: převod slovníku z `toml("config.toml")` na parametry šablony (osoby obalí přes `person`, překlep v klíči ohlásí).
-- `acknowledgement[...]`, `introduction[...]`, `abstract-cs[...]`, `abstract-en[...]`, `keywords-cs(...)`, `keywords-en(...)`, `conclusion[...]`: metadata helpery pro zadání úvodních částí přímo v textu.
+- `conclusion[...]`: závěr práce (lokalizovaný nečíslovaný nadpis + obsah).
 - `trm("klic", style: ..., case: ...)`: vložení zkratky nebo pojmu z glosáře.
 - `singular`, `plural`, `first`, `first-plural`: styly pro `trm(...)`.
 - `appendix[...]`: low-level helper pro přílohy (běžně stačí parametr `appendix`).
@@ -495,14 +496,15 @@ english = "first, second, third"
   ..thesis-config(toml("config.toml")),
   acronyms: glossary, terms: glossary, symbols: glossary,
   bibliography: bibliography("references.bib", style: "iso-690-numeric", full: true),
+  acknowledgement: include "front/acknowledgement.typ",
+  abstract: (
+    czech: include "front/abstract-cs.typ",
+    english: include "front/abstract-en.typ",
+  ),
+  introduction: include "chapters/00-introduction.typ",
   appendix: [#include "appendix.typ"],
   // Exceptional overrides go here AFTER the spread — they win over config.toml.
 )
-
-#acknowledgement[#include "front/acknowledgement.typ"]
-#abstract-cs[#include "front/abstract-cs.typ"]
-#abstract-en[#include "front/abstract-en.typ"]
-#introduction[#include "chapters/00-introduction.typ"]
 
 #include "chapters/01-theory.typ"
 
@@ -537,7 +539,7 @@ chapters/           00-introduction.typ, 01-theory.typ, …, 99-conclusion.typ
 appendix.typ        appendices
 ```
 
-Frontmatter parts are inserted via helpers (`#introduction[…]`, `#abstract-cs[…]`, …), the conclusion via `#conclusion[#include "chapters/99-conclusion.typ"]` at the end of `main.typ`. In chapter files import helpers **from the package** (`#import "@preview/unob-thesis:0.4.0": trm, flex-caption`), not from `src/…`.
+Frontmatter parts are passed as the `acknowledgement`, `abstract` and `introduction` parameters of `unob-thesis.with(...)`, the conclusion via `#conclusion[#include "chapters/99-conclusion.typ"]` at the end of `main.typ`. In chapter files import helpers **from the package** (`#import "@preview/unob-thesis:0.4.0": trm, flex-caption`), not from `src/…`.
 
 ## Advanced
 
@@ -568,7 +570,7 @@ Thesis metadata are read from `config.toml` via `thesis-config()` (`#show: unob-
 | `terms` | `false` \| `true` \| dict | `false` | Terms |
 | `abstract` | `(czech, english)` | empty | Abstracts |
 | `keywords` | `(czech, english)` | empty | Keywords |
-| `introduction` | content | `[]` | Introduction (also via `#introduction[...]`) |
+| `introduction` | content | `[]` | Introduction |
 | `outlines` | dict | see below | Generated lists |
 | `theme` | dict | see below | Colour switches |
 | `bibliography` | `none` \| `bibliography(...)` \| array | `none` | Bibliography |
@@ -593,7 +595,7 @@ Root `lib.typ` exports:
 - `unob-thesis`: the main `#show` template.
 - `person(...)`: configuration of the author, supervisor, and advisors.
 - `thesis-config(...)`: converts the dictionary from `toml("config.toml")` into template parameters (wraps people via `person`, reports key typos).
-- `acknowledgement[...]`, `introduction[...]`, `abstract-cs[...]`, `abstract-en[...]`, `keywords-cs(...)`, `keywords-en(...)`, `conclusion[...]`: metadata helpers to set frontmatter sections inline in the text.
+- `conclusion[...]`: the thesis conclusion (localized unnumbered heading + content).
 - `trm("key", style: ..., case: ...)`: inserts an acronym or glossary term.
 - `singular`, `plural`, `first`, `first-plural`: styles for `trm(...)`.
 - `appendix[...]`: low-level appendix helper (the `appendix` parameter is usually enough).

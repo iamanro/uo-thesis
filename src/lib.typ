@@ -17,10 +17,8 @@
 // Glosář — sazba zkratek, pojmů a jejich stylové konstanty.
 #import "pages/internal/glossary/index.typ": first, first-plural, plural, singular, trm
 
-// Sekce práce — vloží metadata pro úvod, závěr, abstrakt, klíčová slova.
-#import "pages/internal/metadata.typ": (
-  abstract-cs, abstract-en, acknowledgement, conclusion, introduction, keywords-cs, keywords-en,
-)
+// Závěr práce — lokalizovaný nečíslovaný nadpis + obsah kapitoly.
+#import "pages/internal/metadata.typ": conclusion
 
 // Nezlomitelné mezery („vlna") — šablona je aplikuje SAMA na celý dokument.
 // NEimportuj @preview/vlna zvlášť: pravidla by se aplikovala dvakrát a

@@ -1,4 +1,4 @@
-"""Exercise glossary references through the public thesis interface.
+"""Exercise the thesis template through its public interface.
 
 Run: python3 -m unittest discover -s tests -v
 Requires Typst and pdftotext; TYPST may point to a specific compiler binary.
@@ -20,7 +20,9 @@ DATA = '''(
 )'''
 
 
-class GlossaryReferences(unittest.TestCase):
+class TypstCase(unittest.TestCase):
+    """Compiles one throwaway document inside the repository root."""
+
     def setUp(self):
         self.work = tempfile.TemporaryDirectory(dir=ROOT / "tests")
         self.addCleanup(self.work.cleanup)
@@ -29,9 +31,22 @@ class GlossaryReferences(unittest.TestCase):
         self.flags = ["--root", str(ROOT), "--font-path", str(ROOT / "template/fonts"),
                       "--ignore-system-fonts"]
 
+    def compile(self, source):
+        self.source.write_text(source)
+        return subprocess.run([TYPST, "compile", *self.flags, str(self.source), str(self.pdf)],
+                              capture_output=True, text=True)
+
+    def body_text(self, result):
+        self.assertEqual(result.returncode, 0, result.stderr)
+        text = subprocess.run(["pdftotext", str(self.pdf), "-"],
+                              capture_output=True, text=True, check=True).stdout
+        return " ".join(text.split("BEGINPROBE", 1)[1].split("ENDPROBE", 1)[0].split())
+
+
+class GlossaryReferences(TypstCase):
     def document(self, body, data=DATA, lists=False, draft=False, terms="data"):
         enabled = str(lists).lower()
-        self.source.write_text('''#import "../../src/lib.typ": *
+        return self.compile('''#import "../../src/lib.typ": *
 #let data = ''' + data + '''
 #show: unob-thesis.with(
   lang: "en", faculty: "fvt", draft: ''' + str(draft).lower() + ''',
@@ -45,14 +60,6 @@ BEGINPROBE
 ''' + body + '''
 ENDPROBE
 ''')
-        return subprocess.run([TYPST, "compile", *self.flags, str(self.source), str(self.pdf)],
-                              capture_output=True, text=True)
-
-    def body_text(self, result):
-        self.assertEqual(result.returncode, 0, result.stderr)
-        text = subprocess.run(["pdftotext", str(self.pdf), "-"],
-                              capture_output=True, text=True, check=True).stdout
-        return " ".join(text.split("BEGINPROBE", 1)[1].split("ENDPROBE", 1)[0].split())
 
     def test_key_precedence_case_insensitivity_short_names_and_display(self):
         result = self.document('#trm("ApiKey") / #trm("apikey") / #trm("api") / '
@@ -66,7 +73,9 @@ ENDPROBE
             with self.subTest(lists=lists, draft=draft):
                 result = self.document('#trm("api") / #trm("risk process")', lists=lists, draft=draft)
                 self.assertEqual(self.body_text(result), "API / Risk process")
-                query = subprocess.run([TYPST, "query", *self.flags, str(self.source), "link", "--field", "dest"],
+                # Only label targets: the abstract placeholder also links to a web page.
+                query = subprocess.run([TYPST, "eval", *self.flags, "--in", str(self.source),
+                                        "query(link).map(it => it.dest).filter(d => type(d) == label)"],
                                        capture_output=True, text=True, check=True)
                 destinations = json.loads(query.stdout)
                 expected = ["<__unob_acronym_list_ApiKey>", "<__unob_term_list_process>"] if lists and not draft else []
@@ -104,6 +113,46 @@ ENDPROBE
         result = self.document('#trm("missing")', data="(:)")
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("list is empty", result.stderr)
+
+
+class SubmitCheck(TypstCase):
+    """`submit_check: true` must stop a thesis with missing or sample front matter."""
+
+    def thesis(self, abstract="(czech: [Vlastní abstrakt.], english: [Own abstract.])",
+               introduction="[Vlastní úvod.]"):
+        return self.compile('''#import "../../src/lib.typ": *
+#show: unob-thesis.with(
+  lang: "en", faculty: "fvt", declaration: false, submit_check: true,
+  thesis: (type: "master", title: "Real title"),
+  author: person(name: "Petr", surname: "Svoboda", sex: "M"),
+  supervisor: person(name: "Jana", surname: "Nováková", sex: "F"),
+  keywords: (czech: "a, b, c", english: "a, b, c"),
+  assignment_front: [Front], assignment_back: [Back],
+  bibliography: bibliography("../../template/references.bib", full: true),
+  abstract: ''' + abstract + ''',
+  introduction: ''' + introduction + ''',
+)
+Body.
+''')
+
+    def test_complete_thesis_passes(self):
+        result = self.thesis()
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_missing_or_sample_front_matter_is_rejected(self):
+        sample = 'include "../../template/front/abstract-cs.typ"'
+        cases = {
+            "English abstract (`abstract.english`) is required":
+                dict(abstract="(czech: [Vlastní abstrakt.], english: [])"),
+            "Czech abstract is still the template sample":
+                dict(abstract=f"(czech: {sample}, english: [Own abstract.])"),
+            "`introduction` must be provided": dict(introduction="[]"),
+        }
+        for message, arguments in cases.items():
+            with self.subTest(message):
+                result = self.thesis(**arguments)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn(message, result.stderr)
 
 
 if __name__ == "__main__":

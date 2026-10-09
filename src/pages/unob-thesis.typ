@@ -5,7 +5,7 @@
 #import "appendix.typ": appendix as render-appendix
 #import "render.typ": render-draft-layout, render-final-layout
 #import "internal/validation.typ": validate-config, validate-submit-check, validate-image-alt, validate-no-todos, validate-bibliography
-#import "internal/config.typ": normalize-outlines, normalize-theme-config, resolve-frontmatter
+#import "internal/config.typ": normalize-outlines, normalize-theme-config
 #import "internal/people.typ": person
 #import "internal/glossary/index.typ": (
   glossary-to-acronyms, glossary-to-symbols, glossary-to-terms, init-glossary-runtime,
@@ -119,7 +119,6 @@
     symbols: resolved_symbols != false and outline_config.symbols,
   )
 
-  let fm = resolve-frontmatter(acknowledgement, introduction, abstract, keywords)
   let effective-theme = resolve-theme(theme_config, university.faculty)
 
   validate-glossary-registry(resolved_acronyms, resolved_terms, symbols: resolved_symbols)
@@ -153,22 +152,17 @@
 
   validate-bibliography(bibliography)
 
-  validate-submit-check(
-    submit_check,
-    draft,
-    supervisor,
-    fm.abstract,
-    fm.keywords,
-    fm.introduction,
-    assignment,
-    bibliography,
-    (
-      title: thesis.title,
-      author: author,
-      abstract: abstract,
-      keywords: keywords,
-    ),
-  )
+  validate-submit-check(submit_check, (
+    draft: draft,
+    thesis: thesis,
+    author: author,
+    supervisor: supervisor,
+    abstract: abstract,
+    keywords: keywords,
+    introduction: introduction,
+    assignment: assignment,
+    bibliography: bibliography,
+  ))
 
   validate-image-alt(submit_check, lang)
   validate-no-todos(submit_check, lang)
@@ -178,8 +172,8 @@
     lang: lang,
     author: author,
     thesis: normalized_thesis,
-    abstract: fm.abstract,
-    keywords: fm.keywords,
+    abstract: abstract,
+    keywords: keywords,
     theme: effective-theme,
     vlna: effective-vlna,
     fancy_heading: fancy_heading,
@@ -197,8 +191,8 @@
     render-draft-layout(
       normalized_thesis,
       author,
-      fm.abstract,
-      fm.keywords,
+      abstract,
+      keywords,
       body,
       lang: lang,
     )
@@ -217,12 +211,12 @@
         second_advisor: second_advisor,
         assignment: assignment,
         declaration: declaration_config,
-        acknowledgement: fm.acknowledgement,
-        abstract: fm.abstract,
-        keywords: fm.keywords,
+        acknowledgement: acknowledgement,
+        abstract: abstract,
+        keywords: keywords,
         outlines: effective-outlines,
         glossary: (acronyms: resolved_acronyms, terms: resolved_terms, symbols: resolved_symbols),
-        introduction: fm.introduction,
+        introduction: introduction,
       ),
       body,
       lang: lang,

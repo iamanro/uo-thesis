@@ -27,6 +27,14 @@ verzování dle [SemVer](https://semver.org/lang/cs/).
   examples/diplomka/main.typ`.
 
 ### Změněno
+- **Úvodní části jako parametry (nekompatibilní změna)** — poděkování, abstrakty
+  a úvod se předávají parametry `acknowledgement`, `abstract` a `introduction`
+  v `unob-thesis.with(...)`; helpery `#acknowledgement`, `#abstract-cs`,
+  `#abstract-en`, `#introduction`, `#keywords-cs` a `#keywords-en` byly
+  odstraněny (klíčová slova jsou v `config.toml`). Přechod v `main.typ`:
+  `#abstract-cs[#include "front/abstract-cs.typ"]` → do `.with(...)`
+  `abstract: (czech: include "front/abstract-cs.typ", english: include "front/abstract-en.typ")`,
+  obdobně `acknowledgement:` a `introduction:`. `#conclusion[...]` zůstává.
 - **Vyhledávání v glosáři** — indexy klíčů a `short` vznikají jednou při
   inicializaci registrů místo procházení definic při vyhledání. Zachována
   priorita přesného klíče, porovnání bez rozlišení velikosti, diagnostika kolizí
@@ -69,6 +77,12 @@ verzování dle [SemVer](https://semver.org/lang/cs/).
 - **Dokumentace glosáře** — README i ukázkový `glossary.toml` už neslibují
   automatické rozvinutí zkratky při prvním výskytu ani seznamy jen s použitými
   položkami; ukázková kapitola zavádí zkratky přes `style: first`.
+- **`submit_check` a úvodní části** — helpery ukládaly texty jako `context`,
+  takže kontrola před odevzdáním nepoznala prázdný ani ukázkový abstrakt či
+  prázdný úvod, zástupné texty prázdných částí se nikdy nevysázely a metadata
+  PDF neměla klíčová slova ani popis (Subject). Nyní vše funguje; regresní testy
+  `SubmitCheck` v `tests/test_template.py`.
+- **Autor v metadatech PDF** — bez mezer navíc, když chybí titul před/za jménem.
 
 ## [0.4.0] – 2026-07-30
 

@@ -1,4 +1,4 @@
-#import "utils.typ": has-value, has-person
+#import "utils.typ": has-person, has-value, plain-text
 #import "i18n/index.typ": (
   current-lang, is-supported-faculty, is-supported-language, is-supported-thesis-type, t,
 )
@@ -127,20 +127,12 @@
 
 // Funkce: validate-submit-check
 // Účel: V přísném režimu ověří minimální náležitosti před odevzdáním.
-#let validate-submit-check(
-  submit_check,
-  draft,
-  supervisor,
-  abstract,
-  keywords,
-  introduction,
-  assignment,
-  bibliography,
-  submitted,
-) = {
+//       `submitted` nese hodnoty předané šabloně (draft, osoby, abstrakt, …).
+#let validate-submit-check(submit_check, submitted) = {
   if submit_check != true {
     return
   }
+  let (draft, thesis, author, supervisor, abstract, keywords, introduction, assignment, bibliography) = submitted
 
   let require_value(value, error_key) = {
     if not has-value(value) {
@@ -164,40 +156,35 @@
   require_value(bibliography, "error_submit_check_bibliography_required")
 
   // Minimální počet klíčových slov (běžný požadavek 3–5). Počítá neprázdné
-  // položky oddělené čárkou. Čte se surová hodnota z `submitted.keywords`
-  // (parametr `keywords` je zde už zabalený do `context` přes metadata-or).
+  // položky oddělené čárkou.
   let keyword_count(value) = if type(value) == str {
     value.split(",").filter(k => k.trim().len() > 0).len()
   } else { 0 }
-  if keyword_count(submitted.keywords.czech) < 3 {
+  if keyword_count(keywords.czech) < 3 {
     panic-i18n("error_submit_check_keywords_cs_min")
   }
-  if keyword_count(submitted.keywords.english) < 3 {
+  if keyword_count(keywords.english) < 3 {
     panic-i18n("error_submit_check_keywords_en_min")
   }
 
-  // Ukázkové (needitované) hodnoty ze šablony. Porovnává se celá hodnota, aby
+  // Ukázkové (needitované) hodnoty ze šablony. Porovnává se celý text, aby
   // se legitimní text nezablokoval jako podřetězec vzorku.
-  if submitted.title == "Název práce" or submitted.title == [Název práce] {
+  if plain-text(thesis.title).trim() == "Název práce" {
     panic-bilingual("error_submit_check_title_sample")
   }
-  if (
-    type(submitted.author) == dictionary
-      and submitted.author.at("name", default: none) == "Jan"
-      and submitted.author.at("surname", default: none) == "Novák"
-  ) {
+  if author.at("name", default: none) == "Jan" and author.at("surname", default: none) == "Novák" {
     panic-bilingual("error_submit_check_author_sample")
   }
-  if submitted.abstract.czech == [Český abstrakt práce.] {
+  if plain-text(abstract.czech).trim() == "Český abstrakt práce." {
     panic-bilingual("error_submit_check_abstract_cs_sample")
   }
-  if submitted.abstract.english == [English abstract of the thesis.] {
+  if plain-text(abstract.english).trim() == "English abstract of the thesis." {
     panic-bilingual("error_submit_check_abstract_en_sample")
   }
-  if submitted.keywords.czech == "klíčové slovo 1, klíčové slovo 2, klíčové slovo 3" {
+  if keywords.czech == "klíčové slovo 1, klíčové slovo 2, klíčové slovo 3" {
     panic-bilingual("error_submit_check_keywords_cs_sample")
   }
-  if submitted.keywords.english == "keyword 1, keyword 2, keyword 3" {
+  if keywords.english == "keyword 1, keyword 2, keyword 3" {
     panic-bilingual("error_submit_check_keywords_en_sample")
   }
 
