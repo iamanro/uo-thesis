@@ -1,4 +1,3 @@
-#import "../styling/packages.typ": ez-today
 #import "internal/i18n/index.typ": t, thesis-type-is-bachelor-or-master, thesis-type-is-doctoral
 #import "internal/utils.typ": has-person, has-value
 #import "internal/people.typ": format-name
@@ -162,7 +161,7 @@
     // Město a rok – zcela dole na straně.
     #align(center)[
       #set text(size: vars.size_city_year)
-      #upper(get-city-name(university.faculty, lang: lang))#ez-today.today(format: " Y")
+      #upper(get-city-name(university.faculty, lang: lang))#datetime.today().display(" [year]")
     ]
   ]
 }

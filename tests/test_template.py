@@ -155,5 +155,26 @@ Body.
                 self.assertIn(message, result.stderr)
 
 
+class Genitive(TypstCase):
+    """Supervisor's name in the 2nd case, as printed in the declaration."""
+
+    FORMS = {
+        "Jana Nováková": "Jany Novákové", "Zbyněk Vaněk": "Zbyňka Vaňka", "Luděk": "Luďka",
+        "Karel": "Karla", "Marcel": "Marcela", "Král": "Krále", "Jiří": "Jiřího",
+        "Novotný": "Novotného", "Tomáš": "Tomáše", "Kadlec": "Kadlce", "Soňa": "Soni",
+        "Andrea": "Andreji", "Lucie": "Lucie", "Ingrid": "Ingrid", "Novák-Šmíd": "Novák-Šmída",
+        "J.": "J.", "Kotěk": "Kotěk",
+    }
+
+    def test_known_forms(self):
+        names = "(" + ", ".join(json.dumps(name, ensure_ascii=False) for name in self.FORMS) + ",)"
+        self.source.write_text('#import "../../src/pages/internal/i18n/genitiv.typ": genitiv\n'
+                               f"#metadata({names}.map(genitiv)) <forms>\n")
+        result = subprocess.run([TYPST, "eval", *self.flags, "--in", str(self.source),
+                                 "query(<forms>).first().value"], capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(dict(zip(self.FORMS, json.loads(result.stdout))), self.FORMS)
+
+
 if __name__ == "__main__":
     unittest.main()

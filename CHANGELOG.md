@@ -35,6 +35,15 @@ verzování dle [SemVer](https://semver.org/lang/cs/).
   `#abstract-cs[#include "front/abstract-cs.typ"]` → do `.with(...)`
   `abstract: (czech: include "front/abstract-cs.typ", english: include "front/abstract-en.typ")`,
   obdobně `acknowledgement:` a `introduction:`. `#conclusion[...]` zůstává.
+- **Skloňování jména vedoucího bez Pythonu** — pravidla 2. pádu přepsána
+  z Pythonu (`@preview/pyrunner`, 11 MB WASM) do Typstu; výstup je shodný
+  na 296 jménech. Kompilace ukázkové práce klesla z ~2,2 s na ~0,25 s.
+  Příjmení na „-ěk" mimo „-něk/-děk" (např. „Kotěk") se už neztratí, zůstane
+  v 1. pádě; ruční tvar dál jde zadat přes `genitive`.
+- **Méně závislostí** — odstraněny `@preview/pyrunner`, nepoužívaný
+  `@preview/drafting` a `@preview/ez-today` (datum vrací nativní
+  `datetime.today()`). Datum v prohlášení je bez úvodní nuly u měsíce
+  („9. 1. 2026" místo „9. 01. 2026").
 - **Vyhledávání v glosáři** — indexy klíčů a `short` vznikají jednou při
   inicializaci registrů místo procházení definic při vyhledání. Zachována
   priorita přesného klíče, porovnání bez rozlišení velikosti, diagnostika kolizí

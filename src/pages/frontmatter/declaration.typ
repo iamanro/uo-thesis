@@ -1,4 +1,3 @@
-#import "../../styling/packages.typ": ez-today
 #import "../internal/i18n/index.typ": t, thesis-type-is-bachelor-or-master
 #import "../../styling/styles.typ": frontmatter-heading
 #import "../internal/people.typ": format-name, format-supervisor-for-declaration
@@ -87,7 +86,7 @@
         rows: 2,
         [
           V #get-city-name(university.faculty, variant: 2, lang: "cs"),
-          dne #lower[#ez-today.today(lang: "cs", format: "d. m. Y")]
+          dne #datetime.today().display("[day padding:none]. [month padding:none]. [year]")
         ],
         [#box(width: 1fr, repeat[.])],
 

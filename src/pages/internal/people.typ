@@ -1,5 +1,6 @@
 #import "utils.typ": has-person
 #import "i18n/index.typ": t, current-lang
+#import "i18n/genitiv.typ": genitiv
 
 // Funkce: person
 // Co: Vytvoří záznam osoby pro konfiguraci šablony.
@@ -68,7 +69,6 @@
 // Funkce: format-supervisor-for-declaration
 // Co: Vrátí jméno vedoucího nebo školitele ve 2. pádě.
 #let format-supervisor-for-declaration(supervisor) = {
-  import "i18n/genitiv.typ": genitiv
   let override = supervisor.at("genitive", default: none)
   let name-in-genitive = if override != none {
     override

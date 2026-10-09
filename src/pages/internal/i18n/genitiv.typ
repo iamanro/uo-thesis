@@ -1,5 +1,6 @@
 /*
-Autor kódu: davidmalasek (David Malášek)
+Pravidla skloňování převzata z https://github.com/davidmalasek/sklonovani-jmen
+(původně Python, zde přepsáno do Typstu).
 
 MIT License
 
@@ -10,167 +11,81 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-Zdroj: https://github.com/davidmalasek/sklonovani-jmen
 */
-#import "../../../styling/packages.typ": py
-#let genitiv-supervisor = py.compile(
-  ```python
-# Koho, čeho?
 
+// Koho, čeho? — 2. pád jednoho slova jména, malými písmeny. Indexuje se po
+// znacích (codepoints), ne po bajtech, kvůli diakritice.
+#let _genitiv-slova(slovo) = {
+  let w = lower(slovo).codepoints()
+  let n = w.len()
+  let j = w.join(default: "")
+  if n < 2 or w.last() == "." { return j } // iniciála („J.") nebo zkratka — neskloňujeme
+  let (c1, c2) = (w.at(-1), w.at(-2))
+  let c3 = if n >= 3 { w.at(-3) } else { "" }
+  let bez(k) = w.slice(0, n - k).join(default: "") // slovo bez posledních k znaků
 
-def genitiv(input_jmena):
-    output = []
-    if " " in input_jmena:
-        jmena = input_jmena.split(" ")
-    else:
-        jmena = [input_jmena.lower()]
+  if c1 == "a" {
+    if c2 in ("č", "j", "ď", "c") { bez(1) + "i" } // Ivča, Kája, Láďa, Danica
+    else if c2 == "i" { bez(1) + "e" } // Olivia
+    else if c2 == "o" { j } // Figueroa
+    else if c2 == "ň" { bez(2) + "ni" } // Soňa
+    else if c2 in ("e", "š") and c3 != "c" { bez(1) + if c3 == "r" { "ji" } else { "i" } } // Andrea, Nataša, Lea
+    else { bez(1) + "y" } // Anna, Olga, Eliška, Pavla, Klára, Eva, Tereza, Průcha
+  } else if c1 == "á" {
+    bez(1) + "é"
+  } else if c1 == "e" {
+    if c2 in ("g", "e", "o", "i", "c", "š") { j } else { bez(1) + "i" } // George, Lee, Zoe, Lucie, Alice, Danuše
+  } else if c1 in ("h", "i") {
+    if c2 == "c" { j + "a" } else { j } // Bedřich, Vojtěch / Sarah, Niki
+  } else if c1 == "k" {
+    if c2 == "e" { bez(2) + "ka" } // Malášek
+    else if c2 == "ě" and n >= 3 {
+      if c3 == "n" { bez(3) + "ňka" } // Zbyněk, Vaněk
+      else if c3 == "d" { bez(3) + "ďka" } // Luděk
+      else { j } // jiné „-ěk": raději nezměněné než chybný tvar
+    } else { j + "a" } // Novák
+  } else if c1 == "l" {
+    if c2 == "e" { if c3 in ("c", "i", "u") { j + "a" } else { bez(2) + "la" } } // Marcel, Samuel, Gabriel / Karel
+    else if c2 == "o" and c3 == "k" { j } // Nikol
+    else if c2 in ("a", "i", "o", "s") { j + "a" } // Michal, Bohumil, Anatol, Přemysl
+    else { j + "e" } // Král
+  } else if c1 == "m" {
+    if c2 == "a" { j } else { j + "a" } // Miriam / Maxim
+  } else if c1 == "o" {
+    if c2 == "t" { bez(1) + "y" } else { bez(1) + "a" } // Oto / Ronaldo, Santiago
+  } else if c1 == "r" {
+    if c2 in ("a", "e") { if c3 in ("k", "m", "p", "l") { j + "a" } else { j } } // Otakar, Otmar, Kašpar / Dagmar, Ester
+    else { j + "a" }
+  } else if c1 in ("y", "í", "é") {
+    if c2 == "l" { j } else { j + "ho" } // Emily / Harry, Jiří, René
+  } else if c1 == "ý" {
+    bez(1) + "ého"
+  } else if c1 == "d" {
+    if j in ("ingrid", "astrid", "sigrid") { j } else { j + "a" } // nesklonná ženská / David, Richard
+  } else if c1 == "c" {
+    if c2 in ("n", "l") { j + "e" } else { bez(2) + "ce" } // Vincenc, Šolc / Vavřinec
+  } else if c1 == "t" {
+    if j in ("rút", "růt", "margaret") { j } else { j + "a" } // nesklonná ženská / Vít, Robert
+  } else if c1 == "ů" {
+    j // Petrů
+  } else if c1 in ("ž", "j", "ř", "š", "x", "s") {
+    j + "e" // Tomáš, Ondřej, Max, Nikolas
+  } else {
+    j + "a"
+  }
+}
 
-    for jmeno in jmena:
-        jmeno = jmeno.lower()
-        if len(jmeno) < 2 or jmeno[-1] == ".":  # iniciála ("J.") nebo zkratka — neskloňujeme
-            output.append(jmeno)
-            continue
-        if jmeno[-1] == "a":
-            if jmeno[-2] in ["d", "n"]:  # Anna, Linda
-                output.append(jmeno[0:-1] + "y")
-            elif jmeno[-2] in ["č", "j"]:  # Ivča, Kája
-                output.append(jmeno[0:-1] + "i")
-            elif jmeno[-2] == "ď" or jmeno[-2] == "c":  # Láďa, Danica
-                output.append(jmeno[0:-1] + "i")
-            elif jmeno[-2] == "g":  # Olga
-                output.append(jmeno[0:-1] + "y")
-            elif jmeno[-2] == "i":  # Olivia
-                output.append(jmeno[0:-1] + "e")
-            elif jmeno[-2] == "k":  # Eliška
-                output.append(jmeno[0:-1] + "y")
-            elif jmeno[-2] == "l" and len(jmeno) >= 3 and jmeno[-3] == "v":  # Pavla
-                output.append(jmeno[0:-1] + "y")
-            elif jmeno[-2] == "l":  # Fiala, Nikola
-                output.append(jmeno[0:-1] + "y")
-            elif jmeno[-2] == "o":  # Figueroa
-                output.append(jmeno)
-            elif jmeno[-2] == "r":  # Klára, Svoboda, Kučera
-                output.append(jmeno[0:-1] + "y")
-            elif jmeno[-2] == "t":  # Alžběta
-                output.append(jmeno[0:-1] + "y")
-            elif jmeno[-2] == "v":  # Eva
-                output.append(jmeno[0:-1] + "y")
-            elif jmeno[-2] == "z":  # Honza, Tereza
-                output.append(jmeno[0:-1] + "y")
-            elif jmeno[-2] == "ň":  # Soňa
-                output.append(jmeno[0:-2] + "ni")
-            elif (len(jmeno) >= 3 and jmeno[-3] == "c") or jmeno[-2] == "h":  # Průcha
-                output.append(jmeno[0:-1] + "y")
-            elif jmeno[-2] in ["e", "š"]:  # Nataša, Andrea, Lea
-                if len(jmeno) >= 3 and jmeno[-3] == "r":
-                    output.append(jmeno[0:-1] + "ji")
-                else:
-                    output.append(jmeno[0:-1] + "i")
-            else:
-                output.append(jmeno[0:-1] + "y")
-        elif jmeno[-1] == "á":
-            output.append(jmeno[0:-1] + "é")
-        elif jmeno[-1] == "e":
-            if jmeno[-2] == "g":  # George
-                output.append(jmeno)
-            elif jmeno[-2] == "e" or jmeno[-2] == "o":  # Lee, Zoe
-                output.append(jmeno)
-            elif (
-                jmeno[-2] == "i" or jmeno[-2] == "c" or jmeno[-2] == "š"
-            ):  # Lucie, Alice, Danuše
-                output.append(jmeno)
-            else:
-                output.append(jmeno[0:-1] + "i")
-        elif jmeno[-1] == "h" or jmeno[-1] == "i":
-            if jmeno[-2] == "c":  # Bedřich, Vojtěch
-                output.append(jmeno + "a")
-            else:  # Sarah, Niki
-                output.append(jmeno)
-        elif jmeno[-1] == "k":
-            if jmeno[-2] == "e":  # Malášek
-                output.append(jmeno[0:-2] + "ka")
-            elif jmeno[-2] == "ě" and len(jmeno) >= 3:
-                if jmeno[-3] == "n":  # Zbyněk, Vaněk
-                    output.append(jmeno[0:-3] + "ňka")
-                elif jmeno[-3] == "d":  # Luděk
-                    output.append(jmeno[0:-3] + "ďka")
-            else:  # Novák
-                output.append(jmeno + "a")
-        elif jmeno[-1] == "l":
-            if jmeno[-2] == "e":
-                if len(jmeno) >= 3 and jmeno[-3] in ["c", "i", "u"]:  # Marcel, Samuel, Gabriel
-                    output.append(jmeno + "a")
-                else:  # Karel
-                    output.append(jmeno[0:-2] + "la")
-            elif jmeno[-2] == "o" and len(jmeno) >= 3 and jmeno[-3] == "k":  # Nikol
-                output.append(jmeno)
-            elif jmeno[-2] in ["a", "i", "o", "s"]:  # Michal, Bohumil, Anatol, Přemysl
-                output.append(jmeno + "a")
-            else:  # Král
-                output.append(jmeno + "e")
-        elif jmeno[-1] == "m":
-            if jmeno[-2] == "a":  # Miriam
-                output.append(jmeno)
-            else:  # Maxim
-                output.append(jmeno + "a")
-        elif jmeno[-1] == "o":
-            if jmeno[-2] == "t":  # Oto
-                output.append(jmeno[0:-1] + "y")
-            else:  # Ronaldo, Santiago
-                output.append(jmeno[0:-1] + "a")
-        elif jmeno[-1] == "r":
-            if jmeno[-2] == "a" or jmeno[-2] == "e":  # Dagmar, Ester
-                if len(jmeno) >= 3 and (
-                    jmeno[-3] == "k"
-                    or jmeno[-3] == "m"
-                    or jmeno[-3] == "p"
-                    or jmeno[-3] == "l"
-                ):  # Otakar, Otmar, Kašpar
-                    output.append(jmeno + "a")
-                else:
-                    output.append(jmeno)
-            else:
-                output.append(jmeno + "a")
-        elif jmeno[-1] == "y" or jmeno[-1] == "í" or jmeno[-1] == "é":
-            if jmeno[-2] == "l":  # Emily
-                output.append(jmeno)
-            else:  # Harry, Jiří, René
-                output.append(jmeno + "ho")
-        elif jmeno[-1] == "ý":
-            output.append(jmeno[0:-1] + "ého")
-        elif jmeno[-1] == "d":
-            if jmeno in ["ingrid", "astrid", "sigrid"]:  # nesklonná ženská
-                output.append(jmeno)
-            else:  # David, Richard, Zikmund, Šmíd
-                output.append(jmeno + "a")
-        elif jmeno[-1] == "c":
-            if jmeno[-2] == "n":  # Vincenc -> Vincence, Lorenc -> Lorence
-                output.append(jmeno + "e")
-            else:
-                if jmeno[-2] == "l":  # Šolc
-                    output.append(jmeno + "e")
-                else:  # Vavřinec -> Vavřince
-                    output.append(jmeno[0:-2] + "ce")
-        elif jmeno[-1] == "ž":
-            output.append(jmeno + "e")
-        elif jmeno[-1] == "t":
-            if jmeno in ["rút", "růt", "margaret"]:  # nesklonná ženská
-                output.append(jmeno)
-            else:  # Vít, Robert, Vincent, Kurt
-                output.append(jmeno + "a")
-        elif jmeno[-1] == "ů":  # Petrů
-            output.append(jmeno)
-        elif jmeno[-1] in ["c", "j", "ř", "š"]:  # Tomáš, Ondřej, Kadlec
-            output.append(jmeno + "e")
-        elif jmeno[-1] == "x" or jmeno[-1] == "s":  # Max, Nikolas
-            output.append(jmeno + "e")
-        else:
-            output.append(jmeno + "a")
-    # Velké počáteční písmeno u každého segmentu (i u dvojitých příjmení: Novák-Šmíd)
-    output = ["-".join(p.capitalize() for p in item.split("-")) for item in output]
-    return " ".join(output)
-  ```.text
-)
+// Velké počáteční písmeno každé části (i u dvojitých příjmení: Novák-Šmíd).
+#let _kapitalizace(slovo) = {
+  slovo
+    .split("-")
+    .map(cast => {
+      let znaky = cast.codepoints()
+      if znaky.len() == 0 { "" } else { upper(znaky.first()) + znaky.slice(1).join(default: "") }
+    })
+    .join("-")
+}
 
-#let genitiv(value) = py.call(genitiv-supervisor, "genitiv", value)
+// Funkce: genitiv
+// Co: 2. pád jména či příjmení (i víceslovného): „Jana Nováková" → „Jany Novákové".
+#let genitiv(value) = value.split(" ").map(slovo => _kapitalizace(_genitiv-slova(slovo))).join(" ")
