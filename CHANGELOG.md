@@ -43,6 +43,10 @@ První vydání šablony.
   (autor, název, popis, klíčová slova).
 - **Typografie v `src/config.toml`** — laditelné velikosti, okraje, řádkování,
   tabulky a titulní strana; přibalené fonty TeX Gyre.
+- **Licence** — kód balíčku pod AGPL-3.0-or-later; startovní projekt
+  `template/` (soubory, které `typst init` zkopíruje do práce) pod MIT-0, aby
+  ho studenti mohli volně upravovat a šířit; loga UO a fonty TeX Gyre mají
+  vlastní podmínky (viz `NOTICE`).
 - **CI/CD** — regresní testy přes veřejné rozhraní, instalace balíčku přes
   `typst init`, sedm profilů šablony plus PDF/A-3b a PDF/UA-1, vydání
   otestovaných artefaktů z tagu `v<verze>`.

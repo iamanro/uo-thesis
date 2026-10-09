@@ -5,7 +5,7 @@
 **Official template for bachelor's, master's, and doctoral theses at the University of Defence, written in&nbsp;[Typst](https://typst.app/).**<br>
 All faculties · Czech and English · PDF/A and PDF/UA · typesets in under a second
 
-[![CI](https://github.com/iamanro/uo-thesis/actions/workflows/ci.yml/badge.svg)](https://github.com/iamanro/uo-thesis/actions/workflows/ci.yml) [![Version](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fiamanro%2Fuo-thesis%2Fmain%2Ftypst.toml&query=%24.package.version&label=version&color=808205)](CHANGELOG.md) [![Typst](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fiamanro%2Fuo-thesis%2Fmain%2Ftypst.toml&query=%24.package.compiler&label=typst&color=239dad&logo=typst&logoColor=white)](https://typst.app/) [![License](https://img.shields.io/badge/license-MIT-6188cd)](LICENSE)
+[![CI](https://github.com/iamanro/uo-thesis/actions/workflows/ci.yml/badge.svg)](https://github.com/iamanro/uo-thesis/actions/workflows/ci.yml) [![Version](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fiamanro%2Fuo-thesis%2Fmain%2Ftypst.toml&query=%24.package.version&label=version&color=808205)](CHANGELOG.md) [![Typst](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fiamanro%2Fuo-thesis%2Fmain%2Ftypst.toml&query=%24.package.compiler&label=typst&color=239dad&logo=typst&logoColor=white)](https://typst.app/) [![License](https://img.shields.io/badge/license-AGPL--3.0-6188cd)](LICENSE)
 
 [Česky](README.md) · **English**
 
@@ -404,6 +404,11 @@ The output folder must be empty; the archive contains only tracked files (`git a
 
 ## License
 
-The template source code is licensed under **MIT** (see [`LICENSE`](LICENSE)).
+| Part | License |
+|---|---|
+| Package code (`src/`, repository tooling) | [AGPL-3.0-or-later](LICENSE) |
+| Starter project (`template/` without fonts) — the files `typst init` copies into your thesis | [MIT-0](LICENSE-MIT-0): use, modify, and share without restriction or attribution |
+| TeX Gyre fonts (`template/fonts/`) | GUST Font License |
+| University of Defence logos (`src/assets/logo*.svg`) | UO's own terms, see [`NOTICE`](NOTICE) |
 
-The faculty and university logos (`src/assets/logo*.svg`) are the intellectual property of the University of Defence and are **not** covered by the MIT license — they may be used only in a genuine University of Defence thesis and must not be modified (see [`NOTICE`](NOTICE)). The TeX Gyre fonts are under the GUST Font License (`template/fonts/LICENSE-FONTS.txt`). Make sure your use of the logos follows the rules of the University of Defence and your faculty.
+The faculty and university logos are the intellectual property of the University of Defence and are **not** covered by the AGPL or MIT-0 — they may be used only in a genuine University of Defence thesis and must not be modified (see [`NOTICE`](NOTICE)). Make sure your use of the logos follows the rules of the University of Defence and your faculty.

@@ -5,7 +5,7 @@
 **Oficiální šablona pro bakalářské, diplomové a disertační práce na Univerzitě obrany v&nbsp;[Typstu](https://typst.app/).**<br>
 Všechny fakulty · česky i anglicky · PDF/A a PDF/UA · sazba pod sekundu
 
-[![CI](https://github.com/iamanro/uo-thesis/actions/workflows/ci.yml/badge.svg)](https://github.com/iamanro/uo-thesis/actions/workflows/ci.yml) [![Verze](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fiamanro%2Fuo-thesis%2Fmain%2Ftypst.toml&query=%24.package.version&label=verze&color=808205)](CHANGELOG.md) [![Typst](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fiamanro%2Fuo-thesis%2Fmain%2Ftypst.toml&query=%24.package.compiler&label=typst&color=239dad&logo=typst&logoColor=white)](https://typst.app/) [![Licence](https://img.shields.io/badge/licence-MIT-6188cd)](LICENSE)
+[![CI](https://github.com/iamanro/uo-thesis/actions/workflows/ci.yml/badge.svg)](https://github.com/iamanro/uo-thesis/actions/workflows/ci.yml) [![Verze](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fiamanro%2Fuo-thesis%2Fmain%2Ftypst.toml&query=%24.package.version&label=verze&color=808205)](CHANGELOG.md) [![Typst](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fiamanro%2Fuo-thesis%2Fmain%2Ftypst.toml&query=%24.package.compiler&label=typst&color=239dad&logo=typst&logoColor=white)](https://typst.app/) [![Licence](https://img.shields.io/badge/licence-AGPL--3.0-6188cd)](LICENSE)
 
 **Česky** · [English](README.en.md)
 
@@ -404,6 +404,11 @@ Výstupní složka musí být prázdná; archiv obsahuje jen verzované soubory 
 
 ## Licence
 
-Zdrojový kód šablony je licencován pod **MIT** (viz [`LICENSE`](LICENSE)).
+| Část | Licence |
+|---|---|
+| Kód balíčku (`src/`, nástroje repozitáře) | [AGPL-3.0-or-later](LICENSE) |
+| Startovní projekt (`template/` bez fontů) — soubory, které `typst init` zkopíruje do tvé práce | [MIT-0](LICENSE-MIT-0): použij, uprav a šiř bez omezení a bez uvedení autora |
+| Fonty TeX Gyre (`template/fonts/`) | GUST Font License |
+| Loga Univerzity obrany (`src/assets/logo*.svg`) | Vlastní podmínky UO, viz [`NOTICE`](NOTICE) |
 
-Loga fakult a univerzity (`src/assets/logo*.svg`) jsou duševním vlastnictvím Univerzity obrany a **nejsou** kryta licencí MIT — smí se použít jen ve skutečné závěrečné práci na Univerzitě obrany a nesmí se upravovat (viz [`NOTICE`](NOTICE)). Fonty TeX Gyre podléhají GUST Font License (`template/fonts/LICENSE-FONTS.txt`). Ověř si, že použití log odpovídá pravidlům Univerzity obrany a tvé fakulty.
+Loga fakult a univerzity jsou duševním vlastnictvím Univerzity obrany a **nejsou** kryta licencí AGPL ani MIT-0 — smí se použít jen ve skutečné závěrečné práci na Univerzitě obrany a nesmí se upravovat (viz [`NOTICE`](NOTICE)). Ověř si, že použití log odpovídá pravidlům Univerzity obrany a tvé fakulty.
