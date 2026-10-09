@@ -50,6 +50,15 @@ verzování dle [SemVer](https://semver.org/lang/cs/).
   nevidí); nyní se záhlaví na první straně kapitoly správně potlačí. V zadní
   části (ZÁVĚR, BIBLIOGRAFIE, seznamy příloh) záhlaví mlčí — dřív neslo název
   poslední číslované kapitoly.
+- **Figury příloh v seznamech** — obrázky a tabulky z příloh se už nevypisují
+  v SEZNAMU OBRÁZKŮ / TABULEK (pravidlo uvnitř `for` smyčky se nikdy neuplatnilo).
+- **Rovnice v přílohách** — číslují se `(A–1)` místo `(1.1)`, takže už nekolidují
+  s rovnicemi první kapitoly.
+- **Odkazy na nadpisy** — `@label` na nadpis sází „Kapitola 1.2" / „Section 1.2"
+  místo doslovného „heading 1.2".
+- **Odkazy na figury** — za číslem už není mezera navíc („Obrázek 1.1," místo
+  „Obrázek 1.1 ,"). Popisky v kapitolách mají mezi číslem a textem jednu
+  nezlomitelnou mezeru jako přílohy (dřív dvě), stejně tak seznamy obrázků/tabulek.
 
 ## [0.4.0] – 2026-07-30
 

@@ -56,8 +56,7 @@
   set par(justify: false, first-line-indent: 0pt)
 
   for entry in entries {
-    // Vlastní titul „SEZNAM PŘÍLOH" je také H1 s tímtéž supplementem, ale nemá
-    // číslování (numbering: none) — do seznamu příloh nepatří, přeskočíme jej.
+    // Nečíslovaný H1 uvnitř příloh (`heading(numbering: none)`) do seznamu nepatří.
     if entry.numbering == none { continue }
 
     let loc = entry.location()
@@ -125,11 +124,10 @@
   counter(heading).update(0)
   set heading(numbering: "A.1.1", outlined: false, bookmarked: true)
 
-  set figure(numbering: appendix-page-number)
-
-  for kind in (image, table, math.equation, raw) {
-    show figure.where(kind: kind): set figure(outlined: false)
-  }
+  // Figury příloh patří jen do příloh, ne do seznamů obrázků/tabulek v úvodu.
+  set figure(numbering: appendix-page-number, outlined: false)
+  // Rovnice (A–1), ne (1.1) — jinak by kolidovaly s první kapitolou.
+  set math.equation(numbering: n => [(#appendix-page-number(n))])
 
   show heading.where(level: 2): set heading(outlined: false, bookmarked: true)
   show heading.where(level: 3): set heading(outlined: false, bookmarked: true)

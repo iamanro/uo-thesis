@@ -34,10 +34,9 @@
       it
     }
 
+    // Výchozí cíl `heading.where(outlined: true)`: nadpisy příloh mají
+    // `outlined: false`, v OBSAHU je za ně jen SEZNAM PŘÍLOH.
     outline(
-      // Musí odpovídat `supplement: [heading]` v src/styling/headings.typ —
-      // při nesouladu se OBSAH tiše vykreslí PRÁZDNÝ (bez varování).
-      target: heading.where(supplement: [heading], outlined: true),
       indent: 1em,
       depth: cfg.outline.depth,
       title: t("toc", lang: lang),
