@@ -12,12 +12,6 @@
   faculty in supported_faculties
 }
 
-// Funkce: is-supported-thesis-type
-// Účel: Ověří, zda je typ práce podporovaný.
-#let is-supported-thesis-type(thesis_type) = {
-  lower(str(thesis_type)) in supported_thesis_types
-}
-
 // Funkce: resolve-lang
 // Účel: Normalizuje explicitní jazykový parametr na podporovaný kód.
 #let resolve-lang(lang: auto) = {
@@ -25,8 +19,6 @@
     "cs"
   } else if is-supported-language(lang) {
     lang
-  } else if lang == "cz" {
-    panic("Unsupported language `cz`. Use `cs` or `en`.")
   } else {
     panic("Unsupported language `" + str(lang) + "`. Use `cs` or `en`.")
   }

@@ -8,17 +8,15 @@
 // Načtení metadat práce z config.toml: unob-thesis.with(..thesis-config(toml("config.toml"))).
 #import "pages/internal/config.typ": thesis-config
 
-// Autorské pomůcky: TODO/poznámky viditelné jen v draftu a přepnutí na šířku.
-#import "pages/internal/authoring.typ": landscape, note, todo
+// Autorské pomůcky: TODO/poznámky viditelné jen v draftu, přepnutí na šířku
+// a závěr práce (lokalizovaný nečíslovaný nadpis + obsah kapitoly).
+#import "pages/internal/authoring.typ": conclusion, landscape, note, todo
 
 // Flexibilní popisky figur (dlouhá verze pod figurou, krátká v seznamech).
 #import "styling/flex-caption.typ": flex-caption
 
 // Glosář — sazba zkratek, pojmů a jejich stylové konstanty.
-#import "pages/internal/glossary/index.typ": first, first-plural, plural, singular, trm
-
-// Závěr práce — lokalizovaný nečíslovaný nadpis + obsah kapitoly.
-#import "pages/internal/metadata.typ": conclusion
+#import "pages/internal/glossary/runtime.typ": first, first-plural, plural, singular, trm
 
 // Nezlomitelné mezery („vlna") — šablona je aplikuje SAMA na celý dokument.
 // NEimportuj @preview/vlna zvlášť: pravidla by se aplikovala dvakrát a

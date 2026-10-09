@@ -40,6 +40,13 @@ verzování dle [SemVer](https://semver.org/lang/cs/).
 - **Odstraněno `docs` (nekompatibilní změna)** — volba vkládala do práce
   zastaralou interní dokumentaci API; README ji pokrývá. Řádek `docs = …`
   z vlastního `config.toml` smažte, jinak `thesis-config` ohlásí neznámý klíč.
+- **Vnitřní struktura** — 47 souborů `src/*.typ` sloučeno do 30 podle úloh:
+  úvodní části v jednom `pages/frontmatter.typ`, glosář ve čtyřech modulech
+  (`parse` vstup a validace, `runtime` `#trm`, `render` seznamy, `declension`),
+  bez přeposílacích modulů (`styles.typ`, `glossary/index.typ`,
+  `localization.typ`); `#conclusion` je u autorských pomůcek. Odstraněny
+  nedosažitelné kontroly a nepoužité překlady. Veřejné API ani sazba se
+  nemění (PDF všech 11 regresních profilů jsou bajtově shodná po vykreslení).
 - **Odstraněn `Taskfile.yml`** — všechny úlohy kompilovaly neexistující
   kořenový `main.typ` a `task draft` se nelišil od `task build`; do projektu
   z `typst init` se navíc nikdy nedostal. Vývojová cesta je `scripts/ci.py`.

@@ -1,6 +1,6 @@
 #import "utils.typ": has-person, has-value, plain-text
 #import "i18n/index.typ": (
-  current-lang, is-supported-faculty, is-supported-language, is-supported-thesis-type, panic-bilingual, t,
+  current-lang, is-supported-faculty, panic-bilingual, t,
 )
 #import "people.typ": validate-person
 
@@ -38,14 +38,10 @@
 // Přijímá jeden slovník `config` (pojmenované klíče místo pořadí argumentů).
 #let validate-config(config) = {
   let (
-    lang, draft, university, thesis, author, supervisor, first_advisor, second_advisor,
+    draft, university, thesis, author, supervisor, first_advisor, second_advisor,
     declaration, assignment, outlines, acronyms, terms, symbols, submit_check,
     vlna, fancy_heading, twoside,
   ) = config
-
-  if not is-supported-language(lang) {
-    panic-i18n("error_unsupported_language")
-  }
 
   if type(draft) != bool {
     panic-i18n("error_draft_bool")
@@ -53,10 +49,6 @@
 
   if not is-supported-faculty(university.faculty) {
     panic-i18n("error_unsupported_faculty")
-  }
-
-  if not is-supported-thesis-type(thesis.type) {
-    panic-i18n("error_unsupported_thesis_type")
   }
 
   if not has-value(thesis.title) {

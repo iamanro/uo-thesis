@@ -1,5 +1,7 @@
 #import "internal/i18n/index.typ": normalize-thesis-type as i18n-normalize-thesis-type, setup-language
-#import "../styling/styles.typ": apply-base-styles, apply-figure-styles, apply-heading-styles
+#import "../styling/base.typ": apply-base-styles
+#import "../styling/figures.typ": apply-figure-styles
+#import "../styling/headings.typ": apply-heading-styles
 #import "../styling/theme.typ": resolve-theme
 #import "../styling/flex-caption.typ": apply-flex-caption-outline
 #import "appendix.typ": appendix as render-appendix
@@ -7,10 +9,11 @@
 #import "internal/validation.typ": validate-config, validate-submit-check, validate-image-alt, validate-no-todos, validate-bibliography
 #import "internal/config.typ": normalize-outlines, normalize-theme-config
 #import "internal/people.typ": person
-#import "internal/glossary/index.typ": (
-  glossary-to-acronyms, glossary-to-symbols, glossary-to-terms, init-glossary-runtime,
-  normalize-glossary-input, validate-glossary-registry,
+#import "internal/glossary/parse.typ": (
+  glossary-to-acronyms, glossary-to-symbols, glossary-to-terms, normalize-glossary-input,
+  validate-glossary-registry,
 )
+#import "internal/glossary/runtime.typ": init-glossary-runtime
 
 // Funkce: unob-thesis
 // Účel: Hlavní veřejný vstup šablony s inline konfigurací po vzoru SHAW/ZHAW.
@@ -128,7 +131,6 @@
   let effective-vlna = if vlna == auto { draft != true } else { vlna }
 
   validate-config((
-    lang: lang,
     draft: draft,
     university: university,
     thesis: thesis,

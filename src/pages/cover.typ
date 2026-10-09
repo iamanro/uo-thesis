@@ -1,7 +1,8 @@
-#import "internal/i18n/index.typ": t, thesis-type-is-bachelor-or-master, thesis-type-is-doctoral
+#import "internal/i18n/index.typ": (
+  city-name, faculty-name, t, thesis-type-is-bachelor-or-master, thesis-type-is-doctoral, thesis-type-name,
+)
 #import "internal/utils.typ": has-person, has-value
 #import "internal/people.typ": format-name
-#import "internal/localization.typ": get-city-name, get-faculty-name, get-thesis-type-name
 #import "../styling/theme.typ": get-logo-path
 #import "../config.typ": cfg
 
@@ -88,7 +89,7 @@
   let header_lines = (
     text(size: vars.size_university, upper(t("university_name", lang: lang))),
     if university.faculty != "uo" {
-      strong(upper(get-faculty-name(university.faculty, lang: lang)))
+      strong(upper(faculty-name(university.faculty, lang: lang)))
     },
     if has-value(university.programme) {
       strong(labeled-value("programme_label", university.programme))
@@ -132,7 +133,7 @@
     // Typ práce (např. DISERTAČNÍ PRÁCE) – pevně pod logem.
     #align(center)[
       #set text(size: vars.size_thesis_type, weight: "bold")
-      #upper(get-thesis-type-name(thesis.type, lang: lang))
+      #upper(thesis-type-name(thesis.type, lang: lang))
     ]
 
     #v(vars.gap_after_thesis_type)
@@ -161,7 +162,7 @@
     // Město a rok – zcela dole na straně.
     #align(center)[
       #set text(size: vars.size_city_year)
-      #upper(get-city-name(university.faculty, lang: lang))#datetime.today().display(" [year]")
+      #upper(city-name(university.faculty, lang: lang))#datetime.today().display(" [year]")
     ]
   ]
 }

@@ -1,7 +1,6 @@
 // Data: Překlady řetězců a statické tabulky pro i18n moduly.
 #let translations = (
   "title_page": (cs: [TITULNÍ LIST], en: [TITLE PAGE]),
-  "assignment": (cs: [ZADÁNÍ PRÁCE], en: [ASSIGNMENT]),
   "assignment_placement": (cs: [Zde patří zadání.], en: [Assignment placement]),
   "acknowledgement": (cs: [PODĚKOVÁNÍ], en: [ACKNOWLEDGEMENT]),
   "declaration": (cs: [ČESTNÉ PROHLÁŠENÍ], en: [DECLARATION]),
@@ -31,10 +30,6 @@
   "error_draft_bool": (
     cs: "Parametr `draft` musí být typu bool (`true` nebo `false`).",
     en: "`draft` must be a bool (`true` or `false`).",
-  ),
-  "error_unsupported_language": (
-    cs: "Nepodporovaný jazyk. Použijte `cs` nebo `en`.",
-    en: "Unsupported language. Use `cs` or `en`.",
   ),
   "error_title_required": (
     cs: "Parametr `thesis.title` nesmí být prázdný.",

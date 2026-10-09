@@ -12,10 +12,115 @@
 // definic (zapsán PRÁVĚ JEDNOU při inicializaci šablony, nikdy se nemění),
 // jediný dotaz je existence návěští (množina návěští je za běhu konstantní).
 // Nic zde nezávisí na stránkování → systém nemůže rozbít konvergenci.
-#import "./parse.typ": acronym-fields-from-value
-#import "./registry.typ": acronyms-registry, terms-registry
-#import "./lookup.typ": find-key-or-short-case-insensitive, link-to-acronym-entry, link-to-term-entry, panic-unknown-key
-#import "./declension.typ": build-acronym-first-display
+#import "parse.typ": acronym-fields-from-value, panic-local
+#import "declension.typ": build-acronym-first-display
+
+// Návěští položek v SEZNAMU ZKRATEK / POJMŮ, na která `#trm` odkazuje.
+#let acronym-label-prefix = "__unob_acronym_list_"
+#let term-label-prefix = "__unob_term_list_"
+
+// Registry slouží POUZE jako kanál pro předání definic z konfigurace šablony
+// do `#trm` (modulová funkce nevidí data z main.typ lexikálně). Zapisují se
+// právě jednou v `init-glossary-runtime` před sazbou obsahu a nikdy se nemění
+// — každé čtení `.get()` je proto ve všech iteracích sazby stejné a nezávisí
+// na stránkování (konvergenčně bezpečné).
+// Indexy vznikají jednou spolu s definicemi, ne při každém #trm.
+// Uchováváme všechny shody v pořadí definic kvůli diagnostice nejednoznačnosti.
+#let index-definitions(definitions) = {
+  let keys = (:)
+  let shorts = (:)
+  for (key, value) in definitions {
+    let folded = lower(key)
+    keys.insert(folded, keys.at(folded, default: ()) + (key,))
+    if type(value) == dictionary {
+      let short = value.at("short", default: none)
+      if short != none {
+        let folded-short = lower(str(short))
+        shorts.insert(folded-short, shorts.at(folded-short, default: ()) + (key,))
+      }
+    }
+  }
+  (definitions: definitions, keys: keys, shorts: shorts)
+}
+
+#let acronyms-registry = state("unob-acronyms-registry", index-definitions((:)))
+#let terms-registry = state("unob-terms-registry", index-definitions((:)))
+
+#let init-glossary-runtime(acronyms, terms: false) = {
+  let safe_acronyms = if type(acronyms) == dictionary { acronyms } else { (:) }
+  let safe_terms = if type(terms) == dictionary { terms } else { (:) }
+
+  acronyms-registry.update(index-definitions(safe_acronyms))
+  terms-registry.update(index-definitions(safe_terms))
+}
+
+#let get-dictionary-keys(definitions) = {
+  let keys = (:)
+  for (raw_key, value) in definitions {
+    let key = str(raw_key)
+    keys.insert(lower(key), key)
+    if type(value) == dictionary {
+      let short = value.at("short", default: none)
+      if short != none { keys.insert(lower(str(short)), str(short)) }
+    }
+  }
+  keys.values().sorted(key: item => lower(item))
+}
+
+#let find-key-or-short-case-insensitive(raw_key, registry) = {
+  let key = str(raw_key)
+  // Přesný klíč má přednost před klíčem bez rozlišení velikosti i před short.
+  if registry.definitions.at(key, default: none) != none { return key }
+  let lookup = lower(key)
+  let matches = registry.keys.at(lookup, default: ())
+  if matches.len() == 1 { return matches.first() }
+  if matches.len() > 1 {
+    return panic-local(
+      "Nejednoznačný klíč `" + key + "`. Odpovídá více položek: " + matches.join(", "),
+      "Ambiguous key `" + key + "`. Multiple entries match: " + matches.join(", "),
+    )
+  }
+  let matches = registry.shorts.at(lookup, default: ())
+  if matches.len() == 1 { matches.first() }
+  else if matches.len() > 1 {
+    panic-local(
+      "Nejednoznačný klíč `" + key + "`. Odpovídá více položek (podle `short`): " + matches.join(", "),
+      "Ambiguous key `" + key + "`. Multiple entries match (by `short`): " + matches.join(", "),
+    )
+  } else { none }
+}
+
+#let panic-unknown-key(kind_cs, kind_en, key, definitions, unknown_cs: "Neznámý", unknown_en: "Unknown") = context {
+  let keys = get-dictionary-keys(definitions)
+  let prefix_matches = keys.filter(candidate => lower(candidate).starts-with(lower(key)))
+  if text.lang == "en" {
+    if prefix_matches.len() > 0 {
+      panic(unknown_en + " " + kind_en + " `" + key + "`. Possible entries starting with `" + key + "`: " + prefix_matches.join(", "))
+    } else if keys.len() > 0 {
+      panic(unknown_en + " " + kind_en + " `" + key + "`. Available entries: " + keys.join(", "))
+    } else {
+      panic(unknown_en + " " + kind_en + " `" + key + "`. The list is empty.")
+    }
+  } else {
+    if prefix_matches.len() > 0 {
+      panic(unknown_cs + " " + kind_cs + " `" + key + "`. Možné položky začínající na `" + key + "`: " + prefix_matches.join(", "))
+    } else if keys.len() > 0 {
+      panic(unknown_cs + " " + kind_cs + " `" + key + "`. Dostupné položky: " + keys.join(", "))
+    } else {
+      panic(unknown_cs + " " + kind_cs + " `" + key + "`. Seznam je prázdný.")
+    }
+  }
+}
+
+#let link-to-acronym-entry(key, text) = context {
+  let target = label(acronym-label-prefix + str(key))
+  if query(selector(target)).len() > 0 { link(target, text) } else { text }
+}
+
+#let link-to-term-entry(key, text) = context {
+  let target = label(term-label-prefix + str(key))
+  if query(selector(target)).len() > 0 { link(target, text) } else { text }
+}
 
 #let singular = "singular"
 #let plural = "plural"

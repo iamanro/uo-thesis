@@ -1,10 +1,7 @@
 #import "internal/i18n/index.typ": t
-#import "../styling/styles.typ": frontmatter-heading
+#import "../styling/helpers.typ": frontmatter-heading
 #import "../config.typ": cfg
-#import "internal/glossary/index.typ": (
-  generate-acronyms-list, generate-symbols-list, generate-terms-list,
-  has-used-acronyms, has-used-symbols, has-used-terms,
-)
+#import "internal/glossary/render.typ": generate-acronyms-list, generate-symbols-list, generate-terms-list
 
 /// Vykreslí obsah a volitelné seznamy (zkratky, pojmy, obrázky, tabulky, rovnice, výpisy).
 #let render-lists(
@@ -43,21 +40,22 @@
     )
   }
 
-  // Zkratky a pojmy — seznamy vypisují všechny položky z glossary.toml
-  // (glosář je kurátorovaný autorem; viz internal/glossary/registry.typ).
-  context if outlines.acronyms != false and has-used-acronyms(glossary.acronyms) {
+  // Zkratky, pojmy a symboly — seznamy vypisují všechny položky z glossary.toml
+  // (glosář je kurátorovaný autorem; viz internal/glossary/render.typ).
+  // `outlines.*` je true jen tehdy, když glosář položky daného druhu má.
+  if outlines.acronyms != false {
     frontmatter-heading(t("list_acronyms", lang: lang))
     generate-acronyms-list(glossary.acronyms)
   }
 
-  context if outlines.terms != false and has-used-terms(glossary.terms) {
+  if outlines.terms != false {
     frontmatter-heading(t("list_terms", lang: lang))
     generate-terms-list(glossary.terms)
   }
 
-  context if outlines.at("symbols", default: false) != false and has-used-symbols(glossary.at("symbols", default: false)) {
+  if outlines.symbols != false {
     frontmatter-heading(t("list_symbols", lang: lang))
-    generate-symbols-list(glossary.at("symbols", default: false))
+    generate-symbols-list(glossary.symbols)
   }
 
   // Zbývající seznamy se vykreslí jen při reálných položkách v dokumentu.
