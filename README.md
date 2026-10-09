@@ -356,6 +356,7 @@ Sekce `[faculty]` obsahuje oficiální barvy fakult — neměň je bez svolení 
 <details>
 <summary><b>Dobrá praxe a přístupnost</b></summary>
 
+- **Vedoucí chce Word:** vysázené PDF jde převést Adobe Acrobatem (*Soubor › Exportovat do › Microsoft Word*) nebo online nástrojem Adobe „PDF do Wordu“. Výsledek slouží ke čtení a komentářům, ne k dalšímu psaní: pole, číslování a odkazy nejsou živé, rovnice a tabulky se mohou rozsypat. Pište dál v Typstu a převod zopakujte.
 - Nahraď veškerý ukázkový obsah (text, reference, glosář, metadata) vlastním a před odevzdáním zapni `submit_check`.
 - **Přístupnost (PDF/UA):** u každého obrázku doplň `alt`, zejména u skenu zadání: `assignment_front: image("zadani.png", alt: "Zadání práce")`. Jazyk dokumentu, metadata a `alt` log nastavuje šablona; Typst exportuje otagované PDF.
 - **Archivní PDF:** `typst compile --pdf-standard a-3b,ua-1 main.typ`. Shodu ověř nástrojem [veraPDF](https://verapdf.org/); úspěšný export nenahrazuje kontrolu čtečkou.

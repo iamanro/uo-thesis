@@ -356,6 +356,7 @@ The template deliberately exports no boxes, callouts, or drawing tools. If you n
 <details>
 <summary><b>Good practice and accessibility</b></summary>
 
+- **Supervisor wants Word:** the typeset PDF can be converted with Adobe Acrobat (*File › Export a PDF › Microsoft Word*) or Adobe's online PDF-to-Word tool. Use the result for reading and comments, not for further writing: fields, numbering, and cross-references are not live, and equations and tables may break. Keep writing in Typst and convert again.
 - Replace all sample content (text, references, glossary, metadata) with your own and turn on `submit_check` before submitting.
 - **Accessibility (PDF/UA):** give every image an `alt` text, especially the assignment scan: `assignment_front: image("zadani.png", alt: "Thesis assignment")`. The template sets the document language, metadata, and logo `alt` texts; Typst exports tagged PDF.
 - **Archival PDF:** `typst compile --pdf-standard a-3b,ua-1 main.typ`. Verify conformance with [veraPDF](https://verapdf.org/); a successful export does not replace a screen-reader check.
