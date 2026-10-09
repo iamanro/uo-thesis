@@ -1,26 +1,3 @@
-// Jednosegmentové hlavičky tabulek (`[iso]`) obalí do uvozovek (`["iso"]`), aby
-// TOML parser přijal i klíče se znaky, které by jako holý klíč neprošly, a chyba
-// se pak nahlásila srozumitelně až ve validaci. Hlavičky s tečkou se ponechají,
-// aby zůstaly platnými dotted-key tabulkami.
-#let normalize-toml-table-headers(text) = {
-  text
-    .split("\n")
-    .map(line => {
-      let trimmed = line.trim()
-      if trimmed.starts-with("[") and trimmed.ends-with("]") {
-        let header = trimmed.slice(1, trimmed.len() - 1).trim()
-        if not header.contains(".") {
-          "[\"" + header + "\"]"
-        } else {
-          line
-        }
-      } else {
-        line
-      }
-    })
-    .join("\n")
-}
-
 // Šestice polí společných pro zkratky (short/en/cs/plural/longplural/csplural).
 #let _acronym-fields(key, value) = (
   short: str(value.at("short", default: key)),
@@ -68,13 +45,9 @@
     false
   } else if type(input) == dictionary {
     normalize-glossary-dictionary(input)
-  } else if type(input) == raw {
-    normalize-glossary-dictionary(toml(bytes(normalize-toml-table-headers(input.text))))
-  } else if type(input) == str {
-    normalize-glossary-dictionary(toml(bytes(normalize-toml-table-headers(input))))
   } else {
     // Přímý panic (viz _entry) — v hodnotové pozici by se hláška spolkla.
-    panic("Nepodporovaný formát glosáře / unsupported glossary format.")
+    panic("Glosář předejte jako `toml(\"glossary.toml\")` / pass the glossary as `toml(\"glossary.toml\")`.")
   }
 }
 
@@ -88,18 +61,12 @@
   if result.len() == 0 { false } else { result }
 }
 
-// Zkratka = položka BEZ klíče `glossary`/`symbol` a s jednoslovnou zkratkou.
+// Zkratka = položka BEZ klíče `glossary`/`symbol` (i víceslovná, např. „MO ČR").
 // Položka s klíčem `glossary` je pojem (viz `glossary-to-terms`), položka
 // s klíčem `symbol` je symbol (viz `glossary-to-symbols`) — aby se žádná
-// nezobrazovala ve více seznamech zároveň. Zkratka bez rozvinutého tvaru
-// (jen `short`) je přípustná.
+// nezobrazovala ve více seznamech zároveň.
 #let glossary-to-acronyms(entries) = _entries-to-dict(entries, (key, entry) => {
-  let short = str(entry.at("short", default: key))
-  if (
-    entry.at("glossary", default: none) == none
-      and entry.at("symbol", default: none) == none
-      and not short.contains(" ")
-  ) {
+  if entry.at("glossary", default: none) == none and entry.at("symbol", default: none) == none {
     _acronym-fields(key, entry)
   }
 })

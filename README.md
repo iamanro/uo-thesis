@@ -206,14 +206,14 @@ cs = "nulová důvěra"
 glossary = "Bezpečnostní model, který implicitně nedůvěřuje žádnému prvku sítě."
 ```
 
-- Položka **bez** klíče `glossary` je **zkratka** (SEZNAM ZKRATEK). Při prvním výskytu se rozvine, dále se použije krátký tvar.
+- Položka **bez** klíče `glossary` je **zkratka** (SEZNAM ZKRATEK). `#trm` sází vždy krátký tvar — zkratku při prvním použití zaveď sám přes `style: first`. Krátký tvar (`short`) smí obsahovat mezeru (`MO ČR`).
 - Položka **s** klíčem `glossary` je **pojem** (SEZNAM POJMŮ s definicí).
 
 Pole: `short` (povinné), `en` a `cs` (rozvinutý tvar), `glossary` (definice). Volitelně `plural`, `longplural` (anglický plurál), `csplural` (český plurál).
 
 Použij `acronyms: toml("glossary.toml")`, aby se promítly tvoje úpravy souboru. Hodnota `acronyms: true` načte vestavěný **demo** glosář z balíčku (hodí se jen pro první kompilaci).
 
-V textu používej `#trm("iso")`. Pro množné číslo `#trm("iso", style: plural)`, pro vynucené první (rozvinuté) použití `#trm("iso", style: first)`. Parametr `case` (1–7) určuje český pád, např. `#trm("iso", case: 3)` (jen u zkratek). Seznam zkratek nebo pojmů se vykreslí jen tehdy, když je v dokumentu skutečně použita odpovídající položka.
+V textu používej `#trm("iso")`. Pro množné číslo `#trm("iso", style: plural)`, pro první (rozvinuté) použití `#trm("iso", style: first)`. Parametr `case` (1–7) určuje český pád, např. `#trm("iso", case: 3)` (jen u zkratek). Seznamy zkratek, pojmů a symbolů vypisují všechny položky z `glossary.toml`, ať jsou v textu použité, nebo ne. Parametry `acronyms`, `terms` a `symbols` musí předat tentýž glosář.
 
 ### Bibliografie
 
@@ -251,7 +251,7 @@ Parametr `draft` přepíná režim. **Draft** je pro psaní — vypne titulní s
 
 ### Generované seznamy
 
-Seznam obrázků, tabulek, rovnic, výpisů, zkratek a pojmů se vykreslí jen tehdy, když v dokumentu reálně existují odpovídající položky — i když je příslušná volba v `outlines` nastavena na `true`.
+Seznam obrázků, tabulek, rovnic a výpisů se vykreslí jen tehdy, když v dokumentu reálně existují odpovídající položky; seznam zkratek, pojmů a symbolů, když je glosář obsahuje — i když je příslušná volba v `outlines` nastavena na `true`.
 
 ### Přílohy
 
@@ -618,14 +618,14 @@ cs = "nulová důvěra"
 glossary = "A security model that implicitly trusts no element of the network."
 ```
 
-- An entry **without** a `glossary` key is an **acronym** (LIST OF ACRONYMS). It expands on first use, then the short form is used.
+- An entry **without** a `glossary` key is an **acronym** (LIST OF ACRONYMS). `#trm` always prints the short form — introduce the acronym yourself on first use with `style: first`. The short form (`short`) may contain a space (`MO ČR`).
 - An entry **with** a `glossary` key is a **term** (LIST OF TERMS, with a definition).
 
 Fields: `short` (required), `en` and `cs` (expansion), `glossary` (definition). Optionally `plural`, `longplural` (English plural), `csplural` (Czech plural).
 
 Load the glossary with `acronyms: toml("glossary.toml")` so your edits to the file take effect. `acronyms: true` loads a built-in **demo** glossary from the package (useful only for the first compile).
 
-In text use `#trm("iso")`. For plural `#trm("iso", style: plural)`, for a forced first (expanded) use `#trm("iso", style: first)`. The `case` parameter (1–7) selects the Czech grammatical case, e.g. `#trm("iso", case: 3)` (acronyms only). A list renders only when the document actually uses a matching entry.
+In text use `#trm("iso")`. For plural `#trm("iso", style: plural)`, for the first (expanded) use `#trm("iso", style: first)`. The `case` parameter (1–7) selects the Czech grammatical case, e.g. `#trm("iso", case: 3)` (acronyms only). The lists of acronyms, terms and symbols print every entry in `glossary.toml`, used in the text or not. The `acronyms`, `terms` and `symbols` parameters must pass the same glossary.
 
 ### Bibliography
 
@@ -656,7 +656,7 @@ The `draft` parameter switches modes. **Draft** is for writing — it disables t
 
 ### Generated lists
 
-Lists of figures, tables, equations, listings, acronyms, and terms render only when the document actually contains matching items — even if the corresponding option in `outlines` is `true`.
+Lists of figures, tables, equations and listings render only when the document actually contains matching items; the lists of acronyms, terms and symbols render when the glossary has matching entries — even if the corresponding option in `outlines` is `true`.
 
 ### Appendices
 

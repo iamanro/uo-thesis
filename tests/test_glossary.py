@@ -29,7 +29,7 @@ class GlossaryReferences(unittest.TestCase):
         self.flags = ["--root", str(ROOT), "--font-path", str(ROOT / "template/fonts"),
                       "--ignore-system-fonts"]
 
-    def document(self, body, data=DATA, lists=False, draft=False):
+    def document(self, body, data=DATA, lists=False, draft=False, terms="data"):
         enabled = str(lists).lower()
         self.source.write_text('''#import "../../src/lib.typ": *
 #let data = ''' + data + '''
@@ -37,7 +37,7 @@ class GlossaryReferences(unittest.TestCase):
   lang: "en", faculty: "fvt", draft: ''' + str(draft).lower() + ''',
   twoside: false, vlna: false, declaration: false,
   assignment_front: false, assignment_back: false,
-  acronyms: data, terms: data,
+  acronyms: data, terms: ''' + terms + ''',
   outlines: (headings: false, figures: false, tables: false,
              acronyms: ''' + enabled + ''', terms: ''' + enabled + '''),
 )
@@ -89,6 +89,16 @@ ENDPROBE
         result = self.document('#trm("api")', data=data)
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("Duplicate `short`", result.stderr)
+
+    def test_multi_word_short_is_still_an_acronym(self):
+        data = '(mocr: (short: "MO ČR", cs: "Ministerstvo obrany České republiky"))'
+        result = self.document('#trm("mocr") / #trm("mo čr")', data=data)
+        self.assertEqual(self.body_text(result), "MO ČR / MO ČR")
+
+    def test_different_glossaries_for_acronyms_and_terms_are_rejected(self):
+        result = self.document('#trm("api")', terms='(other: (short: "X", glossary: "Y"))')
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("same glossary", result.stderr)
 
     def test_empty_glossary_reports_unknown_reference(self):
         result = self.document('#trm("missing")', data="(:)")

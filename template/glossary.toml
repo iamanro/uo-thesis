@@ -1,7 +1,7 @@
 # Glosář: zkratky a pojmy v jednom souboru, jedna TOML tabulka na položku.
 #
 # - Položka BEZ klíče `glossary` = zkratka (vykreslí se v SEZNAMU ZKRATEK).
-#   Při prvním výskytu v textu se rozvine, dále se použije krátký tvar.
+#   V textu se sází krátký tvar; první výskyt rozviňte přes #trm("klic", style: first).
 # - Položka S klíčem `glossary` = pojem (vykreslí se v SEZNAMU POJMŮ s definicí).
 #
 # Pole: short (povinné), en a cs (rozvinutý tvar), glossary (definice pojmu).

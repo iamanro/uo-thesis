@@ -59,6 +59,16 @@ verzování dle [SemVer](https://semver.org/lang/cs/).
 - **Odkazy na figury** — za číslem už není mezera navíc („Obrázek 1.1," místo
   „Obrázek 1.1 ,"). Popisky v kapitolách mají mezi číslem a textem jednu
   nezlomitelnou mezeru jako přílohy (dřív dvě), stejně tak seznamy obrázků/tabulek.
+- **Víceslovné zkratky** — položka bez `glossary` s mezerou v `short` (např.
+  `MO ČR`) mizela ze seznamu zkratek a `#trm` hlásil „Neznámý pojem". Nyní je
+  to běžná zkratka.
+- **Jeden glosář** — `acronyms`, `terms` a `symbols` dřív četly jen první
+  předaný zdroj a ostatní tiše ignorovaly; dva různé glosáře teď skončí chybou.
+  Glosář se předává jen jako slovník (`toml("glossary.toml")`) nebo `true`;
+  nedokumentovaný vstup jako řetězec/`raw` byl odstraněn.
+- **Dokumentace glosáře** — README i ukázkový `glossary.toml` už neslibují
+  automatické rozvinutí zkratky při prvním výskytu ani seznamy jen s použitými
+  položkami; ukázková kapitola zavádí zkratky přes `style: first`.
 
 ## [0.4.0] – 2026-07-30
 

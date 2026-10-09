@@ -9,7 +9,6 @@
 #import "runtime.typ": (
   first,
   first-plural,
-  glossary-show,
   plural,
   singular,
   trm,

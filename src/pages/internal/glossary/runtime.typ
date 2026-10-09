@@ -17,10 +17,6 @@
 #import "./lookup.typ": find-key-or-short-case-insensitive, link-to-acronym-entry, link-to-term-entry, panic-unknown-key
 #import "./declension.typ": build-acronym-first-display
 
-// Dříve `make-glossary` z glossaria (show pravidla pro jeho interní figury).
-// Bezstavová verze žádná show pravidla nepotřebuje — identita kvůli API.
-#let glossary-show(body) = body
-
 #let singular = "singular"
 #let plural = "plural"
 #let first = "first"
