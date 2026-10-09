@@ -1,16 +1,51 @@
-# UNOB — Šablona závěrečných prací
+<div align="center">
 
-Oficiální šablona pro psaní bakalářských, diplomových a disertačních prací na Univerzitě obrany v sázecím systému [Typst](https://typst.app/). Šablona pokrývá všechny fakulty (`fvl`, `fvt`, `vlf`, `uo`) a dokáže sázet česky i anglicky.
+# UNOB — šablona závěrečných prací
 
-*(English version below — [jump to English](#unob-thesis-template).)*
+**Oficiální šablona pro bakalářské, diplomové a disertační práce na Univerzitě obrany v&nbsp;[Typstu](https://typst.app/).**<br>
+Všechny fakulty · česky i anglicky · PDF/A a PDF/UA · sazba pod sekundu
 
-> **Návod má dvě části:** **[Základní použití](#základní-použití)** ti stačí k napsání celé práce. **[Pokročilé](#pokročilé)** je referenční příručka — čti ji, jen když budeš chtít něco navíc. Nemusíš mu rozumět, abys mohl začít.
+[![CI](https://github.com/iamanro/uo-thesis/actions/workflows/ci.yml/badge.svg)](https://github.com/iamanro/uo-thesis/actions/workflows/ci.yml) [![Verze](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fiamanro%2Fuo-thesis%2Fmain%2Ftypst.toml&query=%24.package.version&label=verze&color=808205)](CHANGELOG.md) [![Typst](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fiamanro%2Fuo-thesis%2Fmain%2Ftypst.toml&query=%24.package.compiler&label=typst&color=239dad&logo=typst&logoColor=white)](https://typst.app/) [![Licence](https://img.shields.io/badge/licence-MIT-6188cd)](LICENSE)
 
-## Základní použití
+**Česky** · [English](README.en.md)
 
-### 1. Instalace šablony
+<img src=".github/assets/hero.webp" alt="Ukázka vysázené práce: titulní strana, obsah, seznam zkratek a kapitola s tabulkou, rovnicí a výpisem kódu" width="100%">
 
-Šablona je Typst balíček. Dokud není v [Typst Universe](https://typst.app/universe/), instaluje se jako **lokální balíček**: celý repozitář (složka s `typst.toml`) patří do složky lokálních balíčků Typstu.
+[Rychlý start](#rychlý-start) · [Psaní práce](#psaní-práce) · [Reference](#reference) · [Vývoj](#vývoj) · [Licence](#licence)
+
+</div>
+
+---
+
+## Co šablona umí
+
+- 🏛️ **Všechny fakulty a typy prací** — `fvl`, `fvt`, `vlf`, `uo` i varianty s logem Univerzity obrany; bakalářská, diplomová i disertační práce.
+- 🌍 **Česky i anglicky** — titulní strana, nadpisy a seznamy se přeloží samy; čestné prohlášení je vždy česky a jméno vedoucího se skloní do 2. pádu.
+- ⚙️ **Vše v jednom `config.toml`** — metadata a přepínače na jednom místě, překlep v klíči šablona hned ohlásí.
+- 📚 **Glosář, symboly, citace** — `#trm` pro zkratky a pojmy s českými pády, seznam symbolů s jednotkami, ČSN ISO 690.
+- ✅ **Kontrola před odevzdáním** — `submit_check` odmítne ukázkový text, chybějící abstrakt či zadání, obrázky bez `alt` i zapomenutá `#todo`.
+- ♿ **Archivní a přístupné PDF** — PDF/A-3b a PDF/UA-1 jedním přepínačem kompilátoru.
+- ✍️ **Pracovní režim** — široký okraj na poznámky, `#todo` / `#note` viditelné jen v draftu, rychlejší sazba.
+- ⚡ **Rychlá a štíhlá** — ukázková práce se vysází za ~0,25 s; jediné závislosti jsou `vlna` a `codly`.
+
+<div align="center">
+<img src=".github/assets/faculties.webp" alt="Titulní strany pro FVL, FVT, VLF a Univerzitu obrany" width="100%">
+<br><sub>Titulní strana pro <code>fvl</code>, <code>fvt</code>, <code>vlf</code> a <code>uo</code> — logo, název fakulty i město se nastaví samy.</sub>
+</div>
+
+## Rychlý start
+
+> [!NOTE]
+> Dokud šablona není v [Typst Universe](https://typst.app/universe/), instaluje se jako **lokální balíček**: celý repozitář (složka s `typst.toml`) patří do složky lokálních balíčků Typstu.
+
+**1. Nainstaluj šablonu** (Linux):
+
+```bash
+git clone https://github.com/iamanro/uo-thesis.git ~/.local/share/typst/packages/local/unob-thesis/0.1.0
+```
+
+<details>
+<summary>macOS, Windows a instalace bez Gitu</summary>
 
 | Systém | Složka balíčku |
 |---|---|
@@ -18,15 +53,11 @@ Oficiální šablona pro psaní bakalářských, diplomových a disertačních p
 | macOS | `~/Library/Application Support/typst/packages/local/unob-thesis/0.1.0/` |
 | Windows | `%APPDATA%\typst\packages\local\unob-thesis\0.1.0\` |
 
-**Přes Git** (Linux; na macOS/Windows použij cestu z tabulky):
+Bez Gitu: na [stránce repozitáře](https://github.com/iamanro/uo-thesis) klikni na **Code ▸ Download ZIP** a obsah rozbaleného archivu (`typst.toml`, `src/`, `template/`, …) přesuň do složky balíčku z tabulky.
 
-```bash
-git clone https://github.com/iamanro/uo-thesis.git ~/.local/share/typst/packages/local/unob-thesis/0.1.0
-```
+</details>
 
-**Nebo ručně (bez Gitu):** na [stránce repozitáře](https://github.com/iamanro/uo-thesis) klikni na **Code ▸ Download ZIP** a obsah rozbaleného archivu (soubory `typst.toml`, `src/`, `template/`, …) přesuň do složky balíčku z tabulky.
-
-Pak si založ projekt práce — vznikne složka `moje-prace` s `main.typ`, `config.toml`, kapitolami a fonty:
+**2. Založ projekt** — vznikne složka `moje-prace` s `main.typ`, `config.toml`, kapitolami a fonty:
 
 ```bash
 typst init @local/unob-thesis:0.1.0 moje-prace
@@ -34,36 +65,41 @@ typst init @local/unob-thesis:0.1.0 moje-prace
 
 Bez příkazové řádky Typstu stačí zkopírovat obsah složky `template/` do nové složky.
 
-### 2. Otevření a sazba
+**3. Piš a sázej** — vyber si editor:
 
-Práci píšeš v souboru **`main.typ`** ve složce projektu. Otevřít a průběžně sázet ho můžeš dvěma způsoby — vyber si jeden:
+<details open>
+<summary><b>VS Code + Tinymist</b> (lokálně, doporučeno)</summary>
 
-**Varianta A — VS Code + Tinymist (lokálně):**
+1. Nainstaluj [VS Code](https://code.visualstudio.com/) a z Marketplace rozšíření **Tinymist Typst**.
+2. Otevři složku projektu (`File ▸ Open Folder…`).
+3. Nastav volbu `tinymist.fontPaths` na `fonts`, aby se použily přibalené fonty (nebo je nainstaluj systémově — viz Fonty v [Referenci](#reference)).
+4. Otevři `main.typ` a klikni vpravo nahoře na **Preview** — Typst sází živě, jak píšeš.
+5. PDF vyexportuješ příkazem **Typst: Export to PDF** (`Ctrl/Cmd+Shift+P`), z příkazové řádky `typst compile --font-path fonts main.typ`.
 
-1. Nainstaluj [VS Code](https://code.visualstudio.com/) a v něm z Marketplace rozšíření **Tinymist Typst**.
-2. Ve VS Code zvol `File ▸ Open Folder…` a otevři složku projektu (`moje-prace`).
-3. Aby se použily přibalené fonty, nastav ve VS Code volbu `tinymist.fontPaths` na `fonts` (nebo si fonty nainstaluj systémově — viz [Fonty](#fonty)).
-4. Otevři `main.typ` a vpravo nahoře klikni na ikonu náhledu (**Preview**) — Typst sází živě, jak píšeš.
-5. Hotové PDF vyexportuješ příkazem **Typst: Export to PDF** (`Ctrl/Cmd+Shift+P`), z příkazové řádky `typst compile --font-path fonts main.typ`.
+</details>
 
-**Varianta B — Typst Web App (v prohlížeči, bez instalace):**
+<details>
+<summary><b>Typst Web App</b> (v prohlížeči, bez instalace)</summary>
 
 Webová aplikace lokální balíčky (`@local/…`) nevidí, proto do projektu nahraješ i zdrojový kód šablony:
 
-1. Přihlaš se na [typst.app](https://typst.app/) a vytvoř nový prázdný projekt (**Empty project**).
-2. Z repozitáře přetáhni do projektu **obsah složky `template/`** (včetně `fonts/`) a vedle něj **složku `src/`**.
+1. Na [typst.app](https://typst.app/) vytvoř prázdný projekt (**Empty project**).
+2. Z repozitáře přetáhni **obsah složky `template/`** (včetně `fonts/`) a vedle něj **složku `src/`**.
 3. V `main.typ` nahraď `"@local/unob-thesis:0.1.0"` za `"src/lib.typ"` a v souborech v `chapters/` za `"../src/lib.typ"`.
-4. Otevři `main.typ`; sází se rovnou v prohlížeči. Hotové PDF stáhneš tlačítkem **Download PDF**.
+4. Otevři `main.typ`; PDF stáhneš tlačítkem **Download PDF**.
 
-> Až bude šablona zveřejněná v [Typst Universe](https://typst.app/universe/), půjde projekt založit i jediným příkazem `typst init @preview/unob-thesis` — viz [Pokročilé](#pokročilé).
+</details>
 
-### 3. Příklad — `config.toml` a `main.typ`
+> [!TIP]
+> Až bude šablona v Typst Universe, projekt založíš jediným příkazem `typst init @preview/unob-thesis` — bez instalace.
 
-Metadata práce vyplňuješ v souboru **`config.toml`**:
+## Psaní práce
+
+Metadata vyplňuješ v **`config.toml`**, text v samostatných souborech:
 
 ```toml
 lang    = "cs"
-faculty = "fvl"        # fvl | fvt | vlf | uo
+faculty = "fvl"        # fvl | fvt | vlf | uo; s logem UO: uo-fvl | uo-fvt | uo-vlf
 
 [thesis]
 type  = "master"       # bachelor | master | doctoral
@@ -72,7 +108,7 @@ title = "Název práce"
 [author]
 name    = "Jan"
 surname = "Novák"
-sex     = "M"
+sex     = "M"          # M | F — rodové tvary (Zpracoval/Zpracovala…)
 
 [supervisor]
 name    = "Jana"
@@ -84,7 +120,7 @@ czech   = "první, druhé, třetí"
 english = "first, second, third"
 ```
 
-`main.typ` je pevná kostra — běžně ho neupravuješ (jen přidáš `#include` nové kapitoly). Konfiguraci načte a text vloží ze souborů:
+**`main.typ`** je pevná kostra — běžně do ní jen přidáš `#include` nové kapitoly:
 
 ```typ
 #import "@local/unob-thesis:0.1.0": *
@@ -110,101 +146,100 @@ english = "first, second, third"
 #conclusion[#include "chapters/99-conclusion.typ"]
 ```
 
-### 4. Jak ho vyplnit
-
-- **Metadata** (fakulta, typ a název práce, osoby, klíčová slova, přepínače) vyplň v **`config.toml`** — každý klíč má komentář. Překlep v klíči šablona okamžitě ohlásí.
-- **`sex`** (`"M"` / `"F"`) je potřeba, aby se správně skloňovaly tvary v čestném prohlášení.
-- **Text práce** piš do souborů v `chapters/` — nadpisy kapitol přes `=`, podkapitoly přes `==`, `===`.
-- **Zkratky, pojmy a symboly** dej do `glossary.toml`; v textu je vkládej přes `#trm("iso")`.
-- **Zdroje (literaturu)** dej do `references.bib`; cituj přes `@klíč`.
-- **Abstrakt a poděkování** piš do souborů ve `front/`.
-- **Přílohy** piš do souboru `appendix.typ`.
-
-To je vše, co potřebuješ k napsání práce. Další volby (barvy, více bibliografií, ruční skloňování, kontrola před odevzdáním…) najdeš níže v části **[Pokročilé](#pokročilé)**.
-
----
-
-### 5. Struktura projektu
-
-Metadata jsou v `config.toml`, próza v samostatných souborech vkládaných přes `#include`:
+| Co | Kam |
+|---|---|
+| Metadata a přepínače (fakulta, typ, název, osoby, klíčová slova) | `config.toml` — každý klíč má komentář |
+| Text kapitol (`=` kapitola, `==` / `===` podkapitoly) | `chapters/*.typ` |
+| Abstrakty a poděkování | `front/*.typ` |
+| Zkratky, pojmy a symboly — v textu `#trm("iso")` | `glossary.toml` |
+| Literatura — v textu `@klíč` | `references.bib` |
+| Přílohy | `appendix.typ` |
 
 ```
-config.toml         metadata a přepínače práce
-main.typ            načtení configu + obsahové části + #include kapitol
-glossary.toml       zkratky, pojmy, symboly
-references.bib      zdroje
-front/              abstract-cs.typ, abstract-en.typ, acknowledgement.typ
-chapters/           00-introduction.typ, 01-theory.typ, …, 99-conclusion.typ
-appendix.typ        přílohy
+moje-prace/
+├── config.toml       metadata a přepínače práce
+├── main.typ          kostra: načtení configu, úvodní části, #include kapitol
+├── glossary.toml     zkratky, pojmy, symboly
+├── references.bib    zdroje
+├── front/            abstract-cs.typ, abstract-en.typ, acknowledgement.typ
+├── chapters/         00-introduction.typ, 01-theory.typ, …, 99-conclusion.typ
+├── appendix.typ      přílohy
+└── fonts/            TeX Gyre (Termes, Termes Math, Cursor)
 ```
 
-Úvodní části se předávají parametry `acknowledgement`, `abstract` a `introduction` v `unob-thesis.with(...)`, závěr helperem `#conclusion[#include "chapters/99-conclusion.typ"]` na konci `main.typ`. V souborech kapitol importuj pomocné funkce **z balíčku** (`#import "@local/unob-thesis:0.1.0": trm, flex-caption`), ne z `src/…`.
+V souborech kapitol importuj pomocné funkce **z balíčku** (`#import "@local/unob-thesis:0.1.0": trm, flex-caption`), ne z `src/…`. Novou kapitolu přidej řádkem `#include` v `main.typ` před `#conclusion[…]`.
 
-## Pokročilé
+> [!IMPORTANT]
+> Před odevzdáním zapni v `config.toml` **`submit_check = true`** a nech `draft = false`. Šablona odmítne ukázkový obsah, chybějící abstrakt, úvod, zadání či klíčová slova, obrázky bez `alt` textu a zbylá `#todo`.
 
-Referenční příručka pro pokročilejší úpravy. Pro běžné psaní ji nepotřebuješ.
+## Reference
 
-### Konfigurace
+<details>
+<summary><b>Parametry šablony</b></summary>
 
-Metadata práce se čtou z `config.toml` přes `thesis-config()` (`#show: unob-thesis.with(..thesis-config(toml("config.toml")), …)`). Všechny parametry lze zadat i inline přímo v `unob-thesis.with(...)` — inline hodnota uvedená za spreadem má přednost. Obsahové parametry (`abstract`, `introduction`, `bibliography`, `appendix`, …) se zadávají vždy v `main.typ`.
+Metadata se čtou z `config.toml` přes `thesis-config()`. Všechny parametry lze zadat i přímo v `unob-thesis.with(...)` — hodnota uvedená za spreadem má přednost. Obsahové parametry (`abstract`, `introduction`, `bibliography`, `appendix`, …) se zadávají vždy v `main.typ`.
 
 | Parametr | Typ / hodnoty | Výchozí | Popis |
 |---|---|---|---|
 | `lang` | `"cs"` \| `"en"` | `"cs"` | Jazyk dokumentu |
-| `draft` | bool | `false` | Pracovní režim (viz [Draft a final](#draft-a-final)) |
+| `draft` | bool | `false` | Pracovní režim (viz Draft a final níže) |
 | `faculty` | `"fvl"` \| `"fvt"` \| `"vlf"` \| `"uo"` \| `"uo-fvl"` \| `"uo-fvt"` \| `"uo-vlf"` | `"uo"` | Fakulta; varianty `uo-*` = fakulta s logem Univerzity obrany |
-| `programme` | obsah / string | `[]` | Studijní program |
-| `specialisation` | obsah / string | `[]` | Studijní specializace (u doktorského studia se popisek sází jako „Zaměření studia") |
+| `programme` | obsah / řetězec | `[]` | Studijní program |
+| `specialisation` | obsah / řetězec | `[]` | Studijní specializace (u disertace se sází jako „Zaměření studia") |
 | `thesis` | `(type, title)` | — | `type`: `"bachelor"` \| `"master"` \| `"doctoral"` |
 | `author` | `person(...)` | — | Autor práce |
 | `supervisor` | `person(...)` | — | Vedoucí / školitel |
 | `first_advisor` | `person(...)` | prázdný | Odborný konzultant |
 | `second_advisor` | `person(...)` | prázdný | Školitel-specialista (jen u disertace) |
-| `assignment_front` | `none` \| obsah | `none` | Líc zadání — sken či export: png, jpg/jpeg i pdf, např. `image("zadani-1.pdf")` |
-| `assignment_back` | `none` \| obsah | `none` | Rub zadání |
+| `assignment_front` | `none` \| `false` \| obsah | `none` | Líc zadání — sken či export png/jpg/pdf, např. `image("zadani-lic.pdf", alt: "Zadání práce")`; `none` = místo pro zadání, `false` = bez strany |
+| `assignment_back` | `none` \| `false` \| obsah | `none` | Rub zadání |
 | `acknowledgement` | `false` \| obsah | `false` | Poděkování |
 | `declaration` | bool | `true` | Čestné prohlášení |
-| `ai_used` | bool | `false` | Prohlášení o použití AI |
-| `acronyms` | `false` \| `true` \| slovník | `false` | Zkratky (viz [Glosář](#glosář)) |
-| `terms` | `false` \| `true` \| slovník | `false` | Pojmy |
+| `ai_used` | bool | `false` | Odstavec o použití AI v prohlášení |
 | `abstract` | `(czech, english)` | prázdné | Abstrakty |
-| `keywords` | `(czech, english)` | prázdné | Klíčová slova |
+| `keywords` | `(czech, english)` | prázdné | Klíčová slova (řetězce oddělené čárkou) |
 | `introduction` | obsah | `[]` | Úvod |
+| `acronyms` / `terms` / `symbols` | `false` \| `true` \| slovník | `false` | Glosář (viz Glosář níže); všechny tři musí předat tentýž glosář |
 | `outlines` | slovník | viz níže | Generované seznamy |
-| `theme` | slovník | viz níže | Barevné přepínače |
+| `theme` | slovník | viz níže | Barvy |
 | `bibliography` | `none` \| `bibliography(...)` \| pole | `none` | Bibliografie |
 | `appendix` | `none` \| obsah | `none` | Přílohy |
 | `submit_check` | bool | `false` | Přísná kontrola před odevzdáním |
-| `symbols` | `false` \| slovník \| `true` | `false` | Symboly do Seznamu symbolů (viz `glossary.toml`) |
-| `vlna` | bool \| `auto` | `auto` | Nezlomitelné mezery; `auto` = zapnuto ve final, vypnuto v draftu (rychlejší psaní) |
-| `fancy_heading` | bool | `false` | Běžné („živé") záhlaví s názvem kapitoly |
-| `twoside` | bool | `true` | Oboustranný tisk (kapitoly na liché straně, vakáty); `false` = elektronická verze bez prázdných stran |
+| `vlna` | bool \| `auto` | `auto` | Nezlomitelné mezery; `auto` = zapnuto ve final, vypnuto v draftu |
+| `fancy_heading` | bool | `false` | Živé záhlaví s názvem kapitoly |
+| `twoside` | bool | `true` | Oboustranný tisk (kapitoly na liché straně, vakáty); `false` = elektronická verze |
 
-`outlines` (každý klíč bool): `headings`, `acronyms`, `terms`, `symbols`, `figures`, `tables`, `equations`, `listings`.
+- `outlines` (bool): `headings`, `acronyms`, `terms`, `symbols`, `figures`, `tables`, `equations`, `listings`.
+- `theme`: `color` (hlavní vypínač barev), `links_colored`, `faculty_colored`, `faculty_color` (vlastní hex nebo `none`), `link_color`.
+- `person(prefix, name, surname, suffix, sex, genitive)`: `sex` je `"M"`, `"F"` nebo `none` (pak mužské tvary); `genitive` je ruční 2. pád celého jména pro prohlášení.
 
-`theme`: `color` (hlavní vypínač barev), `links_colored`, `faculty_colored`, `faculty_color` (vlastní barva nebo `none`), `link_color`.
+</details>
 
-`person(prefix, name, surname, suffix, sex, genitive)`: `sex` je `"M"`, `"F"` nebo `none` (pro `none` se použijí mužské tvary); `genitive` je volitelný ruční 2. pád celého jména pro čestné prohlášení.
-
-### Veřejné API
+<details>
+<summary><b>Veřejné API</b></summary>
 
 Balíček (`src/lib.typ`) exportuje:
 
-- `unob-thesis`: hlavní šablona pro `#show`.
-- `person(...)`: konfigurace autora, vedoucího a konzultantů.
-- `thesis-config(...)`: převod slovníku z `toml("config.toml")` na parametry šablony (osoby obalí přes `person`, překlep v klíči ohlásí).
-- `conclusion[...]`: závěr práce (lokalizovaný nečíslovaný nadpis + obsah).
-- `trm("klic", style: ..., case: ...)`: vložení zkratky nebo pojmu z glosáře.
-- `singular`, `plural`, `first`, `first-plural`: styly pro `trm(...)`.
-- `appendix[...]`: low-level helper pro přílohy (běžně stačí parametr `appendix`).
-- `flex-caption(...)`: dvojí popisek figury (dlouhý pod objektem, krátký v seznamech).
-- `todo[...]`, `note[...]`: autorské poznámky viditelné jen v draftu (`todo` blokuje `submit_check`).
-- `landscape[...]`: otočí širokou tabulku/obrázek o 90° na stojaté straně (číslo strany i záhlaví zůstávají v normální poloze); obsah se musí vejít na jednu stranu.
-- `vlna-on()`, `vlna-off()`, `vlna-debug-on()`, `vlna-debug-off()`: přepínání nezlomitelných mezer v části textu.
+| Funkce | Účel |
+|---|---|
+| `unob-thesis` | Hlavní šablona pro `#show` |
+| `thesis-config(...)` | Převod `toml("config.toml")` na parametry šablony (osoby obalí přes `person`, překlep v klíči ohlásí) |
+| `person(...)` | Autor, vedoucí, konzultanti |
+| `conclusion[...]` | Závěr práce (lokalizovaný nečíslovaný nadpis + obsah) |
+| `trm("klic", style:, case:, display:)` | Zkratka nebo pojem z glosáře |
+| `singular`, `plural`, `first`, `first-plural` | Styly pro `trm` |
+| `flex-caption(dlouhý, krátký)` | Dlouhý popisek pod figurou, krátký v seznamech |
+| `todo[...]`, `note[...]` | Poznámky viditelné jen v draftu (`todo` blokuje `submit_check`) |
+| `landscape[...]` | Otočí širokou tabulku/obrázek o 90° na stojaté straně; obsah se musí vejít na jednu stranu |
+| `appendix[...]` | Nízkoúrovňový režim příloh (běžně stačí parametr `appendix`) |
+| `vlna-on()`, `vlna-off()`, `vlna-debug-on()`, `vlna-debug-off()` | Přepínání nezlomitelných mezer v části textu |
 
-### Glosář
+</details>
 
-Zkratky i pojmy jsou v jednom souboru `glossary.toml`, jedna TOML tabulka na položku:
+<details>
+<summary><b>Glosář</b></summary>
+
+Zkratky, pojmy i symboly jsou v jednom `glossary.toml`, jedna TOML tabulka na položku:
 
 ```toml
 [iso]
@@ -216,26 +251,36 @@ cs = "Mezinárodní organizace pro standardizaci"
 short = "Zero Trust"
 cs = "nulová důvěra"
 glossary = "Bezpečnostní model, který implicitně nedůvěřuje žádnému prvku sítě."
+
+[rho]
+symbol = "rho"
+symbol_alt = "ró, hustota"
+unit = "kg m^(-3)"
+unit_alt = "kilogram na metr krychlový"
+cs = "hustota"
 ```
 
-- Položka **bez** klíče `glossary` je **zkratka** (SEZNAM ZKRATEK). `#trm` sází vždy krátký tvar — zkratku při prvním použití zaveď sám přes `style: first`. Krátký tvar (`short`) smí obsahovat mezeru (`MO ČR`).
-- Položka **s** klíčem `glossary` je **pojem** (SEZNAM POJMŮ s definicí).
+- Položka **bez** `glossary` je **zkratka** (SEZNAM ZKRATEK); `short` smí obsahovat mezeru (`MO ČR`).
+- Položka **s** `glossary` je **pojem** (SEZNAM POJMŮ s definicí).
+- Položka se `symbol` je **symbol** (SEZNAM SYMBOLŮ, sází se matematicky); `unit` je jednotka.
+- Pole: `short`, `en` a `cs` (rozvinutý tvar), volitelně `plural`, `longplural` (anglický plurál), `csplural` (český plurál). Pro PDF/UA doplň u symbolů `symbol_alt` a `unit_alt` — šablona popisy nevymýšlí.
 
-Pole: `short` (povinné), `en` a `cs` (rozvinutý tvar), `glossary` (definice). Volitelně `plural`, `longplural` (anglický plurál), `csplural` (český plurál).
+V textu: `#trm("iso")` sází vždy krátký tvar. Klíč se hledá přesně, pak bez ohledu na velikost písmen a nakonec podle `short`; neznámý klíč ohlásí podobné položky. Zkratku při prvním použití zaveď sám přes `#trm("iso", style: first)`; množné číslo `style: plural`, český pád `case: 1–7` (jen zkratky), vlastní skloňovaný tvar `display: [normy ISO]`. Seznamy vypisují všechny položky z `glossary.toml`, ať jsou v textu použité, nebo ne.
 
-Použij `acronyms: toml("glossary.toml")`, aby se promítly tvoje úpravy souboru. Hodnota `acronyms: true` načte vestavěný **demo** glosář z balíčku (hodí se jen pro první kompilaci).
+Předávej `acronyms: toml("glossary.toml")`, aby se projevily tvé úpravy; `acronyms: true` načte jen demo glosář z balíčku.
 
-V textu používej `#trm("iso")`. Pro množné číslo `#trm("iso", style: plural)`, pro první (rozvinuté) použití `#trm("iso", style: first)`. Parametr `case` (1–7) určuje český pád, např. `#trm("iso", case: 3)` (jen u zkratek). Seznamy zkratek, pojmů a symbolů vypisují všechny položky z `glossary.toml`, ať jsou v textu použité, nebo ne. Parametry `acronyms`, `terms` a `symbols` musí předat tentýž glosář.
+</details>
 
-### Bibliografie
+<details>
+<summary><b>Bibliografie</b></summary>
 
-Bibliografie je nativní Typst `bibliography(...)` předaná do konfigurace. Styl `iso-690-numeric` odpovídá ČSN ISO 690 a je vestavěný (nevyžaduje soubor CSL):
+Nativní Typst `bibliography(...)`. Styl `iso-690-numeric` odpovídá ČSN ISO 690 a je vestavěný:
 
 ```typ
 bibliography: bibliography("references.bib", style: "iso-690-numeric", full: true)
 ```
 
-Lze předat i pole a rozdělit zdroje do více seznamů s vlastními nadpisy, případně použít vlastní CSL:
+Více seznamů s vlastními nadpisy (případně vlastní CSL):
 
 ```typ
 bibliography: (
@@ -244,494 +289,89 @@ bibliography: (
 )
 ```
 
-Pro vypnutí použij `bibliography: none`.
+Vypnutí: `bibliography: none`.
 
-### Skloňování jména vedoucího
+</details>
 
-Čestné prohlášení je vždy v češtině a jméno vedoucího se skloňuje do 2. pádu automaticky. Pokud heuristika jméno skloní špatně, zadej správný tvar ručně:
+<details>
+<summary><b>Skloňování jména vedoucího</b></summary>
 
-```typ
-supervisor: person(
-  name: "Jan", surname: "Kadlec", sex: "M",
-  genitive: "Jana Kadlece",
-)
-```
-
-### Draft a final
-
-Parametr `draft` přepíná režim. **Draft** je pro psaní — vypne titulní stranu a úvodní sazbu a zapne širší okraje. **Final** je odevzdávaná verze s kompletní titulní stranou, prohlášením, seznamy atd. Číslování stránek začíná od 1 na první číslované straně (OBSAH).
-
-### Generované seznamy
-
-Seznam obrázků, tabulek, rovnic a výpisů se vykreslí jen tehdy, když v dokumentu reálně existují odpovídající položky; seznam zkratek, pojmů a symbolů, když je glosář obsahuje — i když je příslušná volba v `outlines` nastavena na `true`.
-
-### Přílohy
-
-Přílohy se předávají jako obsah:
+Čestné prohlášení je vždy česky a jméno vedoucího se skloňuje do 2. pádu automaticky. Když heuristika selže, zadej tvar ručně — v `config.toml` jako `genitive = "Jana Kadlece"`, inline takto:
 
 ```typ
-appendix: [#include "appendix.typ"]
+supervisor: person(name: "Jan", surname: "Kadlec", sex: "M", genitive: "Jana Kadlece")
 ```
 
-Pokud přílohy neobsahují žádný H1 nadpis (`= Název přílohy`), nevykreslí se ani `SEZNAM PŘÍLOH`. Jednotlivé přílohy jsou v PDF záložkách, ale v hlavním obsahu je pouze `SEZNAM PŘÍLOH`.
+</details>
 
-### Fonty
+<details>
+<summary><b>Draft a final, seznamy, přílohy</b></summary>
 
-Šablona používá rodinu **TeX Gyre**, která je přibalená ve složce `fonts/` projektu (v repozitáři `template/fonts/`):
+**Draft a final.** `draft: true` je pro psaní: bez titulní strany a úvodních částí, široký pravý okraj na poznámky, viditelná `#todo` / `#note`, rychlejší sazba. **Final** je odevzdávaná verze s titulní stranou, prohlášením a seznamy. Čísla stran se tisknou od OBSAHU; počítají se ale od titulní strany, aby lichá čísla zůstala na lících.
 
-- `TeX Gyre Termes` — hlavní text
-- `TeX Gyre Termes Math` — matematická sazba
-- `TeX Gyre Cursor` — kód a výpisy
+**Generované seznamy.** Seznamy obrázků, tabulek, rovnic a výpisů se vysází, jen když dokument odpovídající položky obsahuje; seznamy zkratek, pojmů a symbolů, když je obsahuje glosář — i při `outlines.*: true`.
 
-Ve webové aplikaci se fonty načtou automaticky. Lokálně předej složku přes `--font-path fonts` (v repozitáři `template/fonts`), nebo si fonty nainstaluj systémově (pak `--font-path` není potřeba). Kompletní rodinu lze stáhnout z [CTAN](https://mirrors.ctan.org/fonts/tex-gyre.zip).
+**Přílohy.** Předávají se jako obsah: `appendix: [#include "appendix.typ"]`. Každá příloha (`= Název`) začíná na nové straně, stránky i figury se číslují `A–1`, rovnice `(A–1)`. Figury příloh nejsou v seznamech obrázků a tabulek. Bez H1 nadpisu se nevysází ani SEZNAM PŘÍLOH; v hlavním obsahu je jen SEZNAM PŘÍLOH, jednotlivé přílohy jsou v záložkách PDF.
 
-### Výkon a regresní kontroly
+</details>
 
-Při lokální kompilaci velké práce vyzkoušej `--jobs 8` u `typst compile`
-nebo `typst watch` místo automatického počtu vláken. Na měřeném 32vláknovém
-Ryzen AI MAX+ PRO 395 byl nižší počet vláken rychlejší; nejde o univerzální
-výchozí hodnotu. Porovnávej opakované běhy stejného dokumentu, se stejnými
-fonty a zahřátou cache balíčků. Pro psaní používej `draft: true`; před
-odevzdáním vždy ověř finální sazbu. Vypnutí vlny mění typografii, není to
-bezeztrátová optimalizace.
+<details>
+<summary><b>Fonty</b></summary>
 
-Měření indexovaného glosáře a sjednocených importů (26. 9. 2026, Typst 0.15.1,
-vlna 0.3.0, syntetická práce o 300 stranách, 200 definic a 2 152 odkazů glosáře):
+Šablona používá rodinu **TeX Gyre**, přibalenou ve složce `fonts/` projektu (v repozitáři `template/fonts/`): `TeX Gyre Termes` (text), `TeX Gyre Termes Math` (matematika), `TeX Gyre Cursor` (kód).
 
-| Vlákna | Před změnou, medián | Po změně, medián | Pokles času | Špičková RAM, medián |
-| --- | ---: | ---: | ---: | ---: |
-| 8 | 5,08 s | 4,89 s | 3,7 % | 766 → 736 MiB |
-| 32 | 6,93 s | 6,78 s | 2,2 % | 771 → 741 MiB |
+Ve webové aplikaci se fonty z projektu načtou samy. Lokálně předej `--font-path fonts`, nebo fonty nainstaluj systémově. Celou rodinu najdeš na [CTAN](https://mirrors.ctan.org/fonts/tex-gyre.zip).
 
-Sedm prokládaných párů na konfiguraci, zahřívací běhy nezapočteny; stejné fonty,
-verze balíčků a čas vytvoření. Výsledné PDF bylo bajtově shodné. Jde o malé
-zlepšení na sdílené pracovní stanici, nikoli záruku pro jiné práce. Odstavcový
-wrapper zůstává: jeho odstranění mění stránkování u hranic stran.
+</details>
 
-Glosář při inicializaci vytváří indexy klíčů a krátkých názvů; `#trm` zachovává
-přednost přesného klíče, pak klíče bez rozlišení velikosti a nakonec `short`.
-Kontroly veřejného rozhraní (glosář: vyhledání, kolize, neznámé položky a odkazy
-podle dostupnosti seznamů; `submit_check`; skloňování jména vedoucího) spustíš
-z kořene repozitáře:
+<details>
+<summary><b>Vzhled a typografie (<code>src/config.toml</code>)</b></summary>
 
-```bash
-python3 -m unittest discover -s tests -v
-```
-
-Vyžadují Python 3, Typst a `pdftotext` (Poppler). Proměnná `TYPST` může určit
-cestu ke konkrétní binárce. Testy sestavují skutečné PDF v dočasných adresářích
-a po doběhnutí je odstraní.
-
-Pro ruční náhled úprav šablony propoj repozitář jako lokální balíček (Linux)
-a sázej ukázkový projekt v `template/`:
-
-```bash
-mkdir -p ~/.local/share/typst/packages/local/unob-thesis
-ln -sfn "$PWD" ~/.local/share/typst/packages/local/unob-thesis/0.1.0
-typst watch --font-path template/fonts template/main.typ
-```
-
-### CI/CD na GitHubu
-
-Workflow **Typst CI** (`.github/workflows/ci.yml`) běží pro pull requesty,
-změny na `main` a ruční spuštění. Používá Ubuntu 24.04, verzi Typstu z
-`package.compiler` v `typst.toml`, ověřený SHA-256 oficiální binárky a pouze
-bundlované fonty. GitHub Actions jsou připnuté na konkrétní commity; CI má
-jen právo číst repozitář a cache obsahuje pouze stažené Typst balíčky.
-
-Kontroluje regresní testy šablony i distribuce a **skutečnou instalaci přes
-`typst init @local/…` z vytvořeného archivu**. Sestavuje sedm profilů šablony
-(CS/EN, final/draft, všech sedm variant fakulty, jednostranná i oboustranná
-sazba, živé záhlaví) a navíc exporty PDF/A-3b a PDF/UA-1. Varování kompilátoru
-jsou chyba. Artefakt `typst-dist` se uchovává 14 dní: PDF, distribuční
-`unob-thesis-<verze>.tar.gz`, `build-info.json` a `SHA256SUMS`.
-
-Lokální ekvivalent (Python 3.12+, Git a Poppler; instalátor je pro Linux x86_64):
-
-```bash
-bash scripts/install-typst.sh /tmp/unob-typst
-TYPST=/tmp/unob-typst/typst python3 scripts/ci.py check --output dist
-(cd dist && sha256sum --check --strict SHA256SUMS)
-```
-
-Výstupní adresář musí být prázdný. Archiv obsahuje jen verzované soubory
-`src/`, `template/` a vybrané kořenové soubory včetně licencí; nové soubory
-před lokální kontrolou přidej pomocí `git add`. Při změně verze kompilátoru
-aktualizuj také ověřený checksum v `scripts/install-typst.sh`.
-
-**Vydání:** po změně `package.version` a odpovídajících importů šablony
-vytvoř a pushni tag `v<package.version>`. Workflow **Typst release** znovu
-provede celou kontrolu přes sdílený CI workflow; jiný tag odmítne. Teprve
-poté job s `contents: write` ověří checksumy a založí GitHub Release s přesně
-otestovanými artefakty. Existující vydání nepřepisuje. Není potřeba PAT ani
-jiný vlastní secret; používá omezený `GITHUB_TOKEN`. Do Typst Universe se
-nic automaticky nepublikuje.
-
-PDF/UA vyžaduje u symbolů přirozený slovní popis `symbol_alt` a u jednotek
-`unit_alt`, například `symbol_alt = "ró, hustota"` a
-`unit_alt = "kilogram na metr krychlový"`. Šablona je předá do alternativního
-textu matematických prvků; nevymýšlí popisy za autora. Úspěšný export Typstem
-nenahrazuje nezávislé ověření přístupnosti (např. veraPDF a kontrolu čtečkou).
-
-### Vzhled a typografie (`src/config.toml`)
-
-Veškeré laditelné hodnoty sazby jsou na jednom místě v [`src/config.toml`](src/config.toml) — velikosti nadpisů (H1–H4), písma (text, matematika, kód), řádkování a odsazení odstavce, okraje stránky, sazba tabulek, titulní strana a barvy fakult. Styly v `src/styling/*` je čtou přes `src/config.typ`, takže úprava vzhledu nevyžaduje zásah do Typst kódu.
-
-Délky se zapisují jako řetězec s jednotkou (`"12pt"`, `"0.7em"`, `"35mm"`, `"47%"`; jednotky `pt`, `mm`, `cm`, `in`, `em`, `%`). Například zvětšení nadpisů kapitol:
+Všechny laditelné hodnoty sazby jsou v [`src/config.toml`](src/config.toml): velikosti nadpisů, písma, řádkování, odsazení, okraje, tabulky, titulní strana a barvy fakult. Délky se píšou jako řetězec s jednotkou (`"12pt"`, `"0.7em"`, `"35mm"`, `"47%"`):
 
 ```toml
 [heading]
 h1_size = "16pt"
 ```
 
-Sekce `[faculty]` obsahuje oficiální barvy fakult — neměň je bez svolení Univerzity obrany (viz `NOTICE`).
+Sekce `[faculty]` obsahuje oficiální barvy fakult — neměň je bez svolení Univerzity obrany (viz [`NOTICE`](NOTICE)).
 
-### Doporučené doplňkové balíčky
+</details>
 
-Šablona záměrně neexportuje vlastní boxy, callout bloky ani kreslicí nástroje. Pokud potřebuješ víc, použij balíčky z Typst Universe a importuj je přímo v práci (ne v jádru šablony): `@preview/showybox`, `@preview/frame-it`, `@preview/cetz`, `@preview/fletcher`, `@preview/physica`, `@preview/zero`, `@preview/subpar`.
+<details>
+<summary><b>Doplňkové balíčky</b></summary>
 
-> **NEimportuj `@preview/vlna`.** Nezlomitelné mezery řeší šablona sama na celém
-> dokumentu (`@preview/vlna:0.3.0`, jediná verze určená v
-> `src/styling/packages.typ`). Když balíček
-> naimportuješ a zavoláš `#show: apply-vlna` ve svém `main.typ`, pravidla se
-> aplikují **dvakrát** — výsledek je stejný, ale kompilace se výrazně zpomalí
-> (měřeno na reálné 544stránkové disertaci: **7,9 s → 11,2 s wall, tj. +42 %**). Pro vypnutí vlny v části textu použij `#vlna-off()` / `#vlna-on()`,
-> které šablona exportuje.
+Šablona záměrně neexportuje boxy, callouty ani kreslicí nástroje. Když potřebuješ víc, importuj balíčky z Typst Universe přímo v práci: `@preview/showybox`, `@preview/frame-it`, `@preview/cetz`, `@preview/fletcher`, `@preview/physica`, `@preview/zero`, `@preview/subpar`.
 
-### Dobrá praxe a přístupnost
+> [!WARNING]
+> **Neimportuj `@preview/vlna`.** Nezlomitelné mezery řeší šablona sama (`@preview/vlna:0.3.0` v `src/styling/packages.typ`). Druhé `#show: apply-vlna` aplikuje pravidla dvakrát — výsledek je stejný, ale kompilace se zpomalí (544stránková disertace: 7,9 s → 11,2 s). Pro část textu použij `#vlna-off()` / `#vlna-on()`.
 
-- Zkratky a pojmy drž v `glossary.toml` a používej je konzistentně.
-- Preferuj vektorovou grafiku (`.svg`) a před odevzdáním optimalizuj větší obrázky.
-- Před finálním odevzdáním vygeneruj final PDF a zkontroluj seznamy, reference i úvodní části.
-- Pro přísnější validaci zapni `submit_check: true`.
-- Nahraď veškerý ukázkový obsah (text, reference, glosář, metadata) vlastním.
-- **Přístupnost (PDF/UA):** u vkládaných obrázků vždy doplň `alt` text — zejména u skenu zadání, např. `assignment_front: image("zadani.png", alt: "Zadání práce")`. Šablona sama nastavuje jazyk dokumentu, metadata (`title`, `author`, …) a `alt` u log; `alt` u vlastního obsahu musíš doplnit ty. Typst navíc ve výchozím stavu exportuje otagované (tagged) PDF, což je základ přístupnosti.
-- **Symboly:** položky glosáře s klíčem `symbol` (a `unit`) se vysází do Seznamu symbolů (`symbols: ...`, `outlines.symbols: true`).
-- **Autorské pomůcky:** `#todo[...]` a `#note[...]` jsou vidět jen v draftu; `#landscape[...]` otočí širokou tabulku/obrázek o 90° na stojaté straně. `submit_check: true` odmítne zbylá `#todo`.
-- **Archivní/přístupné PDF:** `typst compile --pdf-standard a-3b,ua-1 main.typ` (PDF/A-3b + PDF/UA-1). Před odevzdáním ověř shodu se standardem nástrojem [veraPDF](https://verapdf.org/) (profil PDF/A + PDF/UA se vybere automaticky podle metadat souboru).
-- **Elektronická vs. tištěná verze:** pro odevzdávané elektronické PDF můžeš vypnout vakáty `twoside: false`; tištěná verze zůstává `twoside: true`.
+</details>
 
-### Licence
+<details>
+<summary><b>Dobrá praxe a přístupnost</b></summary>
 
-Zdrojový kód šablony je licencován pod **MIT** (viz `LICENSE`).
+- Nahraď veškerý ukázkový obsah (text, reference, glosář, metadata) vlastním a před odevzdáním zapni `submit_check`.
+- **Přístupnost (PDF/UA):** u každého obrázku doplň `alt`, zejména u skenu zadání: `assignment_front: image("zadani.png", alt: "Zadání práce")`. Jazyk dokumentu, metadata a `alt` log nastavuje šablona; Typst exportuje otagované PDF.
+- **Archivní PDF:** `typst compile --pdf-standard a-3b,ua-1 main.typ`. Shodu ověř nástrojem [veraPDF](https://verapdf.org/); úspěšný export nenahrazuje kontrolu čtečkou.
+- **Elektronická vs. tištěná verze:** pro elektronické PDF vypni vakáty `twoside = false`, tištěná verze zůstává `twoside = true`.
+- Preferuj vektorovou grafiku (`.svg`) a větší obrázky před odevzdáním zmenši.
 
-Loga fakult a univerzity (`src/assets/logo*.svg`) jsou duševním vlastnictvím Univerzity obrany a **nejsou** kryta licencí MIT — smí se použít pouze v rámci skutečné závěrečné práce na Univerzitě obrany a nesmí se upravovat (viz `NOTICE`). Přibalené fonty TeX Gyre podléhají GUST Font License (viz `template/fonts/LICENSE-FONTS.txt`). Ověř si, že použití log odpovídá pravidlům Univerzity obrany a tvé fakulty.
+</details>
 
----
-
-# UNOB Thesis Template
-
-Official Typst template for writing bachelor's, master's, and doctoral theses at the University of Defence. It covers all faculties (`fvl`, `fvt`, `vlf`, `uo`) and typesets in Czech and English.
-
-> **This guide has two parts:** **[Basic usage](#basic-usage)** is all you need to write your whole thesis. **[Advanced](#advanced)** is a reference — read it only when you want more. You don't need to understand it to get started.
-
-## Basic usage
-
-### 1. Install the template
-
-The template is a Typst package. Until it is on [Typst Universe](https://typst.app/universe/), install it as a **local package**: the whole repository (the folder with `typst.toml`) goes into Typst's local package folder.
-
-| System | Package folder |
-|---|---|
-| Linux | `~/.local/share/typst/packages/local/unob-thesis/0.1.0/` |
-| macOS | `~/Library/Application Support/typst/packages/local/unob-thesis/0.1.0/` |
-| Windows | `%APPDATA%\typst\packages\local\unob-thesis\0.1.0\` |
-
-**With Git** (Linux; on macOS/Windows use the path from the table):
+## Vývoj
 
 ```bash
-git clone https://github.com/iamanro/uo-thesis.git ~/.local/share/typst/packages/local/unob-thesis/0.1.0
+python3 -m unittest discover -s tests -v       # regresní testy (Typst + Poppler)
+python3 scripts/ci.py check --output dist      # totéž co CI: balíček, typst init, 9 PDF
 ```
 
-**Or manually (no Git):** on the [repository page](https://github.com/iamanro/uo-thesis) click **Code ▸ Download ZIP** and move the contents of the unpacked archive (`typst.toml`, `src/`, `template/`, …) into the package folder from the table.
+<details>
+<summary><b>Testy a náhled úprav</b></summary>
 
-Then create your thesis project — this makes a `my-thesis` folder with `main.typ`, `config.toml`, chapters, and fonts:
+Testy kompilují skutečná PDF v dočasných složkách přes veřejné rozhraní: glosář (vyhledání, kolize, neznámé položky, odkazy podle dostupnosti seznamů), `submit_check` a skloňování jména vedoucího. Vyžadují Python 3, Typst a `pdftotext` (Poppler); proměnná `TYPST` určí konkrétní binárku.
 
-```bash
-typst init @local/unob-thesis:0.1.0 my-thesis
-```
-
-Without the Typst command line, copy the contents of the `template/` folder into a new folder instead.
-
-### 2. Open and typeset
-
-You write your thesis in **`main.typ`** in the project folder. There are two ways to open it and get a live preview — pick one:
-
-**Option A — VS Code + Tinymist (locally):**
-
-1. Install [VS Code](https://code.visualstudio.com/) and the **Tinymist Typst** extension from the Marketplace.
-2. In VS Code choose `File ▸ Open Folder…` and open the project folder (`my-thesis`).
-3. To use the bundled fonts, set `tinymist.fontPaths` to `fonts` in the VS Code settings (or install the fonts system-wide — see [Fonts](#fonts)).
-4. Open `main.typ` and click the preview icon (**Preview**) in the top-right — Typst typesets live as you write.
-5. Export the finished PDF with the **Typst: Export to PDF** command (`Ctrl/Cmd+Shift+P`), or from the command line with `typst compile --font-path fonts main.typ`.
-
-**Option B — Typst web app (in the browser, no install):**
-
-The web app cannot see local packages (`@local/…`), so you upload the template source as well:
-
-1. Sign in at [typst.app](https://typst.app/) and create a new **Empty project**.
-2. From the repository, drag the **contents of the `template/` folder** (including `fonts/`) into the project, and the **`src/` folder** next to it.
-3. In `main.typ` replace `"@local/unob-thesis:0.1.0"` with `"src/lib.typ"`, and in the files in `chapters/` with `"../src/lib.typ"`.
-4. Open `main.typ`; it typesets right in the browser. Download the finished PDF with the **Download PDF** button.
-
-> Once the template is published on [Typst Universe](https://typst.app/universe/), you will also be able to create a project with a single command, `typst init @preview/unob-thesis` — see [Advanced](#advanced).
-
-### 3. Example — `config.toml` and `main.typ`
-
-Thesis metadata go into **`config.toml`**:
-
-```toml
-lang    = "en"
-faculty = "fvl"        # fvl | fvt | vlf | uo
-
-[thesis]
-type  = "master"       # bachelor | master | doctoral
-title = "Thesis Title"
-
-[author]
-name    = "Jan"
-surname = "Novak"
-sex     = "M"
-
-[supervisor]
-name    = "Jana"
-surname = "Novakova"
-sex     = "F"
-
-[keywords]
-czech   = "první, druhé, třetí"
-english = "first, second, third"
-```
-
-`main.typ` is a fixed skeleton — you normally don't edit it (just add an `#include` for a new chapter). It loads the config and pulls text from files:
-
-```typ
-#import "@local/unob-thesis:0.1.0": *
-
-#let glossary = toml("glossary.toml")
-
-#show: unob-thesis.with(
-  ..thesis-config(toml("config.toml")),
-  acronyms: glossary, terms: glossary, symbols: glossary,
-  bibliography: bibliography("references.bib", style: "iso-690-numeric", full: true),
-  acknowledgement: include "front/acknowledgement.typ",
-  abstract: (
-    czech: include "front/abstract-cs.typ",
-    english: include "front/abstract-en.typ",
-  ),
-  introduction: include "chapters/00-introduction.typ",
-  appendix: [#include "appendix.typ"],
-  // Exceptional overrides go here AFTER the spread — they win over config.toml.
-)
-
-#include "chapters/01-theory.typ"
-
-#conclusion[#include "chapters/99-conclusion.typ"]
-```
-
-### 4. How to fill it in
-
-- **Metadata** (faculty, thesis type and title, people, keywords, switches) go in **`config.toml`** — every key is commented. A typo in a key is reported immediately.
-- **`sex`** (`"M"` / `"F"`) is needed for correct Czech declension in the honour declaration.
-- **Thesis text** goes into files in `chapters/` — chapter headings with `=`, subsections with `==`, `===`.
-- **Acronyms, terms, and symbols** go in `glossary.toml`; insert them in text with `#trm("iso")`.
-- **Sources** go in `references.bib`; cite with `@key`.
-- **Abstract and acknowledgement** go into files in `front/`.
-- **Appendices** go in `appendix.typ`.
-
-That is everything you need to write your thesis. More options (colours, multiple bibliographies, manual declension, pre-submission checks…) are below under **[Advanced](#advanced)**.
-
----
-
-### 5. Project structure
-
-Metadata live in `config.toml`; prose lives in separate files pulled in via `#include`:
-
-```
-config.toml         thesis metadata and switches
-main.typ            loads the config + content parts + #include of chapters
-glossary.toml       acronyms, terms, symbols
-references.bib      sources
-front/              abstract-cs.typ, abstract-en.typ, acknowledgement.typ
-chapters/           00-introduction.typ, 01-theory.typ, …, 99-conclusion.typ
-appendix.typ        appendices
-```
-
-Frontmatter parts are passed as the `acknowledgement`, `abstract` and `introduction` parameters of `unob-thesis.with(...)`, the conclusion via `#conclusion[#include "chapters/99-conclusion.typ"]` at the end of `main.typ`. In chapter files import helpers **from the package** (`#import "@local/unob-thesis:0.1.0": trm, flex-caption`), not from `src/…`.
-
-## Advanced
-
-Reference for advanced tweaks. You don't need it for everyday writing.
-
-### Configuration
-
-Thesis metadata are read from `config.toml` via `thesis-config()` (`#show: unob-thesis.with(..thesis-config(toml("config.toml")), …)`). Every parameter can also be given inline directly in `unob-thesis.with(...)` — an inline value after the spread wins. Content parameters (`abstract`, `introduction`, `bibliography`, `appendix`, …) always go in `main.typ`.
-
-| Parameter | Type / values | Default | Description |
-|---|---|---|---|
-| `lang` | `"cs"` \| `"en"` | `"cs"` | Document language |
-| `draft` | bool | `false` | Draft mode (see [Draft and final](#draft-and-final)) |
-| `faculty` | `"fvl"` \| `"fvt"` \| `"vlf"` \| `"uo"` \| `"uo-fvl"` \| `"uo-fvt"` \| `"uo-vlf"` | `"uo"` | Faculty; `uo-*` variants = faculty with the University of Defence logo |
-| `programme` | content / string | `[]` | Study programme |
-| `specialisation` | content / string | `[]` | Specialisation (for doctoral studies the label reads "Field of Study") |
-| `thesis` | `(type, title)` | — | `type`: `"bachelor"` \| `"master"` \| `"doctoral"` |
-| `author` | `person(...)` | — | Thesis author |
-| `supervisor` | `person(...)` | — | Supervisor |
-| `first_advisor` | `person(...)` | empty | Advisor |
-| `second_advisor` | `person(...)` | empty | Co-supervisor (doctoral only) |
-| `assignment_front` | `none` \| content | `none` | Assignment front — scan or export: png, jpg/jpeg, or pdf, e.g. `image("assignment-1.pdf")` |
-| `assignment_back` | `none` \| content | `none` | Assignment back |
-| `acknowledgement` | `false` \| content | `false` | Acknowledgement |
-| `declaration` | bool | `true` | Honour declaration |
-| `ai_used` | bool | `false` | AI-usage statement |
-| `acronyms` | `false` \| `true` \| dict | `false` | Acronyms (see [Glossary](#glossary)) |
-| `terms` | `false` \| `true` \| dict | `false` | Terms |
-| `abstract` | `(czech, english)` | empty | Abstracts |
-| `keywords` | `(czech, english)` | empty | Keywords |
-| `introduction` | content | `[]` | Introduction |
-| `outlines` | dict | see below | Generated lists |
-| `theme` | dict | see below | Colour switches |
-| `bibliography` | `none` \| `bibliography(...)` \| array | `none` | Bibliography |
-| `appendix` | `none` \| content | `none` | Appendices |
-| `submit_check` | bool | `false` | Strict pre-submission validation |
-| `symbols` | `false` \| dict \| `true` | `false` | Symbols for the List of Symbols (see `glossary.toml`) |
-| `vlna` | bool \| `auto` | `auto` | Czech non-breaking spaces; `auto` = on in final, off in draft (faster writing loop) |
-| `fancy_heading` | bool | `false` | Running header with the chapter title |
-| `twoside` | bool | `true` | Two-sided printing (chapters on odd pages, blank versos); `false` = electronic version without blank pages |
-
-`outlines` (each key bool): `headings`, `acronyms`, `terms`, `symbols`, `figures`, `tables`, `equations`, `listings`.
-
-`theme`: `color` (master colour switch), `links_colored`, `faculty_colored`, `faculty_color` (custom colour or `none`), `link_color`.
-
-`person(prefix, name, surname, suffix, sex, genitive)`: `sex` is `"M"`, `"F"`, or `none` (masculine forms are used for `none`); `genitive` is an optional manual genitive of the full name for the declaration.
-
-### Public API
-
-The package (`src/lib.typ`) exports:
-
-- `unob-thesis`: the main `#show` template.
-- `person(...)`: configuration of the author, supervisor, and advisors.
-- `thesis-config(...)`: converts the dictionary from `toml("config.toml")` into template parameters (wraps people via `person`, reports key typos).
-- `conclusion[...]`: the thesis conclusion (localized unnumbered heading + content).
-- `trm("key", style: ..., case: ...)`: inserts an acronym or glossary term.
-- `singular`, `plural`, `first`, `first-plural`: styles for `trm(...)`.
-- `appendix[...]`: low-level appendix helper (the `appendix` parameter is usually enough).
-- `flex-caption(...)`: dual figure caption (long below the object, short in the lists).
-- `todo[...]`, `note[...]`: authoring notes visible only in draft (`todo` blocks `submit_check`).
-- `landscape[...]`: rotates a wide table/figure by 90° on a portrait page (page number and header stay upright); the content must fit a single page.
-- `vlna-on()`, `vlna-off()`, `vlna-debug-on()`, `vlna-debug-off()`: toggle non-breaking spaces for part of the text.
-
-### Glossary
-
-Acronyms and terms live in a single `glossary.toml`, one TOML table per entry:
-
-```toml
-[iso]
-short = "ISO"
-en = "International Organization for Standardization"
-cs = "Mezinárodní organizace pro standardizaci"
-
-[zero_trust]
-short = "Zero Trust"
-cs = "nulová důvěra"
-glossary = "A security model that implicitly trusts no element of the network."
-```
-
-- An entry **without** a `glossary` key is an **acronym** (LIST OF ACRONYMS). `#trm` always prints the short form — introduce the acronym yourself on first use with `style: first`. The short form (`short`) may contain a space (`MO ČR`).
-- An entry **with** a `glossary` key is a **term** (LIST OF TERMS, with a definition).
-
-Fields: `short` (required), `en` and `cs` (expansion), `glossary` (definition). Optionally `plural`, `longplural` (English plural), `csplural` (Czech plural).
-
-Load the glossary with `acronyms: toml("glossary.toml")` so your edits to the file take effect. `acronyms: true` loads a built-in **demo** glossary from the package (useful only for the first compile).
-
-In text use `#trm("iso")`. For plural `#trm("iso", style: plural)`, for the first (expanded) use `#trm("iso", style: first)`. The `case` parameter (1–7) selects the Czech grammatical case, e.g. `#trm("iso", case: 3)` (acronyms only). The lists of acronyms, terms and symbols print every entry in `glossary.toml`, used in the text or not. The `acronyms`, `terms` and `symbols` parameters must pass the same glossary.
-
-### Bibliography
-
-The bibliography is native Typst `bibliography(...)`. The `iso-690-numeric` style matches ČSN ISO 690 and is built in (no CSL file needed):
-
-```typ
-bibliography: bibliography("references.bib", style: "iso-690-numeric", full: true)
-```
-
-You can also pass an array to split sources into several lists with their own titles, or use a custom CSL:
-
-```typ
-bibliography: (
-  bibliography("books.bib", style: "iso-690-numeric", full: true, title: [Books]),
-  bibliography("online.bib", style: "iso-690-numeric", full: true, title: [Online sources]),
-)
-```
-
-Use `bibliography: none` to disable it.
-
-### Declension of the supervisor's name
-
-The honour declaration is always in Czech and the supervisor's name is automatically declined into the genitive. If the heuristic gets it wrong, supply the correct form manually via `person(..., genitive: "Jana Kadlece")`.
-
-### Draft and final
-
-The `draft` parameter switches modes. **Draft** is for writing — it disables the title page and frontmatter and enables wider margins. **Final** is the submitted version with the full title page, declaration, lists, etc. Page numbering starts at 1 on the first numbered page (table of contents).
-
-### Generated lists
-
-Lists of figures, tables, equations and listings render only when the document actually contains matching items; the lists of acronyms, terms and symbols render when the glossary has matching entries — even if the corresponding option in `outlines` is `true`.
-
-### Appendices
-
-Appendices are passed as content: `appendix: [#include "appendix.typ"]`. If the appendices contain no H1 heading (`= Appendix Title`), the `LIST OF APPENDICES` section is not rendered.
-
-### Fonts
-
-The template uses the **TeX Gyre** family, bundled in the project's `fonts/` folder (`template/fonts/` in the repository):
-
-- `TeX Gyre Termes` — body text
-- `TeX Gyre Termes Math` — mathematics
-- `TeX Gyre Cursor` — code and listings
-
-In the web app the fonts load automatically. Locally pass the folder via `--font-path fonts` (in the repository `template/fonts`), or install the fonts system-wide (then `--font-path` is not needed). The full family is available from [CTAN](https://mirrors.ctan.org/fonts/tex-gyre.zip).
-
-### Performance and regression checks
-
-For large local builds, try `--jobs 8` with `typst compile` or `typst watch`
-instead of the automatic worker count. Fewer workers were faster on the
-measured 32-thread Ryzen AI MAX+ PRO 395; this is not a universal default.
-Compare repeated builds of the same document with identical fonts and warm
-package caches. Use `draft: true` while writing and check final typesetting
-before submission. Disabling vlna changes typography; it is not a lossless
-optimization.
-
-Indexed-glossary and centralized-import measurements (26 September 2026,
-Typst 0.15.1, vlna 0.3.0, synthetic 300-page thesis with 200 definitions and
-2,152 glossary references):
-
-| Workers | Before, median | After, median | Elapsed reduction | Median peak RAM |
-| --- | ---: | ---: | ---: | ---: |
-| 8 | 5.08 s | 4.89 s | 3.7% | 766 → 736 MiB |
-| 32 | 6.93 s | 6.78 s | 2.2% | 771 → 741 MiB |
-
-Seven interleaved pairs per configuration, excluding warm-ups; identical fonts,
-package versions, and creation timestamp. The resulting PDFs were byte-identical.
-This is a modest improvement on a shared workstation, not a guarantee for other
-theses. The paragraph wrapper remains: removing it changes pagination near page
-boundaries.
-
-The glossary builds key and short-name indexes during initialization. `#trm`
-keeps exact-key precedence, followed by case-insensitive keys and then short
-names. Run the public-interface checks (glossary resolution, collisions, unknown
-entries, and links with and without glossary lists; `submit_check`; declension of
-the supervisor's name) from the repository root:
-
-```bash
-python3 -m unittest discover -s tests -v
-```
-
-These require Python 3, Typst, and `pdftotext` (Poppler). Set `TYPST` to select
-a compiler binary. Tests compile real PDFs in temporary directories and
-remove them afterward.
-
-To preview template changes by hand, link the repository as a local package
-(Linux) and typeset the sample project in `template/`:
+Ruční náhled úprav šablony — propoj repozitář jako lokální balíček (Linux) a sázej ukázkový projekt:
 
 ```bash
 mkdir -p ~/.local/share/typst/packages/local/unob-thesis
@@ -739,24 +379,16 @@ ln -sfn "$PWD" ~/.local/share/typst/packages/local/unob-thesis/0.1.0
 typst watch --font-path template/fonts template/main.typ
 ```
 
-### GitHub CI/CD
+U velkých prací vyzkoušej `--jobs 8` místo automatického počtu vláken (na 32vláknovém stroji bylo méně vláken rychlejší). Pro psaní používej `draft: true`; vypnutí vlny mění typografii, není to bezeztrátová optimalizace.
 
-**Typst CI** (`.github/workflows/ci.yml`) runs on pull requests, pushes to
-`main`, and manual dispatch. It uses Ubuntu 24.04, the compiler version in
-`typst.toml` (`package.compiler`), a SHA-256-verified official binary, and
-bundled fonts only. Actions are commit-pinned; CI has read-only repository
-permissions and caches only downloaded Typst packages.
+</details>
 
-It runs template and distribution regression tests, then **installs the built
-archive using `typst init @local/…`**. Seven template profiles cover CS/EN,
-final/draft, all seven faculty variants, single-/double-sided layout, and
-running headers. Additional builds export PDF/A-3b and PDF/UA-1. Compiler
-warnings fail the job. The `typst-dist` artifact is retained for 14 days and
-contains PDFs, `unob-thesis-<version>.tar.gz`, `build-info.json`, and
-`SHA256SUMS`.
+<details>
+<summary><b>CI/CD a vydání</b></summary>
 
-Run the same checks locally (Python 3.12+, Git, and Poppler; installer targets
-Linux x86_64):
+Workflow **Typst CI** (`.github/workflows/ci.yml`) běží pro pull requesty, `main` a ruční spuštění: Ubuntu 24.04, Typst z `package.compiler` v `typst.toml` s ověřeným SHA-256, jen přibalené fonty, akce připnuté na commity, jen právo čtení. Spustí testy, z archivu balíčku **skutečně nainstaluje šablonu přes `typst init @local/…`** a vysází sedm profilů (CS/EN, final/draft, všech sedm variant fakulty, jedno- i oboustranná sazba, živé záhlaví) plus PDF/A-3b a PDF/UA-1. Varování kompilátoru jsou chyba. Artefakt `typst-dist` (PDF, `unob-thesis-<verze>.tar.gz`, `build-info.json`, `SHA256SUMS`) se drží 14 dní.
+
+Lokálně (Python 3.12+, Git, Poppler; instalátor pro Linux x86_64):
 
 ```bash
 bash scripts/install-typst.sh /tmp/unob-typst
@@ -764,53 +396,14 @@ TYPST=/tmp/unob-typst/typst python3 scripts/ci.py check --output dist
 (cd dist && sha256sum --check --strict SHA256SUMS)
 ```
 
-Use an empty output directory. Packaging includes only tracked `src/`,
-`template/`, and selected root files, including licenses. Stage new files with
-`git add` before local checks. When changing the compiler version, update its
-verified archive checksum in `scripts/install-typst.sh` too.
+Výstupní složka musí být prázdná; archiv obsahuje jen verzované soubory (nové přidej `git add`). Při změně kompilátoru aktualizuj checksum v `scripts/install-typst.sh`.
 
-**Releasing:** update `package.version` and the matching template imports,
-then create and push `v<package.version>`. **Typst release** reruns the entire
-shared CI workflow and rejects a mismatched tag. Only its publishing job has
-`contents: write`: it verifies checksums and creates a GitHub Release from the
-exact tested artifacts. Existing releases are not overwritten. No PAT or
-custom secret is needed; it uses the scoped `GITHUB_TOKEN`. Nothing is
-submitted automatically to Typst Universe.
+**Vydání:** po změně `package.version` a importů v šabloně pushni tag `v<package.version>`. Workflow **Typst release** zopakuje celou kontrolu a teprve pak založí GitHub Release s otestovanými artefakty; jiný tag odmítne a existující vydání nepřepíše. Stačí omezený `GITHUB_TOKEN`; do Typst Universe se nic nepublikuje automaticky.
 
-For PDF/UA, author natural-language `symbol_alt` and `unit_alt` descriptions
-for glossary symbols and units (see `template/glossary.toml`). The template
-passes them to the math elements' alternative text; it does not invent
-descriptions. Successful Typst export is not independent accessibility
-certification; use tools such as veraPDF and assistive-technology review too.
+</details>
 
-### Recommended additional packages
+## Licence
 
-The template intentionally does not export custom boxes, callout blocks, or drawing tools. If you need more, use packages from Typst Universe and import them directly in your thesis (not in the template core): `@preview/showybox`, `@preview/frame-it`, `@preview/cetz`, `@preview/fletcher`, `@preview/physica`, `@preview/zero`, `@preview/subpar`.
+Zdrojový kód šablony je licencován pod **MIT** (viz [`LICENSE`](LICENSE)).
 
-> **Do not import `@preview/vlna`.** The template applies Czech non-breaking
-> spaces itself across the whole document (`@preview/vlna:0.3.0`, pinned only in
-> `src/styling/packages.typ`). Importing the package and calling
-> `#show: apply-vlna` in your `main.typ` applies every rule **twice** — the
-> output is the same, but compilation gets markedly slower (measured on a real
-> 544-page dissertation: **7.9 s → 11.2 s wall, i.e. +42 %**). To
-> disable gluing for part of the text use `#vlna-off()` / `#vlna-on()`, which
-> the template exports.
-
-### Good practice and accessibility
-
-- Keep acronyms and terms in `glossary.toml` and use them consistently.
-- Prefer vector graphics (`.svg`) and optimize larger images before submission.
-- Before final submission, generate the final PDF and check the lists, references, and frontmatter.
-- Enable `submit_check: true` for stricter validation.
-- Replace all sample content (text, references, glossary, metadata) with your own.
-- **Accessibility (PDF/UA):** always add `alt` text to images you insert — especially a scanned assignment, e.g. `assignment_front: image("assignment.png", alt: "Thesis assignment")`. The template sets the document language, PDF metadata (`title`, `author`, …), and `alt` on the faculty logos for you; add `alt` to your own content. Typst also writes a tagged PDF by default, which is the baseline for accessibility.
-- **Symbols:** glossary entries with a `symbol` field (and `unit`) are typeset into the List of Symbols (`symbols: ...`, `outlines.symbols: true`).
-- **Authoring helpers:** `#todo[...]` and `#note[...]` show only in draft; `#landscape[...]` rotates a wide table/figure by 90° on a portrait page. `submit_check: true` rejects leftover `#todo`.
-- **Archival/accessible PDF:** `typst compile --pdf-standard a-3b,ua-1 main.typ` (PDF/A-3b + PDF/UA-1). Before submission, verify conformance with [veraPDF](https://verapdf.org/) (the PDF/A + PDF/UA profile is selected automatically from the file's metadata).
-- **Electronic vs. printed version:** for the submitted electronic PDF you can disable blank versos with `twoside: false`; keep `twoside: true` for print.
-
-### License
-
-The template source code is licensed under **MIT** (see `LICENSE`).
-
-The faculty and university logos (`src/assets/logo*.svg`) are the intellectual property of the University of Defence and are **not** covered by the MIT license — they may be used only as part of a genuine University of Defence thesis and must not be modified (see `NOTICE`). The bundled TeX Gyre fonts are subject to the GUST Font License (see `template/fonts/LICENSE-FONTS.txt`). Make sure the logo usage complies with the rules of the University of Defence and your faculty.
+Loga fakult a univerzity (`src/assets/logo*.svg`) jsou duševním vlastnictvím Univerzity obrany a **nejsou** kryta licencí MIT — smí se použít jen ve skutečné závěrečné práci na Univerzitě obrany a nesmí se upravovat (viz [`NOTICE`](NOTICE)). Fonty TeX Gyre podléhají GUST Font License (`template/fonts/LICENSE-FONTS.txt`). Ověř si, že použití log odpovídá pravidlům Univerzity obrany a tvé fakulty.

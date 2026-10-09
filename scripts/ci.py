@@ -14,7 +14,7 @@ import tempfile
 import tomllib
 
 ROOT = Path(__file__).resolve().parents[1]
-PACKAGE_PATHS = ("src", "template", "typst.toml", "README.md", "CHANGELOG.md",
+PACKAGE_PATHS = ("src", "template", "typst.toml", "README.md", "README.en.md", "CHANGELOG.md",
                  "LICENSE", "NOTICE", "thumbnail.png")
 PROFILES = {
     "template": {},
