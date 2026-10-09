@@ -11,7 +11,7 @@ All faculties · Czech and English · PDF/A and PDF/UA · typesets in under a se
 
 <img src=".github/assets/hero.webp" alt="Typeset thesis preview: title page, table of contents, list of acronyms, and a chapter with a table, an equation, and a code listing" width="100%">
 
-[Quick start](#quick-start) · [Writing your thesis](#writing-your-thesis) · [Reference](#reference) · [Development](#development) · [License](#license)
+[Quick start](#quick-start) · [Writing your thesis](#writing-your-thesis) · [Reference](#reference) · [Development](#development) · [License](#license) · [📄 Cheat sheet: Typst vs. Word (Czech, PDF)](docs/tahak.pdf)
 
 </div>
 
