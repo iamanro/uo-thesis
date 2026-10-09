@@ -18,13 +18,6 @@ verzování dle [SemVer](https://semver.org/lang/cs/).
   `unit_alt` v glosáři se předávají do matematických prvků. Ukázkový glosář
   obsahuje autorské popisy, takže PDF/UA-1 export již neselhává na chybějícím
   alternativním textu seznamu symbolů; vizuální sazba zůstává stejná.
-- **Ukázková diplomová práce** (`examples/diplomka/`) — cca 10 stran textu
-  předvádějících všechny funkce: citace (ISO 690), glosář `#trm` (zkratky,
-  pojmy, množné číslo), symboly s jednotkami, číslované rovnice s křížovými
-  odkazy, figury s `flex-caption`, tabulky, výpisy kódu, `#landscape`
-  otočenou tabulku, `#todo`/`#note` i placeholder zadání. Do balíčku se nedistribuuje
-  (`exclude`), kompilace: `typst compile --root . --font-path template/fonts
-  examples/diplomka/main.typ`.
 
 ### Změněno
 - **Úvodní části jako parametry (nekompatibilní změna)** — poděkování, abstrakty
@@ -103,6 +96,11 @@ verzování dle [SemVer](https://semver.org/lang/cs/).
 - **Ukázková příloha** — šablona už neobsahuje ladicí nadpisy (`== a`, `= ahoj`).
 - **`.gitignore` šablony** — ignoruje jen výstup `main.pdf`; skeny zadání
   v PDF (`zadani-lic.pdf`) se dřív tiše necommitovaly.
+- **Instalace v README** — návod odkazoval na neexistující kořenový `main.typ`,
+  `lib.typ`, `.tinymist.toml`, složku `examples/` (i záznam v tomto changelogu),
+  na nevydaný `@preview/unob-thesis:0.4.0` a na repozitář `iamanro/unob-thesis`,
+  který neexistuje. Nově: klon repozitáře do složky lokálních balíčků, `typst init
+  @local/unob-thesis:0.1.0`, a pro webovou aplikaci relativní import `src/lib.typ`.
 
 ## [0.4.0] – 2026-07-30
 

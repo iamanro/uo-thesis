@@ -8,40 +8,52 @@ Oficiální šablona pro psaní bakalářských, diplomových a disertačních p
 
 ## Základní použití
 
-> Kompletní ukázková diplomová práce (citace, glosář, symboly, rovnice, tabulky,
-> výpisy kódu, strana na šířku) je v [`examples/diplomka/`](examples/diplomka/):
-> `typst compile --root . --font-path template/fonts examples/diplomka/main.typ`
+### 1. Instalace šablony
 
-### 1. Stažení šablony
+Šablona je Typst balíček. Dokud není v [Typst Universe](https://typst.app/universe/), instaluje se jako **lokální balíček**: celý repozitář (složka s `typst.toml`) patří do složky lokálních balíčků Typstu.
 
-Šablona je připravená k okamžité úpravě — nic se neinstaluje, píšeš rovnou v souboru `main.typ`. Stáhni si ji jedním ze dvou způsobů:
+| Systém | Složka balíčku |
+|---|---|
+| Linux | `~/.local/share/typst/packages/local/unob-thesis/0.1.0/` |
+| macOS | `~/Library/Application Support/typst/packages/local/unob-thesis/0.1.0/` |
+| Windows | `%APPDATA%\typst\packages\local\unob-thesis\0.1.0\` |
 
-**Přes Git:**
+**Přes Git** (Linux; na macOS/Windows použij cestu z tabulky):
 
 ```bash
-git clone https://github.com/iamanro/unob-thesis.git
+git clone https://github.com/iamanro/uo-thesis.git ~/.local/share/typst/packages/local/unob-thesis/0.1.0
 ```
 
-**Nebo ručně (bez Gitu):** otevři [stránku repozitáře](https://github.com/iamanro/unob-thesis), klikni na zelené tlačítko **Code ▸ Download ZIP** a stažený archiv rozbal.
+**Nebo ručně (bez Gitu):** na [stránce repozitáře](https://github.com/iamanro/uo-thesis) klikni na **Code ▸ Download ZIP** a obsah rozbaleného archivu (soubory `typst.toml`, `src/`, `template/`, …) přesuň do složky balíčku z tabulky.
+
+Pak si založ projekt práce — vznikne složka `moje-prace` s `main.typ`, `config.toml`, kapitolami a fonty:
+
+```bash
+typst init @local/unob-thesis:0.1.0 moje-prace
+```
+
+Bez příkazové řádky Typstu stačí zkopírovat obsah složky `template/` do nové složky.
 
 ### 2. Otevření a sazba
 
-Práci píšeš v souboru **`main.typ`** v kořeni složky. Otevřít a průběžně sázet ho můžeš dvěma způsoby — vyber si jeden:
+Práci píšeš v souboru **`main.typ`** ve složce projektu. Otevřít a průběžně sázet ho můžeš dvěma způsoby — vyber si jeden:
 
 **Varianta A — VS Code + Tinymist (lokálně):**
 
 1. Nainstaluj [VS Code](https://code.visualstudio.com/) a v něm z Marketplace rozšíření **Tinymist Typst**.
-2. Ve VS Code zvol `File ▸ Open Folder…` a otevři složku `unob-thesis`.
-3. Otevři `main.typ` a vpravo nahoře klikni na ikonu náhledu (**Preview**) — Typst sází živě, jak píšeš. (Kořen projektu se nastaví sám díky `.tinymist.toml`.)
-4. Aby se použily přibalené fonty, nastav ve VS Code volbu `tinymist.fontPaths` na `template/fonts` (nebo si fonty nainstaluj systémově — viz [Fonty](#fonty)).
-5. Hotové PDF vyexportuješ příkazem **Typst: Export to PDF** (`Ctrl/Cmd+Shift+P`).
+2. Ve VS Code zvol `File ▸ Open Folder…` a otevři složku projektu (`moje-prace`).
+3. Aby se použily přibalené fonty, nastav ve VS Code volbu `tinymist.fontPaths` na `fonts` (nebo si fonty nainstaluj systémově — viz [Fonty](#fonty)).
+4. Otevři `main.typ` a vpravo nahoře klikni na ikonu náhledu (**Preview**) — Typst sází živě, jak píšeš.
+5. Hotové PDF vyexportuješ příkazem **Typst: Export to PDF** (`Ctrl/Cmd+Shift+P`), z příkazové řádky `typst compile --font-path fonts main.typ`.
 
 **Varianta B — Typst Web App (v prohlížeči, bez instalace):**
 
+Webová aplikace lokální balíčky (`@local/…`) nevidí, proto do projektu nahraješ i zdrojový kód šablony:
+
 1. Přihlaš se na [typst.app](https://typst.app/) a vytvoř nový prázdný projekt (**Empty project**).
-2. Přetáhni do projektu **celý obsah** rozbalené složky — včetně `lib.typ`, `src/` a `template/` (i s fonty).
-3. Otevři `main.typ`; sází se rovnou v prohlížeči a fonty se načtou automaticky.
-4. Hotové PDF stáhneš tlačítkem **Download PDF**.
+2. Z repozitáře přetáhni do projektu **obsah složky `template/`** (včetně `fonts/`) a vedle něj **složku `src/`**.
+3. V `main.typ` nahraď `"@local/unob-thesis:0.1.0"` za `"src/lib.typ"` a v souborech v `chapters/` za `"../src/lib.typ"`.
+4. Otevři `main.typ`; sází se rovnou v prohlížeči. Hotové PDF stáhneš tlačítkem **Download PDF**.
 
 > Až bude šablona zveřejněná v [Typst Universe](https://typst.app/universe/), půjde projekt založit i jediným příkazem `typst init @preview/unob-thesis` — viz [Pokročilé](#pokročilé).
 
@@ -75,7 +87,7 @@ english = "first, second, third"
 `main.typ` je pevná kostra — běžně ho neupravuješ (jen přidáš `#include` nové kapitoly). Konfiguraci načte a text vloží ze souborů:
 
 ```typ
-#import "lib.typ": *
+#import "@local/unob-thesis:0.1.0": *
 
 #let glossary = toml("glossary.toml")
 
@@ -126,7 +138,7 @@ chapters/           00-introduction.typ, 01-theory.typ, …, 99-conclusion.typ
 appendix.typ        přílohy
 ```
 
-Úvodní části se předávají parametry `acknowledgement`, `abstract` a `introduction` v `unob-thesis.with(...)`, závěr helperem `#conclusion[#include "chapters/99-conclusion.typ"]` na konci `main.typ`. V souborech kapitol importuj pomocné funkce **z balíčku** (`#import "@preview/unob-thesis:0.4.0": trm, flex-caption`), ne z `src/…`.
+Úvodní části se předávají parametry `acknowledgement`, `abstract` a `introduction` v `unob-thesis.with(...)`, závěr helperem `#conclusion[#include "chapters/99-conclusion.typ"]` na konci `main.typ`. V souborech kapitol importuj pomocné funkce **z balíčku** (`#import "@local/unob-thesis:0.1.0": trm, flex-caption`), ne z `src/…`.
 
 ## Pokročilé
 
@@ -176,7 +188,7 @@ Metadata práce se čtou z `config.toml` přes `thesis-config()` (`#show: unob-t
 
 ### Veřejné API
 
-Kořenový `lib.typ` exportuje:
+Balíček (`src/lib.typ`) exportuje:
 
 - `unob-thesis`: hlavní šablona pro `#show`.
 - `person(...)`: konfigurace autora, vedoucího a konzultantů.
@@ -265,13 +277,13 @@ Pokud přílohy neobsahují žádný H1 nadpis (`= Název přílohy`), nevykresl
 
 ### Fonty
 
-Šablona používá rodinu **TeX Gyre**, která je přibalená ve složce `template/fonts/`:
+Šablona používá rodinu **TeX Gyre**, která je přibalená ve složce `fonts/` projektu (v repozitáři `template/fonts/`):
 
 - `TeX Gyre Termes` — hlavní text
 - `TeX Gyre Termes Math` — matematická sazba
 - `TeX Gyre Cursor` — kód a výpisy
 
-Ve webové aplikaci se fonty načtou automaticky. Lokálně předej složku přes `--font-path template/fonts`, nebo si fonty nainstaluj systémově (pak `--font-path` není potřeba). Kompletní rodinu lze stáhnout z [CTAN](https://mirrors.ctan.org/fonts/tex-gyre.zip).
+Ve webové aplikaci se fonty načtou automaticky. Lokálně předej složku přes `--font-path fonts` (v repozitáři `template/fonts`), nebo si fonty nainstaluj systémově (pak `--font-path` není potřeba). Kompletní rodinu lze stáhnout z [CTAN](https://mirrors.ctan.org/fonts/tex-gyre.zip).
 
 ### Výkon a regresní kontroly
 
@@ -298,8 +310,9 @@ wrapper zůstává: jeho odstranění mění stránkování u hranic stran.
 
 Glosář při inicializaci vytváří indexy klíčů a krátkých názvů; `#trm` zachovává
 přednost přesného klíče, pak klíče bez rozlišení velikosti a nakonec `short`.
-Kontroly veřejného rozhraní (vyhledání, kolize, neznámé položky a odkazy podle
-dostupnosti seznamů) spustíš z kořene repozitáře:
+Kontroly veřejného rozhraní (glosář: vyhledání, kolize, neznámé položky a odkazy
+podle dostupnosti seznamů; `submit_check`; skloňování jména vedoucího) spustíš
+z kořene repozitáře:
 
 ```bash
 python3 -m unittest discover -s tests -v
@@ -309,6 +322,15 @@ Vyžadují Python 3, Typst a `pdftotext` (Poppler). Proměnná `TYPST` může ur
 cestu ke konkrétní binárce. Testy sestavují skutečné PDF v dočasných adresářích
 a po doběhnutí je odstraní.
 
+Pro ruční náhled úprav šablony propoj repozitář jako lokální balíček (Linux)
+a sázej ukázkový projekt v `template/`:
+
+```bash
+mkdir -p ~/.local/share/typst/packages/local/unob-thesis
+ln -sfn "$PWD" ~/.local/share/typst/packages/local/unob-thesis/0.1.0
+typst watch --font-path template/fonts template/main.typ
+```
+
 ### CI/CD na GitHubu
 
 Workflow **Typst CI** (`.github/workflows/ci.yml`) běží pro pull requesty,
@@ -317,7 +339,7 @@ změny na `main` a ruční spuštění. Používá Ubuntu 24.04, verzi Typstu z
 bundlované fonty. GitHub Actions jsou připnuté na konkrétní commity; CI má
 jen právo číst repozitář a cache obsahuje pouze stažené Typst balíčky.
 
-Kontroluje regresní testy glosáře i distribuce a **skutečnou instalaci přes
+Kontroluje regresní testy šablony i distribuce a **skutečnou instalaci přes
 `typst init @local/…` z vytvořeného archivu**. Sestavuje sedm profilů šablony
 (CS/EN, final/draft, všech sedm variant fakulty, jednostranná i oboustranná
 sazba, živé záhlaví) a navíc exporty PDF/A-3b a PDF/UA-1. Varování kompilátoru
@@ -405,40 +427,52 @@ Official Typst template for writing bachelor's, master's, and doctoral theses at
 
 ## Basic usage
 
-> A complete example thesis (citations, glossary, symbols, equations, tables,
-> code listings, landscape page) lives in [`examples/diplomka/`](examples/diplomka/):
-> `typst compile --root . --font-path template/fonts examples/diplomka/main.typ`
+### 1. Install the template
 
-### 1. Download the template
+The template is a Typst package. Until it is on [Typst Universe](https://typst.app/universe/), install it as a **local package**: the whole repository (the folder with `typst.toml`) goes into Typst's local package folder.
 
-The template is ready to edit right away — nothing to install, you write directly in `main.typ`. Get it in one of two ways:
+| System | Package folder |
+|---|---|
+| Linux | `~/.local/share/typst/packages/local/unob-thesis/0.1.0/` |
+| macOS | `~/Library/Application Support/typst/packages/local/unob-thesis/0.1.0/` |
+| Windows | `%APPDATA%\typst\packages\local\unob-thesis\0.1.0\` |
 
-**With Git:**
+**With Git** (Linux; on macOS/Windows use the path from the table):
 
 ```bash
-git clone https://github.com/iamanro/unob-thesis.git
+git clone https://github.com/iamanro/uo-thesis.git ~/.local/share/typst/packages/local/unob-thesis/0.1.0
 ```
 
-**Or manually (no Git):** open the [repository page](https://github.com/iamanro/unob-thesis), click the green **Code ▸ Download ZIP** button, and unpack the archive.
+**Or manually (no Git):** on the [repository page](https://github.com/iamanro/uo-thesis) click **Code ▸ Download ZIP** and move the contents of the unpacked archive (`typst.toml`, `src/`, `template/`, …) into the package folder from the table.
+
+Then create your thesis project — this makes a `my-thesis` folder with `main.typ`, `config.toml`, chapters, and fonts:
+
+```bash
+typst init @local/unob-thesis:0.1.0 my-thesis
+```
+
+Without the Typst command line, copy the contents of the `template/` folder into a new folder instead.
 
 ### 2. Open and typeset
 
-You write your thesis in **`main.typ`** in the root of the folder. There are two ways to open it and get a live preview — pick one:
+You write your thesis in **`main.typ`** in the project folder. There are two ways to open it and get a live preview — pick one:
 
 **Option A — VS Code + Tinymist (locally):**
 
 1. Install [VS Code](https://code.visualstudio.com/) and the **Tinymist Typst** extension from the Marketplace.
-2. In VS Code choose `File ▸ Open Folder…` and open the `unob-thesis` folder.
-3. Open `main.typ` and click the preview icon (**Preview**) in the top-right — Typst typesets live as you write. (The project root is set automatically via `.tinymist.toml`.)
-4. To use the bundled fonts, set `tinymist.fontPaths` to `template/fonts` in the VS Code settings (or install the fonts system-wide — see [Fonts](#fonts)).
-5. Export the finished PDF with the **Typst: Export to PDF** command (`Ctrl/Cmd+Shift+P`).
+2. In VS Code choose `File ▸ Open Folder…` and open the project folder (`my-thesis`).
+3. To use the bundled fonts, set `tinymist.fontPaths` to `fonts` in the VS Code settings (or install the fonts system-wide — see [Fonts](#fonts)).
+4. Open `main.typ` and click the preview icon (**Preview**) in the top-right — Typst typesets live as you write.
+5. Export the finished PDF with the **Typst: Export to PDF** command (`Ctrl/Cmd+Shift+P`), or from the command line with `typst compile --font-path fonts main.typ`.
 
 **Option B — Typst web app (in the browser, no install):**
 
+The web app cannot see local packages (`@local/…`), so you upload the template source as well:
+
 1. Sign in at [typst.app](https://typst.app/) and create a new **Empty project**.
-2. Drag the **entire contents** of the unpacked folder into the project — including `lib.typ`, `src/`, and `template/` (with the fonts).
-3. Open `main.typ`; it typesets right in the browser and the fonts load automatically.
-4. Download the finished PDF with the **Download PDF** button.
+2. From the repository, drag the **contents of the `template/` folder** (including `fonts/`) into the project, and the **`src/` folder** next to it.
+3. In `main.typ` replace `"@local/unob-thesis:0.1.0"` with `"src/lib.typ"`, and in the files in `chapters/` with `"../src/lib.typ"`.
+4. Open `main.typ`; it typesets right in the browser. Download the finished PDF with the **Download PDF** button.
 
 > Once the template is published on [Typst Universe](https://typst.app/universe/), you will also be able to create a project with a single command, `typst init @preview/unob-thesis` — see [Advanced](#advanced).
 
@@ -472,7 +506,7 @@ english = "first, second, third"
 `main.typ` is a fixed skeleton — you normally don't edit it (just add an `#include` for a new chapter). It loads the config and pulls text from files:
 
 ```typ
-#import "lib.typ": *
+#import "@local/unob-thesis:0.1.0": *
 
 #let glossary = toml("glossary.toml")
 
@@ -523,7 +557,7 @@ chapters/           00-introduction.typ, 01-theory.typ, …, 99-conclusion.typ
 appendix.typ        appendices
 ```
 
-Frontmatter parts are passed as the `acknowledgement`, `abstract` and `introduction` parameters of `unob-thesis.with(...)`, the conclusion via `#conclusion[#include "chapters/99-conclusion.typ"]` at the end of `main.typ`. In chapter files import helpers **from the package** (`#import "@preview/unob-thesis:0.4.0": trm, flex-caption`), not from `src/…`.
+Frontmatter parts are passed as the `acknowledgement`, `abstract` and `introduction` parameters of `unob-thesis.with(...)`, the conclusion via `#conclusion[#include "chapters/99-conclusion.typ"]` at the end of `main.typ`. In chapter files import helpers **from the package** (`#import "@local/unob-thesis:0.1.0": trm, flex-caption`), not from `src/…`.
 
 ## Advanced
 
@@ -573,7 +607,7 @@ Thesis metadata are read from `config.toml` via `thesis-config()` (`#show: unob-
 
 ### Public API
 
-Root `lib.typ` exports:
+The package (`src/lib.typ`) exports:
 
 - `unob-thesis`: the main `#show` template.
 - `person(...)`: configuration of the author, supervisor, and advisors.
@@ -649,13 +683,13 @@ Appendices are passed as content: `appendix: [#include "appendix.typ"]`. If the 
 
 ### Fonts
 
-The template uses the **TeX Gyre** family, bundled in `template/fonts/`:
+The template uses the **TeX Gyre** family, bundled in the project's `fonts/` folder (`template/fonts/` in the repository):
 
 - `TeX Gyre Termes` — body text
 - `TeX Gyre Termes Math` — mathematics
 - `TeX Gyre Cursor` — code and listings
 
-In the web app the fonts load automatically. Locally pass the folder via `--font-path template/fonts`, or install the fonts system-wide (then `--font-path` is not needed). The full family is available from [CTAN](https://mirrors.ctan.org/fonts/tex-gyre.zip).
+In the web app the fonts load automatically. Locally pass the folder via `--font-path fonts` (in the repository `template/fonts`), or install the fonts system-wide (then `--font-path` is not needed). The full family is available from [CTAN](https://mirrors.ctan.org/fonts/tex-gyre.zip).
 
 ### Performance and regression checks
 
@@ -684,8 +718,9 @@ boundaries.
 
 The glossary builds key and short-name indexes during initialization. `#trm`
 keeps exact-key precedence, followed by case-insensitive keys and then short
-names. Run the public-interface checks for resolution, collisions, unknown
-entries, and links with and without glossary lists from the repository root:
+names. Run the public-interface checks (glossary resolution, collisions, unknown
+entries, and links with and without glossary lists; `submit_check`; declension of
+the supervisor's name) from the repository root:
 
 ```bash
 python3 -m unittest discover -s tests -v
@@ -695,6 +730,15 @@ These require Python 3, Typst, and `pdftotext` (Poppler). Set `TYPST` to select
 a compiler binary. Tests compile real PDFs in temporary directories and
 remove them afterward.
 
+To preview template changes by hand, link the repository as a local package
+(Linux) and typeset the sample project in `template/`:
+
+```bash
+mkdir -p ~/.local/share/typst/packages/local/unob-thesis
+ln -sfn "$PWD" ~/.local/share/typst/packages/local/unob-thesis/0.1.0
+typst watch --font-path template/fonts template/main.typ
+```
+
 ### GitHub CI/CD
 
 **Typst CI** (`.github/workflows/ci.yml`) runs on pull requests, pushes to
@@ -703,7 +747,7 @@ remove them afterward.
 bundled fonts only. Actions are commit-pinned; CI has read-only repository
 permissions and caches only downloaded Typst packages.
 
-It runs glossary and distribution regression tests, then **installs the built
+It runs template and distribution regression tests, then **installs the built
 archive using `typst init @local/…`**. Seven template profiles cover CS/EN,
 final/draft, all seven faculty variants, single-/double-sided layout, and
 running headers. Additional builds export PDF/A-3b and PDF/UA-1. Compiler
