@@ -1,17 +1,19 @@
 #import "internal/i18n/index.typ": normalize-thesis-type as i18n-normalize-thesis-type, setup-language
-#import "../styling/styles.typ": apply-base-styles, apply-figure-styles, apply-heading-styles
+#import "../styling/base.typ": apply-base-styles
+#import "../styling/figures.typ": apply-figure-styles
+#import "../styling/headings.typ": apply-heading-styles
 #import "../styling/theme.typ": resolve-theme
 #import "../styling/flex-caption.typ": apply-flex-caption-outline
 #import "appendix.typ": appendix as render-appendix
 #import "render.typ": render-draft-layout, render-final-layout
 #import "internal/validation.typ": validate-config, validate-submit-check, validate-image-alt, validate-no-todos, validate-bibliography
-#import "internal/config.typ": normalize-outlines, normalize-theme-config, resolve-frontmatter
-#import "internal/glossary-source.typ": has-entries, resolve-glossary-source
+#import "internal/config.typ": normalize-outlines, normalize-theme-config
 #import "internal/people.typ": person
-#import "internal/glossary/index.typ": (
-  glossary-show, glossary-to-acronyms, glossary-to-symbols, glossary-to-terms,
-  has-used-symbols, init-glossary-runtime, normalize-glossary-input, validate-glossary-registry,
+#import "internal/glossary/parse.typ": (
+  glossary-to-acronyms, glossary-to-symbols, glossary-to-terms, normalize-glossary-input,
+  validate-glossary-registry,
 )
+#import "internal/glossary/runtime.typ": init-glossary-runtime
 
 // Funkce: unob-thesis
 // Účel: Hlavní veřejný vstup šablony s inline konfigurací po vzoru SHAW/ZHAW.
@@ -63,7 +65,6 @@
     equations: false,
     listings: false,
   ),
-  docs: false,
   submit_check: false,
   vlna: auto,
   fancy_heading: false,
@@ -94,23 +95,18 @@
     title: thesis.title,
   )
 
-  // Rozhodnuti o zdroji glosáře: pokud je `true`, načte se výchozí soubor
-  let need-default = (acronyms == true) or (terms == true) or (symbols == true)
-  let has-custom-acronyms = (type(acronyms) in (str, raw)) or (type(acronyms) == dictionary and acronyms.len() > 0)
-  let has-custom-terms = (type(terms) in (str, raw)) or (type(terms) == dictionary and terms.len() > 0)
-  let has-custom-symbols = (type(symbols) in (str, raw)) or (type(symbols) == dictionary and symbols.len() > 0)
-  let glossary_source = if need-default {
-    resolve-glossary-source(true, "../../../template/glossary.toml")
-  } else if has-custom-acronyms {
-    resolve-glossary-source(acronyms, false)
-  } else if has-custom-terms {
-    resolve-glossary-source(terms, false)
-  } else if has-custom-symbols {
-    resolve-glossary-source(symbols, false)
-  } else {
-    false
+  // Zkratky, pojmy i symboly čtou JEDEN glosář; `true` = demo glossary.toml z balíčku.
+  let glossary_sources = (acronyms, terms, symbols)
+    .filter(source => source != false and source != none)
+    .map(source => if source == true { toml("../../template/glossary.toml") } else { source })
+    .dedup()
+  if glossary_sources.len() > 1 {
+    panic(
+      "Parametry `acronyms`, `terms` a `symbols` musí předat tentýž glosář. / "
+        + "`acronyms`, `terms` and `symbols` must pass the same glossary.",
+    )
   }
-  let glossary_entries = normalize-glossary-input(glossary_source)
+  let glossary_entries = normalize-glossary-input(glossary_sources.at(0, default: false))
   let want-acronyms = acronyms != false and acronyms != none
   let want-terms = terms != false and terms != none
   let want-symbols = symbols != false and symbols != none
@@ -118,13 +114,13 @@
   let resolved_terms = if want-terms { glossary-to-terms(glossary_entries) } else { false }
   let resolved_symbols = if want-symbols { glossary-to-symbols(glossary_entries) } else { false }
 
-  // Seznamy se zobrazí jen pokud existují položky k zobrazení
-  let show-acronyms = has-entries(resolved_acronyms) and outline_config.acronyms
-  let show-terms = has-entries(resolved_terms) and outline_config.terms
-  let show-symbols = has-used-symbols(resolved_symbols) and outline_config.at("symbols", default: false)
-  let effective-outlines = outline_config + (acronyms: show-acronyms, terms: show-terms, symbols: show-symbols)
+  // Seznamy glosáře se zobrazí jen pokud glosář obsahuje položky daného druhu.
+  let effective-outlines = outline_config + (
+    acronyms: resolved_acronyms != false and outline_config.acronyms,
+    terms: resolved_terms != false and outline_config.terms,
+    symbols: resolved_symbols != false and outline_config.symbols,
+  )
 
-  let fm = resolve-frontmatter(acknowledgement, introduction, abstract, keywords)
   let effective-theme = resolve-theme(theme_config, university.faculty)
 
   validate-glossary-registry(resolved_acronyms, resolved_terms, symbols: resolved_symbols)
@@ -135,7 +131,6 @@
   let effective-vlna = if vlna == auto { draft != true } else { vlna }
 
   validate-config((
-    lang: lang,
     draft: draft,
     university: university,
     thesis: thesis,
@@ -149,7 +144,6 @@
     acronyms: resolved_acronyms,
     terms: resolved_terms,
     symbols: resolved_symbols,
-    docs: docs,
     submit_check: submit_check,
     vlna: effective-vlna,
     fancy_heading: fancy_heading,
@@ -158,22 +152,17 @@
 
   validate-bibliography(bibliography)
 
-  validate-submit-check(
-    submit_check,
-    draft,
-    supervisor,
-    fm.abstract,
-    fm.keywords,
-    fm.introduction,
-    assignment,
-    bibliography,
-    (
-      title: thesis.title,
-      author: author,
-      abstract: abstract,
-      keywords: keywords,
-    ),
-  )
+  validate-submit-check(submit_check, (
+    draft: draft,
+    thesis: thesis,
+    author: author,
+    supervisor: supervisor,
+    abstract: abstract,
+    keywords: keywords,
+    introduction: introduction,
+    assignment: assignment,
+    bibliography: bibliography,
+  ))
 
   validate-image-alt(submit_check, lang)
   validate-no-todos(submit_check, lang)
@@ -183,8 +172,8 @@
     lang: lang,
     author: author,
     thesis: normalized_thesis,
-    abstract: fm.abstract,
-    keywords: fm.keywords,
+    abstract: abstract,
+    keywords: keywords,
     theme: effective-theme,
     vlna: effective-vlna,
     fancy_heading: fancy_heading,
@@ -192,7 +181,6 @@
   )
   show: apply-heading-styles.with(draft: draft, twoside: twoside)
   show: apply-figure-styles
-  show: glossary-show
   // Přepínání dlouhá/krátká verze popisků (flex-caption) i v šablonových seznamech.
   show: apply-flex-caption-outline
 
@@ -203,16 +191,12 @@
     render-draft-layout(
       normalized_thesis,
       author,
-      fm.abstract,
-      fm.keywords,
+      abstract,
+      keywords,
       body,
       lang: lang,
     )
   } else {
-    if docs != false {
-      include "internal/docs.typ"
-    }
-
     render-final-layout(
       (
         university: university,
@@ -223,12 +207,12 @@
         second_advisor: second_advisor,
         assignment: assignment,
         declaration: declaration_config,
-        acknowledgement: fm.acknowledgement,
-        abstract: fm.abstract,
-        keywords: fm.keywords,
+        acknowledgement: acknowledgement,
+        abstract: abstract,
+        keywords: keywords,
         outlines: effective-outlines,
         glossary: (acronyms: resolved_acronyms, terms: resolved_terms, symbols: resolved_symbols),
-        introduction: fm.introduction,
+        introduction: introduction,
       ),
       body,
       lang: lang,

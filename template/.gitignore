@@ -1,5 +1,5 @@
-# Výstupy kompilace
-*.pdf
+# Výstup kompilace (skeny zadání v PDF se commitují)
+/main.pdf
 
 # Editory a nástroje
 .DS_Store

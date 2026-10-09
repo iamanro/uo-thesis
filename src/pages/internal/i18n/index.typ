@@ -12,12 +12,6 @@
   faculty in supported_faculties
 }
 
-// Funkce: is-supported-thesis-type
-// Účel: Ověří, zda je typ práce podporovaný.
-#let is-supported-thesis-type(thesis_type) = {
-  lower(str(thesis_type)) in supported_thesis_types
-}
-
 // Funkce: resolve-lang
 // Účel: Normalizuje explicitní jazykový parametr na podporovaný kód.
 #let resolve-lang(lang: auto) = {
@@ -25,8 +19,6 @@
     "cs"
   } else if is-supported-language(lang) {
     lang
-  } else if lang == "cz" {
-    panic("Unsupported language `cz`. Use `cs` or `en`.")
   } else {
     panic("Unsupported language `" + str(lang) + "`. Use `cs` or `en`.")
   }
@@ -112,16 +104,24 @@
   })
 }
 
+// Funkce: panic-bilingual
+// Účel: Vyvolá dvojjazyčnou chybu (cs / en) bez závislosti na kontextu.
+//       `panic(t(key))` bez `lang` by panikařil hláškou „context()".
+#let panic-bilingual(key) = {
+  let message = translations.at(key)
+  panic(message.cs + " / " + message.en)
+}
+
 // Funkce: normalize-thesis-type
 // Účel: Normalizuje typ práce na interní hodnotu.
 #let normalize-thesis-type(thesis_type) = {
   if type(thesis_type) != str {
-    panic(t("error_thesis_type_must_be_string"))
+    panic-bilingual("error_thesis_type_must_be_string")
   }
 
   let candidate = lower(thesis_type)
   if not (candidate in supported_thesis_types) {
-    panic(t("error_unsupported_thesis_type"))
+    panic-bilingual("error_unsupported_thesis_type")
   }
   candidate
 }

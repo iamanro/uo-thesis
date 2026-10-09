@@ -9,6 +9,23 @@
   }
 }
 
+/// Prostý text obsahu (text a mezery) — pro porovnání s ukázkovými hodnotami šablony.
+#let plain-text(value) = {
+  if type(value) == str {
+    value
+  } else if type(value) != content {
+    ""
+  } else if value.has("text") {
+    value.text
+  } else if value.has("children") {
+    value.children.map(plain-text).join(default: "")
+  } else if value.func() == [ ].func() {
+    " "
+  } else {
+    ""
+  }
+}
+
 /// Zjistí, zda je dokument v draft režimu.
 /// Při `draft: auto` dotazuje metadata uzel `<unob-layout-draft>`; jinak použije předanou hodnotu.
 /// Vyžaduje `context` (používá `query`).

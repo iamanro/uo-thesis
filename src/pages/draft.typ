@@ -1,7 +1,7 @@
-#import "frontmatter/abstracts.typ": render-abstract-block
+#import "frontmatter.typ": render-abstract-block
 #import "internal/utils.typ": has-value
 #import "internal/people.typ": format-name
-#import "internal/localization.typ": get-thesis-type-name
+#import "internal/i18n/index.typ": thesis-type-name
 
 /// Vrátí stručné jméno autora bez titulů pro hlavičku draftu.
 #let format-author-name-for-draft(author) = {
@@ -48,9 +48,9 @@
   parbreak()
 
   let draft_banner = if lang == "en" {
-    [DRAFT #upper(get-thesis-type-name(thesis.type, variant: 1, lang: lang))]
+    [DRAFT #upper(thesis-type-name(thesis.type, variant: 1, lang: lang))]
   } else {
-    [DRAFT #upper(get-thesis-type-name(thesis.type, variant: 2, lang: lang))]
+    [DRAFT #upper(thesis-type-name(thesis.type, variant: 2, lang: lang))]
   }
   text(size: 11pt, style: "italic")[#draft_banner]
 

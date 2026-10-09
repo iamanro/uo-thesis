@@ -1,4 +1,4 @@
-#import "validation.typ": panic-bilingual
+#import "i18n/index.typ": panic-bilingual
 #import "people.typ": person
 
 /// Normalizuje vstup. Pokud není slovník, vrátí prázdný.
@@ -37,29 +37,11 @@
   )
 }
 
-#let metadata-or(label, fallback) = context {
-  let items = query(label)
-  if items.len() > 0 { items.last().value } else { fallback }
-}
-
-#let resolve-frontmatter(acknowledgement, introduction, abstract, keywords) = (
-  acknowledgement: metadata-or(<unob-fm-acknowledgement>, acknowledgement),
-  introduction: metadata-or(<unob-fm-introduction>, introduction),
-  abstract: (
-    czech: metadata-or(<unob-fm-abstract-cs>, abstract.czech),
-    english: metadata-or(<unob-fm-abstract-en>, abstract.english),
-  ),
-  keywords: (
-    czech: metadata-or(<unob-fm-keywords-cs>, keywords.czech),
-    english: metadata-or(<unob-fm-keywords-en>, keywords.english),
-  ),
-)
-
 // Klíče config.toml předávané šabloně beze změny (datové hodnoty).
 #let _passthrough-keys = (
   "lang", "draft", "faculty", "programme", "specialisation", "thesis",
   "declaration", "ai_used", "keywords", "outlines", "theme",
-  "docs", "submit_check", "vlna", "fancy_heading", "twoside",
+  "submit_check", "vlna", "fancy_heading", "twoside",
 )
 // Klíče s osobami — obalí se přes person(), aby dostaly výchozí pole.
 #let _person-keys = ("author", "supervisor", "first_advisor", "second_advisor")

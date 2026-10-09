@@ -14,8 +14,8 @@ import tempfile
 import tomllib
 
 ROOT = Path(__file__).resolve().parents[1]
-PACKAGE_PATHS = ("src", "template", "typst.toml", "README.md", "CHANGELOG.md",
-                 "LICENSE", "NOTICE", "thumbnail.png", "Taskfile.yml")
+PACKAGE_PATHS = ("src", "template", "typst.toml", "README.md", "README.en.md", "CHANGELOG.md",
+                 "LICENSE", "LICENSE-MIT-0", "NOTICE", "thumbnail.png")
 PROFILES = {
     "template": {},
     "cs-electronic": {"lang": "cs", "faculty": "fvt", "draft": False,
@@ -41,7 +41,7 @@ def metadata(root, tag=""):
         raise ValueError(f"Release tag {tag!r} must equal v{package['version']}")
     for relative in (package["entrypoint"],
                      str(Path(template["path"]) / template["entrypoint"]),
-                     template["thumbnail"], "LICENSE", "NOTICE"):
+                     template["thumbnail"], "LICENSE", "LICENSE-MIT-0", "NOTICE"):
         path = root / relative
         if not path.resolve().is_relative_to(root.resolve()) or not path.is_file():
             raise ValueError(f"Missing or unsafe package file: {relative}")

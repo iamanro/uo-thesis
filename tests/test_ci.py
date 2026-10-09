@@ -22,7 +22,8 @@ class ReleaseBundle(unittest.TestCase):
             "src/lib.typ": '#let title = "Thesis"\n',
             "template/main.typ": '#import "@local/example:1.2.3": title\n#title\n',
             "template/fonts/LICENSE-FONTS.txt": "Font attribution\n",
-            "LICENSE": "Package license\n", "NOTICE": "Asset attribution\n",
+            "LICENSE": "Package license\n", "LICENSE-MIT-0": "Template license\n",
+            "NOTICE": "Asset attribution\n",
             "thumbnail.png": "fixture", "README.md": "Instructions\n",
             "scripts/private.py": "must not ship", "AGENTS.md": "local instructions",
         }
@@ -47,7 +48,7 @@ class ReleaseBundle(unittest.TestCase):
         with tarfile.open(archive) as bundle:
             self.assertEqual(set(bundle.getnames()), {
                 "typst.toml", "src/lib.typ", "template/main.typ",
-                "template/fonts/LICENSE-FONTS.txt", "LICENSE", "NOTICE",
+                "template/fonts/LICENSE-FONTS.txt", "LICENSE", "LICENSE-MIT-0", "NOTICE",
                 "thumbnail.png", "README.md",
             })
             self.assertEqual(bundle.extractfile("src/lib.typ").read(), b'#let title = "Thesis"\n')

@@ -4,7 +4,7 @@ Výsledky jsou prezentovány v kontextu teoretického rámce stanoveného v pře
 #lorem(50)
 
 // Autorské pomůcky (viditelné jen v draftu, `submit_check` blokuje zbylá TODO).
-// Vyžadují import z balíčku: #import "@preview/unob-thesis:0.4.0": landscape, note, todo
+// Vyžadují import z balíčku: #import "@local/unob-thesis:0.1.0": landscape, note, todo
 // #todo[doplnit odvození vztahu] #note[ověřit jednotky]
 //
 // Široký obsah na stranu na šířku (obalte celou figuru):

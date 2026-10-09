@@ -1,4 +1,4 @@
-#import "../styling/styles.typ": page-numbering-from, start-page-numbering-after
+#import "../styling/helpers.typ": page-numbering-from, start-page-numbering-after
 #import "cover.typ": render-cover
 #import "draft.typ": render-draft-abstracts, render-draft-header
 #import "frontmatter.typ": (

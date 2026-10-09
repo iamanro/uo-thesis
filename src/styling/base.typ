@@ -45,19 +45,14 @@
     }
   }
 
-  // Sestavení řetězce klíčových slov z české i anglické varianty
-  let keywords-cs = if type(keywords.czech) == str { keywords.czech.trim() } else { "" }
-  let keywords-en = if type(keywords.english) == str { keywords.english.trim() } else { "" }
-  let combined_keywords = if keywords-cs.len() > 0 and keywords-en.len() > 0 {
-    keywords-cs + ", " + keywords-en
-  } else if keywords-cs.len() > 0 {
-    keywords-cs
-  } else {
-    keywords-en
-  }
+  // Klíčová slova do metadat PDF: česká, pak anglická (prázdné vynechá).
+  let combined_keywords = (keywords.czech, keywords.english)
+    .filter(k => type(k) == str and k.trim() != "")
+    .map(str.trim)
+    .join(", ", default: "")
 
   set document(
-    author: author.prefix + " " + author.name + " " + author.surname + " " + author.suffix,
+    author: (author.prefix, author.name, author.surname, author.suffix).filter(part => part not in (none, "")).join(" "),
     title: thesis.title,
     date: auto,
     description: abstract.czech,

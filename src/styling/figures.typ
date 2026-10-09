@@ -3,7 +3,7 @@
 /// Nastaví vzhled popisků a číslování obrázků, tabulek a rovnic.
 #let apply-figure-styles(body) = {
   set figure(numbering: n => numbering(
-    "1.1 ",
+    "1.1",
     // Před první číslovanou kapitolou je čítač 0 — vynutíme alespoň 1.
     calc.max(counter(heading).get().first(), 1),
     n,

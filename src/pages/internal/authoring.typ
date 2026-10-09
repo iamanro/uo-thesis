@@ -1,5 +1,6 @@
-// Autorské pomůcky exportované z lib.typ: `todo`, `note`, `landscape`.
+// Autorské pomůcky exportované z lib.typ: `todo`, `note`, `landscape`, `conclusion`.
 #import "utils.typ": is-draft-mode
+#import "i18n/index.typ": current-lang, t
 
 // Interní: barevný „callout", který se vysází JEN v draft režimu.
 #let _callout(fill, label-text, body) = context {
@@ -49,3 +50,10 @@
   ))
   pagebreak(weak: true)
 }
+
+// Funkce: conclusion
+// Co: Vloží lokalizovaný nadpis závěru a obsah kapitoly.
+#let conclusion(content) = context [
+  #heading(level: 1, outlined: true, numbering: none)[#t("conclusion", lang: current-lang())]
+  #content
+]

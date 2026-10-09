@@ -5,7 +5,7 @@
 #let apply-heading-styles(body, draft: false, twoside: true) = {
   // Patička je nastavená globálně v base.typ; číslo se tiskne od strany, kterou
   // určí stav `page-numbering-from` (viz helpers.typ).
-  set heading(numbering: "1.1.1", supplement: [heading], depth: 3)
+  set heading(numbering: "1.1.1", depth: 3)
 
   show heading.where(level: 1): it => {
     if draft != true {

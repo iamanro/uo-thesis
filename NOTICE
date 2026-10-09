@@ -1,11 +1,39 @@
-unob-thesis — third-party and restricted assets
-================================================
+unob-thesis — licensing and restricted assets
+=============================================
 
-The MIT license in LICENSE covers the template SOURCE CODE only. The
-following bundled assets are NOT covered by the MIT license and are subject to
-separate terms.
+Copyright (C) 2025 Univerzita obrany (University of Defence) and contributors
 
-1. University of Defence visual identity (logos)
+This repository uses several licenses. Each part below lists the files it
+covers.
+
+1. Package source code — AGPL-3.0-or-later
+-------------------------------------------
+
+Files: everything not listed in sections 2–5 (src/, scripts/, tests/,
+.github/, and the files in the repository root).
+
+This program is free software: you can redistribute it and/or modify it
+under the terms of the GNU Affero General Public License as published by the
+Free Software Foundation, either version 3 of the License, or (at your option)
+any later version. See LICENSE.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more
+details.
+
+2. Starter project (template/) — MIT-0
+--------------------------------------
+
+Files: template/, except template/fonts/.
+
+These are the files that `typst init` copies into a new thesis project
+(main.typ, config.toml, chapters, sample glossary and references). They are
+licensed under the MIT No Attribution license (see LICENSE-MIT-0), so a
+student may use, modify, and distribute them in their thesis without
+restriction and without attribution.
+
+3. University of Defence visual identity (logos)
 ------------------------------------------------
 
 Files:
@@ -16,8 +44,8 @@ Files:
 
 These faculty and university logos are the intellectual property and
 registered visual identity of the University of Defence (Univerzita obrany),
-Brno, Czech Republic. They are bundled solely so that the template can
-generate the official title page.
+Brno, Czech Republic. They are NOT covered by the AGPL or MIT-0 licenses and
+are bundled solely so that the template can generate the official title page.
 
 Conditions of use:
   - The logos may be used ONLY as part of a genuine University of Defence
@@ -30,11 +58,18 @@ Conditions of use:
   - Any other use requires prior written permission from the University of
     Defence.
 
-If you reuse this template's source code under the MIT license for a
-non-UNOB project, you must remove or replace these logo files with your own.
+If you reuse this template's source code for a non-UNOB project, you must
+remove or replace these logo files with your own.
 
-2. Fonts (TeX Gyre family)
+4. Fonts (TeX Gyre family)
 --------------------------
 
 The fonts bundled in template/fonts/ are part of the TeX Gyre project and are
 distributed under the GUST Font License. See template/fonts/LICENSE-FONTS.txt.
+
+5. Third-party code
+-------------------
+
+The Czech genitive rules in src/pages/internal/i18n/genitiv.typ are adapted
+from https://github.com/davidmalasek/sklonovani-jmen, Copyright (c) 2024
+David Malášek, under the MIT license reproduced in that file's header.

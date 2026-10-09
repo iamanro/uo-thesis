@@ -1,4 +1,4 @@
-#import "@local/unob-thesis:0.1.0": * 
+#import "@local/unob-thesis:0.1.0": *
 
 // ============================================================
 // Tento soubor běžně NEUPRAVUJETE.
@@ -16,17 +16,18 @@
   terms: glossary,
   symbols: glossary,
   bibliography: bibliography("references.bib", style: "iso-690-numeric", full: true),
+  // Úvodní části — texty jsou v front/ a chapters/.
+  acknowledgement: include "front/acknowledgement.typ",
+  abstract: (
+    czech: include "front/abstract-cs.typ",
+    english: include "front/abstract-en.typ",
+  ),
+  introduction: include "chapters/00-introduction.typ",
   appendix: [#include "appendix.typ"],
   // Zadání práce: sken či export — png, jpg/jpeg i pdf (vždy s alt textem, PDF/UA):
   // assignment_front: image("zadani-lic.pdf", alt: "Zadání práce — líc"),
   // assignment_back:  image("zadani-rub.jpg", alt: "Zadání práce — rub"),
 )
-
-// Úvodní části — texty jsou v front/ a chapters/.
-#acknowledgement[#include "front/acknowledgement.typ"]
-#abstract-cs[#include "front/abstract-cs.typ"]
-#abstract-en[#include "front/abstract-en.typ"]
-#introduction[#include "chapters/00-introduction.typ"]
 
 // Kapitoly — každá ve svém souboru.
 #include "chapters/01-theory.typ"
