@@ -11,7 +11,7 @@ Všechny fakulty · česky i anglicky · PDF/A a PDF/UA · sazba pod sekundu
 
 <img src=".github/assets/hero.webp" alt="Ukázka vysázené práce: titulní strana, obsah, seznam zkratek a kapitola s tabulkou, rovnicí a výpisem kódu" width="100%">
 
-[Rychlý start](#rychlý-start) · [Psaní práce](#psaní-práce) · [Reference](#reference) · [Vývoj](#vývoj) · [Licence](#licence)
+[Rychlý start](#rychlý-start) · [Psaní práce](#psaní-práce) · [Reference](#reference) · [Vývoj](#vývoj) · [Licence](#licence) · [Tahák: Typst místo Wordu (PDF)](docs/tahak.pdf)
 
 </div>
 
@@ -53,7 +53,12 @@ git clone https://github.com/iamanro/uo-thesis.git ~/.local/share/typst/packages
 | macOS | `~/Library/Application Support/typst/packages/local/unob-thesis/0.1.0/` |
 | Windows | `%APPDATA%\typst\packages\local\unob-thesis\0.1.0\` |
 
-Bez Gitu: na [stránce repozitáře](https://github.com/iamanro/uo-thesis) klikni na **Code ▸ Download ZIP** a obsah rozbaleného archivu (`typst.toml`, `src/`, `template/`, …) přesuň do složky balíčku z tabulky.
+Bez Gitu: z [posledního vydání](https://github.com/iamanro/uo-thesis/releases/latest) stáhni `unob-thesis-<verze>.tar.gz` (otestovaný v CI, ověříš ho přes `SHA256SUMS`) a rozbal ho do složky balíčku z tabulky:
+
+```bash
+mkdir -p ~/.local/share/typst/packages/local/unob-thesis/0.1.0
+tar -xzf unob-thesis-0.1.0.tar.gz -C ~/.local/share/typst/packages/local/unob-thesis/0.1.0
+```
 
 </details>
 
@@ -365,6 +370,8 @@ Sekce `[faculty]` obsahuje oficiální barvy fakult — neměň je bez svolení 
 python3 -m unittest discover -s tests -v       # regresní testy (Typst + Poppler)
 python3 scripts/ci.py check --output dist      # totéž co CI: balíček, typst init, 9 PDF
 ```
+
+Chceš přispět? Postup, struktura kódu a zásady jsou v [`CONTRIBUTING.md`](.github/CONTRIBUTING.md); chyby a návrhy hlas přes [Issues](https://github.com/iamanro/uo-thesis/issues/new/choose).
 
 <details>
 <summary><b>Testy a náhled úprav</b></summary>

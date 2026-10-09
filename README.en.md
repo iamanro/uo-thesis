@@ -11,7 +11,7 @@ All faculties · Czech and English · PDF/A and PDF/UA · typesets in under a se
 
 <img src=".github/assets/hero.webp" alt="Typeset thesis preview: title page, table of contents, list of acronyms, and a chapter with a table, an equation, and a code listing" width="100%">
 
-[Quick start](#quick-start) · [Writing your thesis](#writing-your-thesis) · [Reference](#reference) · [Development](#development) · [License](#license)
+[Quick start](#quick-start) · [Writing your thesis](#writing-your-thesis) · [Reference](#reference) · [Development](#development) · [License](#license) · [Cheat sheet: Typst vs. Word (Czech, PDF)](docs/tahak.pdf)
 
 </div>
 
@@ -53,7 +53,12 @@ git clone https://github.com/iamanro/uo-thesis.git ~/.local/share/typst/packages
 | macOS | `~/Library/Application Support/typst/packages/local/unob-thesis/0.1.0/` |
 | Windows | `%APPDATA%\typst\packages\local\unob-thesis\0.1.0\` |
 
-Without Git: on the [repository page](https://github.com/iamanro/uo-thesis) click **Code ▸ Download ZIP** and move the contents of the unpacked archive (`typst.toml`, `src/`, `template/`, …) into the package folder from the table.
+Without Git: download `unob-thesis-<version>.tar.gz` from the [latest release](https://github.com/iamanro/uo-thesis/releases/latest) (tested in CI, verify it with `SHA256SUMS`) and extract it into the package folder from the table:
+
+```bash
+mkdir -p ~/.local/share/typst/packages/local/unob-thesis/0.1.0
+tar -xzf unob-thesis-0.1.0.tar.gz -C ~/.local/share/typst/packages/local/unob-thesis/0.1.0
+```
 
 </details>
 
@@ -365,6 +370,8 @@ The template deliberately exports no boxes, callouts, or drawing tools. If you n
 python3 -m unittest discover -s tests -v       # regression tests (Typst + Poppler)
 python3 scripts/ci.py check --output dist      # same as CI: package, typst init, 9 PDFs
 ```
+
+Want to contribute? Setup, code map, and guidelines are in [`CONTRIBUTING.md`](.github/CONTRIBUTING.md); report bugs and ideas via [Issues](https://github.com/iamanro/uo-thesis/issues/new/choose).
 
 <details>
 <summary><b>Tests and previewing changes</b></summary>

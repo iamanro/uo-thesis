@@ -1,0 +1,12 @@
+# Akce v workflow jsou připnuté na commit SHA; Dependabot je drží aktuální.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      github-actions:
+        patterns: ["*"]
+    commit-message:
+      prefix: ci

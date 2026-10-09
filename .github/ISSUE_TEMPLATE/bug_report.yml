@@ -1,0 +1,85 @@
+name: 🐛 Chyba v šabloně / Bug report
+description: Šablona sází špatně, padá nebo hlásí nesrozumitelnou chybu. / The template typesets wrongly, fails, or reports an unclear error.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Díky za nahlášení! Nejrychleji pomůže **minimální ukázka**, na které se chyba projeví.
+        Nevkládej celou práci ani osobní údaje — stačí pár řádků `main.typ` / `config.toml`.
+
+        Thanks for the report! A **minimal example** that shows the problem helps most. Please do not paste your whole thesis or personal data.
+  - type: input
+    id: version
+    attributes:
+      label: Verze šablony / Template version
+      description: Z importu v `main.typ`, např. `@local/unob-thesis:0.1.0`.
+      placeholder: "0.1.0"
+    validations:
+      required: true
+  - type: input
+    id: typst
+    attributes:
+      label: Verze Typstu / Typst version
+      description: Výstup `typst --version`, případně verze Tinymistu.
+      placeholder: "typst 0.15.1"
+    validations:
+      required: true
+  - type: dropdown
+    id: editor
+    attributes:
+      label: Kde sázíš / Where do you compile
+      options:
+        - Příkazová řádka (typst compile / watch)
+        - VS Code + Tinymist
+        - Typst Web App
+        - Jinde / Other
+    validations:
+      required: true
+  - type: dropdown
+    id: mode
+    attributes:
+      label: Režim a fakulta / Mode and faculty
+      multiple: true
+      options:
+        - draft
+        - final
+        - fvl
+        - fvt
+        - vlf
+        - uo / uo-*
+        - lang = "en"
+        - twoside = false
+  - type: textarea
+    id: what
+    attributes:
+      label: Co se stalo / What happened
+      description: Popis chyby; u chyby sazby přilož snímek strany. / Describe the bug; attach a page screenshot for layout issues.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Co jsi čekal(a) / What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: Minimální ukázka / Minimal example
+      description: Nejmenší `main.typ` (a případně `config.toml`), na kterém se chyba projeví.
+      render: typst
+  - type: textarea
+    id: log
+    attributes:
+      label: Chybová hláška / Error output
+      description: Celý výstup kompilátoru. / Full compiler output.
+      render: shell
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Kontrola / Checklist
+      options:
+        - label: Prošel(a) jsem README (sekce Reference). / I checked the README reference.
+          required: true
+        - label: Chyba se projeví i v čistém projektu z `typst init`. / It also happens in a fresh `typst init` project.
