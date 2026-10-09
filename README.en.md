@@ -349,13 +349,14 @@ The `[faculty]` section holds the official faculty colours — do not change the
 The template deliberately exports no boxes, callouts, or drawing tools. If you need more, import Typst Universe packages directly in your thesis: `@preview/showybox`, `@preview/frame-it`, `@preview/cetz`, `@preview/fletcher`, `@preview/physica`, `@preview/zero`, `@preview/subpar`.
 
 > [!WARNING]
-> **Do not import `@preview/vlna`.** The template already handles Czech non-breaking spaces (`@preview/vlna:0.3.0` in `src/styling/packages.typ`). A second `#show: apply-vlna` applies every rule twice — same output, much slower compile (544-page dissertation: 7.9 s → 11.2 s). For part of the text use `#vlna-off()` / `#vlna-on()`.
+> **Do not import `@preview/vlna`.** The template already handles Czech non-breaking spaces (`@preview/vlna:0.4.0` in `src/styling/packages.typ`). A second `#show: apply-vlna` applies every rule twice — same output, much slower compile (544-page dissertation: 7.9 s → 11.2 s). For part of the text use `#vlna-off()` / `#vlna-on()`.
 
 </details>
 
 <details>
 <summary><b>Good practice and accessibility</b></summary>
 
+- **Supervisor wants Word:** the typeset PDF can be converted with Adobe Acrobat (*File › Export a PDF › Microsoft Word*) or Adobe's online PDF-to-Word tool. Use the result for reading and comments, not for further writing: fields, numbering, and cross-references are not live, and equations and tables may break. Keep writing in Typst and convert again.
 - Replace all sample content (text, references, glossary, metadata) with your own and turn on `submit_check` before submitting.
 - **Accessibility (PDF/UA):** give every image an `alt` text, especially the assignment scan: `assignment_front: image("zadani.png", alt: "Thesis assignment")`. The template sets the document language, metadata, and logo `alt` texts; Typst exports tagged PDF.
 - **Archival PDF:** `typst compile --pdf-standard a-3b,ua-1 main.typ`. Verify conformance with [veraPDF](https://verapdf.org/); a successful export does not replace a screen-reader check.

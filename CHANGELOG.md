@@ -6,6 +6,10 @@ verzování dle [SemVer](https://semver.org/lang/cs/).
 
 ## [Nevydáno]
 
+### Změněno
+- **Závislosti** — `@preview/vlna` 0.3.0 → 0.4.0 (vysázené stránky beze změny).
+  `codly`, `codly-languages` a Typst 0.15.1 jsou aktuální.
+
 ## [0.1.0] – 2026-10-09
 
 První vydání šablony.
