@@ -349,7 +349,7 @@ Sekce `[faculty]` obsahuje oficiální barvy fakult — neměň je bez svolení 
 Šablona záměrně neexportuje boxy, callouty ani kreslicí nástroje. Když potřebuješ víc, importuj balíčky z Typst Universe přímo v práci: `@preview/showybox`, `@preview/frame-it`, `@preview/cetz`, `@preview/fletcher`, `@preview/physica`, `@preview/zero`, `@preview/subpar`.
 
 > [!WARNING]
-> **Neimportuj `@preview/vlna`.** Nezlomitelné mezery řeší šablona sama (`@preview/vlna:0.3.0` v `src/styling/packages.typ`). Druhé `#show: apply-vlna` aplikuje pravidla dvakrát — výsledek je stejný, ale kompilace se zpomalí (544stránková disertace: 7,9 s → 11,2 s). Pro část textu použij `#vlna-off()` / `#vlna-on()`.
+> **Neimportuj `@preview/vlna`.** Nezlomitelné mezery řeší šablona sama (`@preview/vlna:0.4.0` v `src/styling/packages.typ`). Druhé `#show: apply-vlna` aplikuje pravidla dvakrát — výsledek je stejný, ale kompilace se zpomalí (544stránková disertace: 7,9 s → 11,2 s). Pro část textu použij `#vlna-off()` / `#vlna-on()`.
 
 </details>
 
