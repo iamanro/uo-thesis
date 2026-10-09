@@ -366,6 +366,8 @@ python3 -m unittest discover -s tests -v       # regresní testy (Typst + Popple
 python3 scripts/ci.py check --output dist      # totéž co CI: balíček, typst init, 9 PDF
 ```
 
+Chceš přispět? Postup, struktura kódu a zásady jsou v [`CONTRIBUTING.md`](.github/CONTRIBUTING.md); chyby a návrhy hlas přes [Issues](https://github.com/iamanro/uo-thesis/issues/new/choose).
+
 <details>
 <summary><b>Testy a náhled úprav</b></summary>
 

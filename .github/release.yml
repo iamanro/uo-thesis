@@ -1,0 +1,14 @@
+# Kategorie automaticky generovaných poznámek k vydání (gh release create --generate-notes).
+changelog:
+  exclude:
+    labels: [duplicate, invalid, wontfix]
+    authors: [dependabot]
+  categories:
+    - title: ✨ Nové funkce
+      labels: [enhancement]
+    - title: 🐛 Opravy
+      labels: [bug]
+    - title: 📖 Dokumentace
+      labels: [documentation]
+    - title: Ostatní změny
+      labels: ["*"]

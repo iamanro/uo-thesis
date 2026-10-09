@@ -366,6 +366,8 @@ python3 -m unittest discover -s tests -v       # regression tests (Typst + Poppl
 python3 scripts/ci.py check --output dist      # same as CI: package, typst init, 9 PDFs
 ```
 
+Want to contribute? Setup, code map, and guidelines are in [`CONTRIBUTING.md`](.github/CONTRIBUTING.md); report bugs and ideas via [Issues](https://github.com/iamanro/uo-thesis/issues/new/choose).
+
 <details>
 <summary><b>Tests and previewing changes</b></summary>
 

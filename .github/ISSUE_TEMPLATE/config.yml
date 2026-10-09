@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 Návod a reference / Documentation
+    url: https://github.com/iamanro/uo-thesis#readme
+    about: Instalace, konfigurace, glosář, přílohy a kontrola před odevzdáním. / Installation, configuration, glossary, appendices, and the pre-submission check.
+  - name: 🔒 Bezpečnostní problém / Security issue
+    url: https://github.com/iamanro/uo-thesis/security/advisories/new
+    about: Soukromé hlášení zranitelnosti — nezakládej veřejné issue. / Report privately, not as a public issue.

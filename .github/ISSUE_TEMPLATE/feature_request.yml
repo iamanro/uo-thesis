@@ -1,0 +1,34 @@
+name: ✨ Návrh / Feature request
+description: Nová funkce, volba nebo úprava sazby. / A new feature, option, or layout change.
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Šablona se drží pravidel Univerzity obrany pro závěrečné práce. Pokud návrh vychází z požadavku fakulty nebo vedoucího, uveď prosím zdroj.
+
+        The template follows the University of Defence thesis rules. If your idea comes from a faculty or supervisor requirement, please name the source.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Jaký problém řeší / What problem does it solve
+      description: Co dnes nejde nebo jde špatně? / What is impossible or awkward today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Návrh řešení / Proposed solution
+      description: Jak by to mělo fungovat, případně ukázka zápisu v `main.typ` / `config.toml`.
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Zdroj požadavku / Source of the requirement
+      description: Směrnice, pokyny fakulty, připomínka vedoucího… (nepovinné) / Regulation, faculty guidelines, supervisor feedback… (optional)
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Zvažované alternativy / Alternatives considered
+      description: Např. doplňkový balíček z Typst Universe. / E.g. an add-on package from Typst Universe.
