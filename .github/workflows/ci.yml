@@ -43,7 +43,7 @@ jobs:
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ${{ env.TYPST_PACKAGE_CACHE_PATH }}
-          key: typst-packages-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('typst.toml', 'src/styling/packages.typ') }}
+          key: typst-packages-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('typst.toml', 'src/styling/packages.typ', 'examples/**/*.typ') }}
           restore-keys: |
             typst-packages-${{ runner.os }}-${{ runner.arch }}-
       - name: Test public behavior and compile the distributable

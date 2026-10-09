@@ -39,7 +39,7 @@ Typst je sázecí program, který z textových souborů vyrobí PDF. Šablona `u
 - *Literatura* je v souboru `references.bib`, v textu stačí `@novak2020`. Seznam zdrojů se vysází sám.
 - *Zkratky a pojmy* jsou v `glossary.toml`, v textu se píše `#trm("iso")`.
 - *Kontrola před odevzdáním* (`submit_check = true`) zastaví kompilaci, když zůstal ukázkový text, chybí abstrakt nebo zadání, má obrázek bez popisu nebo zbylo `#todo`.
-- PDF/A a PDF/UA vyrobí `typst compile --pdf-standard a-3b,ua-1 main.typ`.
+- Archivní PDF/A vyrobí `typst compile --pdf-standard a-3b main.typ`. PDF/UA (přístupné) vyžaduje popis `alt` u každého obrázku i rovnice, u práce s matematikou je proto náročné.
 
 == Co je jinak a co Typst neumí
 

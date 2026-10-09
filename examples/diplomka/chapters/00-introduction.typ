@@ -1,0 +1,7 @@
+Přenosné komunikační prostředky jsou na bojišti závislé na jediném: na tom, jak dlouho vydrží jejich zdroj energie. Radiostanice, která přestane vysílat uprostřed úkolu, ztrácí hodnotu bez ohledu na to, jak dobrá je její anténa nebo šifrování. Zdrojem je dnes téměř vždy lithium-iontový akumulátor. Jeho chování však není jednoduché: napětí klesá s odebraným nábojem, vnitřní odpor roste se zhoršujícími se podmínkami a při mrazu se využitelná kapacita výrazně zmenšuje.
+
+Velitel a plánovač spoje potřebují odpověď na praktickou otázku: _jak dlouho bude zdroj za daných podmínek napájet zařízení s daným odběrem?_ Odpověď lze získat měřením, to je ale pomalé a pro každý typ článku a teplotu se musí opakovat. Matematický model, který se jednou identifikuje a pak předpovídá chování pro libovolný proud a teplotu, je rychlejší a levnější cestou.
+
+Tato práce takový model staví na článku formátu 18650 a ověřuje jej měřením. Teoretická část (kapitola 1) shrnuje elektrochemii článku, kinetiku, difuzi a tepelné děje a odvozuje z nich náhradní obvod. Kapitola 2 vymezuje cíl a omezení. Kapitola 3 popisuje měřicí soustavu, identifikaci parametrů a numerické řešení. Kapitola 4 uvádí a diskutuje výsledky.
+
+*Poznámka k ukázce.* Tato práce je fiktivní. Slouží k předvedení šablony `unob-thesis`: matematika, chemie, fyzika, jednotky, grafy, tabulky, výpisy kódu, seznamy a přílohy. Všechny osoby, měření a výsledky jsou smyšlené, odkazy na literaturu jsou skutečné.

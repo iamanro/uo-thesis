@@ -52,6 +52,7 @@
   counter(figure.where(kind: table)).update(0)
   counter(figure.where(kind: image)).update(0)
   counter(math.equation).update(0)
+  counter(figure.where(kind: raw)).update(0)
 }
 
 /// Vykreslí nečíslovaný H1 nadpis pro přední části a seznamy.

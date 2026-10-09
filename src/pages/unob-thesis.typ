@@ -180,7 +180,7 @@
     twoside: twoside,
   )
   show: apply-heading-styles.with(draft: draft, twoside: twoside)
-  show: apply-figure-styles
+  show: apply-figure-styles.with(accent: if effective-theme.faculty_colored { effective-theme.faculty_color })
   // Přepínání dlouhá/krátká verze popisků (flex-caption) i v šablonových seznamech.
   show: apply-flex-caption-outline
 
