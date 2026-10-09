@@ -53,7 +53,11 @@ git clone https://github.com/iamanro/uo-thesis.git ~/.local/share/typst/packages
 | macOS | `~/Library/Application Support/typst/packages/local/unob-thesis/0.1.0/` |
 | Windows | `%APPDATA%\typst\packages\local\unob-thesis\0.1.0\` |
 
-Bez Gitu: na [stránce repozitáře](https://github.com/iamanro/uo-thesis) klikni na **Code ▸ Download ZIP** a obsah rozbaleného archivu (`typst.toml`, `src/`, `template/`, …) přesuň do složky balíčku z tabulky.
+Bez Gitu: z [posledního vydání](https://github.com/iamanro/uo-thesis/releases/latest) stáhni `unob-thesis-<verze>.tar.gz` (otestovaný v CI, ověříš ho přes `SHA256SUMS`) a rozbal ho do složky balíčku z tabulky:
+
+```bash
+tar -xzf unob-thesis-0.1.0.tar.gz -C ~/.local/share/typst/packages/local/unob-thesis/0.1.0
+```
 
 </details>
 
