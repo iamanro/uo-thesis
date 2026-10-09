@@ -6,6 +6,12 @@ verzování dle [SemVer](https://semver.org/lang/cs/).
 
 ## [Nevydáno]
 
+### Změněno
+- **Závislosti** — `@preview/vlna` 0.3.0 → 0.4.0 (vysázené stránky beze změny)
+  a GitHub Actions na aktuální hlavní verze (`checkout` v7, `cache` v6,
+  `upload-artifact` v7, `download-artifact` v8), stále připnuté na commit.
+  `codly`, `codly-languages` a Typst 0.15.1 jsou aktuální.
+
 ## [0.1.0] – 2026-10-09
 
 První vydání šablony.

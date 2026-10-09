@@ -349,7 +349,7 @@ The `[faculty]` section holds the official faculty colours — do not change the
 The template deliberately exports no boxes, callouts, or drawing tools. If you need more, import Typst Universe packages directly in your thesis: `@preview/showybox`, `@preview/frame-it`, `@preview/cetz`, `@preview/fletcher`, `@preview/physica`, `@preview/zero`, `@preview/subpar`.
 
 > [!WARNING]
-> **Do not import `@preview/vlna`.** The template already handles Czech non-breaking spaces (`@preview/vlna:0.3.0` in `src/styling/packages.typ`). A second `#show: apply-vlna` applies every rule twice — same output, much slower compile (544-page dissertation: 7.9 s → 11.2 s). For part of the text use `#vlna-off()` / `#vlna-on()`.
+> **Do not import `@preview/vlna`.** The template already handles Czech non-breaking spaces (`@preview/vlna:0.4.0` in `src/styling/packages.typ`). A second `#show: apply-vlna` applies every rule twice — same output, much slower compile (544-page dissertation: 7.9 s → 11.2 s). For part of the text use `#vlna-off()` / `#vlna-on()`.
 
 </details>
 
