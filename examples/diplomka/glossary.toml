@@ -1,0 +1,129 @@
+# Glosář ukázkové práce: zkratky, pojmy a symboly v jednom souboru.
+
+[li_ion]
+short = "Li-ion"
+en = "lithium-ion"
+cs = "lithium-iontový"
+
+[bms]
+short = "BMS"
+en = "Battery Management System"
+cs = "systém řízení baterie"
+
+[soc]
+short = "SOC"
+en = "State of Charge"
+cs = "stav nabití"
+
+[ocv]
+short = "OCV"
+en = "Open-Circuit Voltage"
+cs = "napětí naprázdno"
+
+[rmse]
+short = "RMSE"
+en = "Root Mean Square Error"
+cs = "střední kvadratická chyba"
+
+[ode]
+short = "ODR"
+cs = "obyčejná diferenciální rovnice"
+csplural = "obyčejné diferenciální rovnice"
+
+[mo_cr]
+short = "MO ČR"
+cs = "Ministerstvo obrany České republiky"
+
+[sei]
+short = "SEI vrstva"
+glossary = "Pasivační vrstva produktů rozkladu elektrolytu, která se při prvních cyklech vytvoří na povrchu grafitové anody. Chrání elektrolyt před dalším rozkladem, ale zvyšuje vnitřní odpor článku."
+
+[c_rate]
+short = "C-rate"
+glossary = "Proud vyjádřený jako násobek jmenovité kapacity článku. Proud 1C vybije plně nabitý článek za jednu hodinu, proud 2C za půl hodiny."
+
+[interkalace]
+short = "interkalace"
+glossary = "Vratné vkládání iontů (zde lithia) do mezivrstevných prostor krystalové mřížky elektrody bez jejího zásadního porušení."
+
+[u_oc]
+symbol = 'U_"oc"'
+symbol_alt = "U s indexem oc, napětí naprázdno"
+unit = "V"
+unit_alt = "volt"
+cs = "napětí naprázdno"
+
+[u_t]
+symbol = 'U_"t"'
+symbol_alt = "U s indexem t, svorkové napětí"
+unit = "V"
+unit_alt = "volt"
+cs = "svorkové napětí"
+
+[i_cur]
+symbol = "I"
+symbol_alt = "velké I, vybíjecí proud"
+unit = "A"
+unit_alt = "ampér"
+cs = "vybíjecí proud"
+
+[r_0]
+symbol = "R_0"
+symbol_alt = "R s indexem nula, ohmický odpor"
+unit = "Ω"
+unit_alt = "ohm"
+cs = "ohmický odpor článku"
+
+[r_1]
+symbol = "R_1"
+symbol_alt = "R s indexem jedna, polarizační odpor"
+unit = "Ω"
+unit_alt = "ohm"
+cs = "polarizační odpor"
+
+[c_1]
+symbol = "C_1"
+symbol_alt = "C s indexem jedna, polarizační kapacita"
+unit = "F"
+unit_alt = "farad"
+cs = "polarizační kapacita"
+
+[q_cap]
+symbol = "Q"
+symbol_alt = "velké Q, kapacita článku"
+unit = "A h"
+unit_alt = "ampérhodina"
+cs = "jmenovitá kapacita"
+
+[s_soc]
+symbol = "s"
+symbol_alt = "malé s, stav nabití v relativní míře"
+cs = "stav nabití (0 až 1)"
+
+[t_kelvin]
+symbol = "T"
+symbol_alt = "velké T, termodynamická teplota"
+unit = "K"
+unit_alt = "kelvin"
+cs = "termodynamická teplota"
+
+[e_a]
+symbol = 'E_"a"'
+symbol_alt = "E s indexem a, aktivační energie"
+unit = "J mol^(-1)"
+unit_alt = "joule na mol"
+cs = "aktivační energie"
+
+[faraday]
+symbol = "F"
+symbol_alt = "velké F, Faradayova konstanta"
+unit = "C mol^(-1)"
+unit_alt = "coulomb na mol"
+cs = "Faradayova konstanta"
+
+[gas_r]
+symbol = 'R_"g"'
+symbol_alt = "R s indexem g, molární plynová konstanta"
+unit = "J mol^(-1) K^(-1)"
+unit_alt = "joule na mol a kelvin"
+cs = "molární plynová konstanta"

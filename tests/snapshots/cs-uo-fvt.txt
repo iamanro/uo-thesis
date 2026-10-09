@@ -1,0 +1,73 @@
+UNIVERZITA OBRANY FAKULTA VOJENSKÝCH TECHNOLOGIÍ Studijní program: Řízení a použití ozbrojených sil Studijní specializace: Management informačních zdrojů DIPLOMOVÁ PRÁCE Název práce Zpracoval: rtm. Jan Novák Vedoucí práce: pplk. Ing. Jana Nováková, Ph.D. Odborný konzultant: Mgr. Jan Novák BRNO <rok>
+
+
+
+Zde patří zadání.
+
+Zde patří zadání.
+
+PODĚKOVÁNÍ Děkuji všem, kteří mě při zpracování práce podporovali.
+
+
+
+ČESTNÉ PROHLÁŠENÍ Prohlašuji, že jsem zadanou diplomovou práci na téma Název práce vypracoval samostatně, pod odborným vedením vedoucí práce pplk. Ing. Jany Novákové, Ph.D., a použil jsem pouze literární zdroje uvedené v práci. Dále prohlašuji, že při vytváření této práce jsem použil nástroje umělé inteligence. Tyto nástroje byly využity v souladu s platnými obecně závaznými právními předpisy, vnitřními předpisy Univerzity obrany a Fakulty vojenských technologií a etickými normami. Dále prohlašuji, že jsem seznámen s tím, že se na moji diplomovou práci vztahují práva a povinnosti vyplývající ze zákona č. 121/2000 Sb., o právu autorském, o právech souvisejících s právem autorským a o změně některých zákonů (autorský zákon), ve znění pozdějších předpisů, zejména skutečnosti, že Univerzita obrany má právo na uzavření licenční smlouvy o užití této diplomové práce jako školního díla podle § 60 odst. 1 výše uvedeného zákona, a s tím, že pokud dojde k užití této diplomové práce mnou nebo bude poskytnuta licence o užití díla třetímu subjektu, je Univerzita obrany oprávněna ode mne požadovat přiměřený příspěvek na úhradu nákladů, které na vytvoření díla vynaložila, a to podle okolností až do jejich skutečné výše. Souhlasím se zpřístupněním své diplomové práce pro prezenční studium v prostorách knihovny Univerzity obrany. V Brně, dne <datum> ...................................................................... rtm. Jan Novák
+
+
+
+ABSTRAKT Český abstrakt práce. Klíčová slova: klíčové slovo 1, klíčové slovo 2, klíčové slovo 3
+
+
+
+ABSTRACT English abstract of the thesis. Keywords: keyword 1, keyword 2, keyword 3
+
+
+
+OBSAH PODĚKOVÁNÍ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠5 ČESTNÉ PROHLÁŠENÍ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠7 ABSTRAKT . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠9 ABSTRACT . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠11 SEZNAM ZKRATEK . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠15 SEZNAM POJMŮ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠17 SEZNAM SYMBOLŮ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠19 ÚVOD . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠21 1 TEORETICKÁ ČÁST / ANALÝZA SOUČASNÉHO STAVU . . . . . ⁠23 2 CÍL A OMEZENÍ ZÁVĚREČNÉ PRÁCE . . . . . . . . . . . . . . . . . . . . . . . . . ⁠25 3 POUŽITÉ METODY . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠27 4 PRAKTICKÁ ČÁST / VÝSLEDKY A DISKUSE . . . . . . . . . . . . . . . . . ⁠29 ZÁVĚR . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠31 BIBLIOGRAFIE . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠33 SEZNAM PŘÍLOH . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ⁠35 13
+
+
+
+SEZNAM ZKRATEK AČR Armáda České republiky ISO International Organization for Standardization Mezinárodní organizace pro standardizaci LLM Large Language Model Velký jazykový model 15
+
+
+
+SEZNAM POJMŮ Zero Trust: Bezpečnostní model, který implicitně nedůvěřuje žádnému prvku sítě a vyžaduje ověření každého přístupu. 17
+
+
+
+SEZNAM SYMBOLŮ 𝜌 kg m−3 hustota 𝑣max m s−1 maximální rychlost 19
+
+
+
+ÚVOD Zde je úvodní text práce. 21
+
+
+
+1 TEORETICKÁ ČÁST / ANALÝZA SOUČASNÉHO STAVU Normy Mezinárodní organizace pro standardizaci (International Organization for Standardization - ISO) jsou důležité pro sjednocení procesů. Při další zmínce už stačí ISO. Instituce AČR používá český rozpad jen v seznamu zkratek. V některých dokumentech se objevují i ISO. Model Velký jazykový model (Large Language Model - LLM) dnes tvoří základ mnoha aplikací. V dalších kapitolách už řešíme jen LLM. Koncept Zero Trust se prosazuje v kybernetické bezpečnosti. Tato část je zatím v pracovní verzi a bude doplněna. 23
+
+
+
+2 CÍL A OMEZENÍ ZÁVĚREČNÉ PRÁCE Cílem práce je navrhnout a ověřit řešení zadaného problému. Práce je omezena dostupností zdrojů a časovým rámcem standardní doby studia. 25
+
+
+
+3 POUŽITÉ METODY V práci jsou použity vědecké metody: analýza, syntéza, komparace a případová studie. 27
+
+
+
+4 PRAKTICKÁ ČÁST / VÝSLEDKY A DISKUSE Výsledky jsou prezentovány v kontextu teoretického rámce stanoveného v předchozích kapitolách. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim aeque doleamus animo, cum corpore dolemus, fieri tamen permagna accessio potest, si aliquod aeternum et infinitum impendere malum nobis opinemur. Quod idem licet transferre in voluptatem, ut. Výzkum (1) ukazuje základní přístupy, zatímco (2) a (3) přinášejí další perspektivy. 29
+
+
+
+ZÁVĚR Závěrečné shrnutí výsledků práce. 31
+
+
+
+BIBLIOGRAFIE 1. ABRAHÁM, Jan a BENEŠ, Petr. Základy teorie obrany státu. Brno : Univerzita obrany, 2022. 2. ACKOFF, Russell L. From Data to Wisdom. Journal of Applied Systems Analysis. 1989. Vol. 16, p. 3–9. 3. NORTH ATLANTIC TREATY ORGANIZATION. NATO 2022 Strategic Concept. Online. 2022. [Accessed 1 prosinec 2024]. Available from: https://​www​.nato​.int/​ strategic​-concept 4. NOVÁK, Jan a NOVÁKOVÁ, Jana. Management informačních zdrojů v ozbrojených silách. Vojenské rozhledy. 2023. Vol. 32, no. 2, p. 45–62. 5. SVOBODA, Tomáš. Řízení obrany státu v podmínkách hybridních hrozeb. Diplomová práce. Brno, 2020. 33
+
+
+
+SEZNAM PŘÍLOH PŘÍLOHA A NÁZEV PRVNÍ PŘÍLOHY 35
+
+
+
+PŘÍLOHA A NÁZEV PRVNÍ PŘÍLOHY A–1

@@ -6,6 +6,34 @@ verzování dle [SemVer](https://semver.org/lang/cs/).
 
 ## [Nevydáno]
 
+### Přidáno
+- **Ukázková diplomová práce** (`examples/diplomka/`, 40 stran, z toho 19 stran textu): fiktivní práce o modelování
+  vybíjení Li-ion článku s matematikou a číslovanými rovnicemi, chemií (`typsium`), fyzikou
+  (`physica`), jednotkami a nejistotami (`zero`), grafy a kresbami (`cetz`, `cetz-plot`), schématem
+  (`fletcher`), podobrázky (`subpar`), výpisy kódu v Pythonu, Rustu a Typstu, glosářem se symboly,
+  přílohami, stranou na šířku a `submit_check`. CI ji sází a přikládá k vydání.
+- **Validace veraPDF v CI** — PDF/A-3b (šablona i ukázková práce) a PDF/UA-1 (šablona) prochází validátorem
+  veraPDF (obraz `verapdf/cli` připnutý na digest); dříve se ověřovalo jen, že Typst export dokončí.
+- **Snapshoty sazby v CI** — text každé strany sedmi profilů a ukázkové práce se porovnává
+  s `tests/snapshots/`; nezáměrná změna sazby shodí CI. Záměrnou změnu zapíše
+  `UPDATE_SNAPSHOTS=1 python3 scripts/ci.py check`.
+
+### Změněno
+- **Vzhled tabulek** — záhlaví má jemné podbarvení (barva fakulty, bez barev šedá), řádky těla střídavé
+  pruhy a tenká linka pod hlavičkou; vnější linky zůstávají a nezakrývá je podbarvení.
+
+### Opraveno
+- **`submit_check` a výpisy kódu** — ikony jazyka v `codly` jsou obrázky bez `alt`, takže práce s výpisem
+  kódu neprošla kontrolou a nešla exportovat jako PDF/UA. Ikony jsou vypnuté, název jazyka zůstává.
+- **Číslování výpisů** — čítač výpisů se nenuloval v kapitolách a přílohách (příloha začínala „B–4“).
+  Nyní se nuluje spolu s obrázky, tabulkami a rovnicemi.
+- **Dokumentace PDF/UA** — README a tahák výslovně uvádějí, že PDF/UA-1 vyžaduje `alt` u každé rovnice,
+  takže pro práce s matematikou je prakticky nedosažitelné; doporučený export je PDF/A-3b.
+
+### Změněno
+- **Závislosti** — `@preview/vlna` 0.3.0 → 0.4.0 (vysázené stránky beze změny).
+  `codly`, `codly-languages` a Typst 0.15.1 jsou aktuální.
+
 ## [0.1.0] – 2026-10-09
 
 První vydání šablony.

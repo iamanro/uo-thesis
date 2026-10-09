@@ -70,5 +70,18 @@ class ReleaseBundle(unittest.TestCase):
             CI.package_bundle(self.root, self.output, 0)
 
 
+class Snapshots(unittest.TestCase):
+    def test_word_order_on_a_page_is_ignored_but_changed_words_are_reported(self):
+        same = CI.snapshot_difference(["a b c", "d e"], ["c a b", "e d"])
+        self.assertIsNone(same)
+        changed = CI.snapshot_difference(["a b c", "d e"], ["a b c", "d x"])
+        self.assertIn("strana 2", changed)
+        self.assertIn("'e'", changed)
+        self.assertIn("'x'", changed)
+
+    def test_different_page_count_is_reported(self):
+        self.assertIn("počet stran 1 → 2", CI.snapshot_difference(["a"], ["a", "b"]))
+
+
 if __name__ == "__main__":
     unittest.main()

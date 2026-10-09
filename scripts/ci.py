@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Validate and build the actual distributable template; Python 3.12+ only."""
 import argparse
+from collections import Counter
+import difflib
 import gzip
 import hashlib
 import json
@@ -27,6 +29,56 @@ PROFILES = {
     "cs-uo-fvt": {"lang": "cs", "faculty": "uo-fvt", "draft": False},
     "en-uo-vlf": {"lang": "en", "faculty": "uo-vlf", "draft": False},
 }
+
+
+EXAMPLE = ROOT / "examples" / "diplomka"
+SNAPSHOTS = ROOT / "tests" / "snapshots"
+# Profily, jejichž text a počet stran hlídají snapshoty (PDF/A a PDF/UA mají text shodný s `template`).
+SNAPSHOT_PROFILES = (*PROFILES, "ukazka-diplomka")
+
+
+def page_texts(pdf):
+    """Text jednotlivých stran PDF; datum a rok (závisí na času sestavení) se nahradí zástupcem."""
+    text = subprocess.run(["pdftotext", str(pdf), "-"], check=True, text=True,
+                          capture_output=True).stdout
+    pages = []
+    for page in text.split("\f")[:-1] if text.endswith("\f") else text.split("\f"):
+        page = " ".join(page.split())
+        page = re.sub(r"(dne )\d{1,2}\. \d{1,2}\. \d{4}", r"\1<datum>", page)
+        page = re.sub(r"(BRNO|HRADEC KRÁLOVÉ) \d{4}", r"\1 <rok>", page)
+        pages.append(page)
+    return pages
+
+
+def snapshot_difference(expected, actual):
+    """Popis rozdílu mezi dvěma seznamy textů stran, nebo None. Pořadí slov na straně se
+    nesrovnává (různé verze Poppleru řadí matematiku různě), srovnává se množina slov."""
+    if len(expected) != len(actual):
+        return f"počet stran {len(expected)} → {len(actual)}"
+    for number, (old, new) in enumerate(zip(expected, actual), start=1):
+        before, after = Counter(old.split()), Counter(new.split())
+        if before != after:
+            removed = sorted((before - after).elements())[:12]
+            added = sorted((after - before).elements())[:12]
+            return f"strana {number}: ubylo {removed}, přibylo {added}"
+    return None
+
+
+def check_snapshot(name, pdf):
+    """Porovná text PDF se snapshotem v tests/snapshots; UPDATE_SNAPSHOTS=1 jej přepíše."""
+    pages = page_texts(pdf)
+    path = SNAPSHOTS / f"{name}.txt"
+    if os.environ.get("UPDATE_SNAPSHOTS"):
+        SNAPSHOTS.mkdir(exist_ok=True)
+        path.write_text("\n\f\n".join(pages) + "\n")
+        return
+    if not path.is_file():
+        raise ValueError(f"Chybí snapshot {path.relative_to(ROOT)}; vytvoř ho přes UPDATE_SNAPSHOTS=1")
+    expected = path.read_text().rstrip("\n").split("\n\f\n")
+    difference = snapshot_difference(expected, pages)
+    if difference:
+        raise ValueError(f"Sazba profilu {name} se změnila ({difference}). Je-li změna záměrná, "
+                         f"spusť s UPDATE_SNAPSHOTS=1 a snapshot zkontroluj v diffu.")
 
 
 def run(command, **kwargs):
@@ -129,11 +181,35 @@ def check(output, tag=""):
                 print(result.stderr, file=sys.stderr)
             if "warning:" in result.stderr:
                 raise ValueError(f"Typst warnings in {name}; fix references/layout before shipping")
+            if name in SNAPSHOT_PROFILES:
+                check_snapshot(name, pdf)
             info = run(["pdfinfo", str(pdf)], capture_output=True).stdout
             pages = int(re.search(r"(?m)^Pages:\s+(\d+)", info)[1])
             builds.append({"profile": name, "overrides": overrides, "standard": standard,
                            "pages": pages, "bytes": pdf.stat().st_size})
             print(f"{name}: {pages} pages ({pdf.stat().st_size} bytes)", flush=True)
+    # Ukázková práce se sází ze zdrojů v repozitáři (nejde do balíčku); PDF/UA zde nelze,
+    # protože vyžaduje `alt` u každé rovnice, proto PDF/A-3b.
+    for name, standard in (("ukazka-diplomka", None), ("ukazka-diplomka-pdfa", "a-3b")):
+        pdf = output / f"{name}.pdf"
+        command = [compiler, "compile", "--root", str(ROOT), "--font-path", str(ROOT / "template" / "fonts"),
+                   "--ignore-system-fonts", "--creation-timestamp", str(epoch), "--jobs", "2",
+                   "--diagnostic-format", "short"]
+        if standard:
+            command += ["--pdf-standard", standard]
+        command += [str(EXAMPLE / "main.typ"), str(pdf)]
+        result = run(command, capture_output=True)
+        if result.stderr:
+            print(result.stderr, file=sys.stderr)
+        if "warning:" in result.stderr:
+            raise ValueError(f"Typst warnings in {name}")
+        if name in SNAPSHOT_PROFILES:
+            check_snapshot(name, pdf)
+        info = run(["pdfinfo", str(pdf)], capture_output=True).stdout
+        pages = int(re.search(r"(?m)^Pages:\s+(\d+)", info)[1])
+        builds.append({"profile": name, "overrides": {}, "standard": standard,
+                       "pages": pages, "bytes": pdf.stat().st_size})
+        print(f"{name}: {pages} pages ({pdf.stat().st_size} bytes)", flush=True)
     manifest = {"compiler": version, "package": package["name"], "version": package["version"],
                 "commit": run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True).stdout.strip(),
                 "source_date_epoch": epoch, "builds": builds}
