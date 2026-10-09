@@ -50,6 +50,12 @@ jobs:
         env:
           RELEASE_TAG: ${{ inputs.release-tag }}
         run: python3 scripts/ci.py check --output dist --tag "$RELEASE_TAG"
+      - name: Validate PDF/A-3b and PDF/UA-1 with veraPDF
+        # verapdf/cli v1.30.3, připnuto na digest; nenulový výstup = nesplňuje normu.
+        run: |
+          verapdf() { docker run --rm -v "$PWD/dist:/data:ro" verapdf/cli@sha256:d565095c67a083e693aebf7d1a15784007370571053fc1aa5b502665b9a78f9c "$@"; }
+          verapdf --flavour 3b --format text /data/pdf-a-3b.pdf /data/ukazka-diplomka-pdfa.pdf
+          verapdf --flavour ua1 --format text /data/pdf-ua-1.pdf
       - name: Upload validated PDFs and package
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:

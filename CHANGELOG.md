@@ -12,6 +12,8 @@ verzování dle [SemVer](https://semver.org/lang/cs/).
   (`physica`), jednotkami a nejistotami (`zero`), grafy a kresbami (`cetz`, `cetz-plot`), schématem
   (`fletcher`), podobrázky (`subpar`), výpisy kódu v Pythonu, Rustu a Typstu, glosářem se symboly,
   přílohami, stranou na šířku a `submit_check`. CI ji sází a přikládá k vydání.
+- **Validace veraPDF v CI** — PDF/A-3b (šablona i ukázková práce) a PDF/UA-1 (šablona) prochází validátorem
+  veraPDF (obraz `verapdf/cli` připnutý na digest); dříve se ověřovalo jen, že Typst export dokončí.
 - **Snapshoty sazby v CI** — text každé strany sedmi profilů a ukázkové práce se porovnává
   s `tests/snapshots/`; nezáměrná změna sazby shodí CI. Záměrnou změnu zapíše
   `UPDATE_SNAPSHOTS=1 python3 scripts/ci.py check`.

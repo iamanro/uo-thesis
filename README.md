@@ -414,7 +414,7 @@ U velkých prací vyzkoušej `--jobs 8` místo automatického počtu vláken (na
 <details>
 <summary><b>CI/CD a vydání</b></summary>
 
-Workflow **Typst CI** (`.github/workflows/ci.yml`) běží pro pull requesty, `main` a ruční spuštění: Ubuntu 24.04, Typst z `package.compiler` v `typst.toml` s ověřeným SHA-256, jen přibalené fonty, akce připnuté na commity, jen právo čtení. Spustí testy, z archivu balíčku **skutečně nainstaluje šablonu přes `typst init @local/…`** a vysází sedm profilů (CS/EN, final/draft, všech sedm variant fakulty, jedno- i oboustranná sazba, živé záhlaví) plus PDF/A-3b a PDF/UA-1. Varování kompilátoru jsou chyba. Artefakt `typst-dist` (PDF, `unob-thesis-<verze>.tar.gz`, `build-info.json`, `SHA256SUMS`) se drží 14 dní.
+Workflow **Typst CI** (`.github/workflows/ci.yml`) běží pro pull requesty, `main` a ruční spuštění: Ubuntu 24.04, Typst z `package.compiler` v `typst.toml` s ověřeným SHA-256, jen přibalené fonty, akce připnuté na commity, jen právo čtení. Spustí testy, z archivu balíčku **skutečně nainstaluje šablonu přes `typst init @local/…`** a vysází sedm profilů (CS/EN, final/draft, všech sedm variant fakulty, jedno- i oboustranná sazba, živé záhlaví) plus PDF/A-3b a PDF/UA-1, které validuje [veraPDF](https://verapdf.org/), a ukázkovou práci (i jako PDF/A-3b). Text každé strany se porovnává se snapshoty v `tests/snapshots/`. Varování kompilátoru jsou chyba. Artefakt `typst-dist` (PDF, `unob-thesis-<verze>.tar.gz`, `build-info.json`, `SHA256SUMS`) se drží 14 dní.
 
 Lokálně (Python 3.12+, Git, Poppler; instalátor pro Linux x86_64):
 

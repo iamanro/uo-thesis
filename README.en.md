@@ -414,7 +414,7 @@ For large theses try `--jobs 8` instead of the automatic thread count (fewer thr
 <details>
 <summary><b>CI/CD and releases</b></summary>
 
-The **Typst CI** workflow (`.github/workflows/ci.yml`) runs on pull requests, `main`, and manual dispatch: Ubuntu 24.04, the Typst version from `package.compiler` in `typst.toml` with a verified SHA-256, bundled fonts only, commit-pinned actions, read-only permissions. It runs the tests, **installs the template from the built archive with `typst init @local/…`**, and typesets seven profiles (CS/EN, final/draft, all seven faculty variants, single- and double-sided, running header) plus PDF/A-3b and PDF/UA-1. Compiler warnings are errors. The `typst-dist` artifact (PDFs, `unob-thesis-<version>.tar.gz`, `build-info.json`, `SHA256SUMS`) is kept for 14 days.
+The **Typst CI** workflow (`.github/workflows/ci.yml`) runs on pull requests, `main`, and manual dispatch: Ubuntu 24.04, the Typst version from `package.compiler` in `typst.toml` with a verified SHA-256, bundled fonts only, commit-pinned actions, read-only permissions. It runs the tests, **installs the template from the built archive with `typst init @local/…`**, and typesets seven profiles (CS/EN, final/draft, all seven faculty variants, single- and double-sided, running header) plus PDF/A-3b and PDF/UA-1, which are validated with [veraPDF](https://verapdf.org/), and the example thesis (also as PDF/A-3b). The text of every page is compared with the snapshots in `tests/snapshots/`. Compiler warnings are errors. The `typst-dist` artifact (PDFs, `unob-thesis-<version>.tar.gz`, `build-info.json`, `SHA256SUMS`) is kept for 14 days.
 
 Locally (Python 3.12+, Git, Poppler; the installer targets Linux x86_64):
 
