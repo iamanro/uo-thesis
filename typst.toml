@@ -12,11 +12,8 @@ disciplines = ["computer-science"]
 keywords = ["thesis", "czech", "university of defence", "unob", "bachelor", "master", "dissertation"]
 exclude = [
 	".github",
-	"docs",
 	"scripts",
 	"tests",
-	".typstignore",
-	"Justfile",
 ]
 
 [template]

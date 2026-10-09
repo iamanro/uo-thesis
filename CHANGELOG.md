@@ -44,6 +44,12 @@ verzování dle [SemVer](https://semver.org/lang/cs/).
   `@preview/drafting` a `@preview/ez-today` (datum vrací nativní
   `datetime.today()`). Datum v prohlášení je bez úvodní nuly u měsíce
   („9. 1. 2026" místo „9. 01. 2026").
+- **Odstraněno `docs` (nekompatibilní změna)** — volba vkládala do práce
+  zastaralou interní dokumentaci API; README ji pokrývá. Řádek `docs = …`
+  z vlastního `config.toml` smažte, jinak `thesis-config` ohlásí neznámý klíč.
+- **Odstraněn `Taskfile.yml`** — všechny úlohy kompilovaly neexistující
+  kořenový `main.typ` a `task draft` se nelišil od `task build`; do projektu
+  z `typst init` se navíc nikdy nedostal. Vývojová cesta je `scripts/ci.py`.
 - **Vyhledávání v glosáři** — indexy klíčů a `short` vznikají jednou při
   inicializaci registrů místo procházení definic při vyhledání. Zachována
   priorita přesného klíče, porovnání bez rozlišení velikosti, diagnostika kolizí
@@ -92,6 +98,11 @@ verzování dle [SemVer](https://semver.org/lang/cs/).
   PDF neměla klíčová slova ani popis (Subject). Nyní vše funguje; regresní testy
   `SubmitCheck` v `tests/test_template.py`.
 - **Autor v metadatech PDF** — bez mezer navíc, když chybí titul před/za jménem.
+- **Chyba u neznámého typu práce** — místo „panicked with: context()" se
+  vypíše dvojjazyčná hláška s povolenými hodnotami.
+- **Ukázková příloha** — šablona už neobsahuje ladicí nadpisy (`== a`, `= ahoj`).
+- **`.gitignore` šablony** — ignoruje jen výstup `main.pdf`; skeny zadání
+  v PDF (`zadani-lic.pdf`) se dřív tiše necommitovaly.
 
 ## [0.4.0] – 2026-07-30
 

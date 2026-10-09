@@ -18,7 +18,6 @@ specialisation = "Management informačních zdrojů"
 declaration = true     # čestné prohlášení
 ai_used     = true     # odstavec o použití AI v prohlášení
 
-docs          = false  # interní dokumentace API v PDF
 submit_check  = false  # přísná kontrola před odevzdáním
 # vlna = true          # nezlomitelné mezery; výchozí `auto` = zapnuto, v draftu vypnuto (rychlejší psaní)
 fancy_heading = false  # běžné („živé") záhlaví s názvem kapitoly

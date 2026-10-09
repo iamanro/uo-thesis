@@ -62,7 +62,6 @@
     equations: false,
     listings: false,
   ),
-  docs: false,
   submit_check: false,
   vlna: auto,
   fancy_heading: false,
@@ -143,7 +142,6 @@
     acronyms: resolved_acronyms,
     terms: resolved_terms,
     symbols: resolved_symbols,
-    docs: docs,
     submit_check: submit_check,
     vlna: effective-vlna,
     fancy_heading: fancy_heading,
@@ -197,10 +195,6 @@
       lang: lang,
     )
   } else {
-    if docs != false {
-      include "internal/docs.typ"
-    }
-
     render-final-layout(
       (
         university: university,

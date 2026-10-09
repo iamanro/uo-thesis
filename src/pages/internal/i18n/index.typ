@@ -112,16 +112,24 @@
   })
 }
 
+// Funkce: panic-bilingual
+// Účel: Vyvolá dvojjazyčnou chybu (cs / en) bez závislosti na kontextu.
+//       `panic(t(key))` bez `lang` by panikařil hláškou „context()".
+#let panic-bilingual(key) = {
+  let message = translations.at(key)
+  panic(message.cs + " / " + message.en)
+}
+
 // Funkce: normalize-thesis-type
 // Účel: Normalizuje typ práce na interní hodnotu.
 #let normalize-thesis-type(thesis_type) = {
   if type(thesis_type) != str {
-    panic(t("error_thesis_type_must_be_string"))
+    panic-bilingual("error_thesis_type_must_be_string")
   }
 
   let candidate = lower(thesis_type)
   if not (candidate in supported_thesis_types) {
-    panic(t("error_unsupported_thesis_type"))
+    panic-bilingual("error_unsupported_thesis_type")
   }
   candidate
 }

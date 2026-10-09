@@ -162,7 +162,6 @@ Metadata práce se čtou z `config.toml` přes `thesis-config()` (`#show: unob-t
 | `theme` | slovník | viz níže | Barevné přepínače |
 | `bibliography` | `none` \| `bibliography(...)` \| pole | `none` | Bibliografie |
 | `appendix` | `none` \| obsah | `none` | Přílohy |
-| `docs` | bool | `false` | Zobrazí interní dokumentaci API (jen ve finálním režimu) |
 | `submit_check` | bool | `false` | Přísná kontrola před odevzdáním |
 | `symbols` | `false` \| slovník \| `true` | `false` | Symboly do Seznamu symbolů (viz `glossary.toml`) |
 | `vlna` | bool \| `auto` | `auto` | Nezlomitelné mezery; `auto` = zapnuto ve final, vypnuto v draftu (rychlejší psaní) |
@@ -273,21 +272,6 @@ Pokud přílohy neobsahují žádný H1 nadpis (`= Název přílohy`), nevykresl
 - `TeX Gyre Cursor` — kód a výpisy
 
 Ve webové aplikaci se fonty načtou automaticky. Lokálně předej složku přes `--font-path template/fonts`, nebo si fonty nainstaluj systémově (pak `--font-path` není potřeba). Kompletní rodinu lze stáhnout z [CTAN](https://mirrors.ctan.org/fonts/tex-gyre.zip).
-
-### Práce přímo s repozitářem
-
-Pokud pracuješ přímo s tímto repozitářem, je k dispozici vývojový vzorek `main.typ` v kořeni (importuje lokální `lib.typ`) a [Taskfile](https://taskfile.dev/):
-
-```bash
-task build          # finální PDF do build/
-task watch          # průběžná kompilace
-task draft          # pracovní verze
-task fonts          # seznam fontů
-task clean          # úklid build/
-task pdfa           # PDF/A-3b (archivace)
-task pdfua          # PDF/UA-1 (přístupnost)
-task archive        # PDF/A-3b + PDF/UA-1
-```
 
 ### Výkon a regresní kontroly
 
@@ -402,7 +386,7 @@ Sekce `[faculty]` obsahuje oficiální barvy fakult — neměň je bez svolení 
 - **Přístupnost (PDF/UA):** u vkládaných obrázků vždy doplň `alt` text — zejména u skenu zadání, např. `assignment_front: image("zadani.png", alt: "Zadání práce")`. Šablona sama nastavuje jazyk dokumentu, metadata (`title`, `author`, …) a `alt` u log; `alt` u vlastního obsahu musíš doplnit ty. Typst navíc ve výchozím stavu exportuje otagované (tagged) PDF, což je základ přístupnosti.
 - **Symboly:** položky glosáře s klíčem `symbol` (a `unit`) se vysází do Seznamu symbolů (`symbols: ...`, `outlines.symbols: true`).
 - **Autorské pomůcky:** `#todo[...]` a `#note[...]` jsou vidět jen v draftu; `#landscape[...]` otočí širokou tabulku/obrázek o 90° na stojaté straně. `submit_check: true` odmítne zbylá `#todo`.
-- **Archivní/přístupné PDF:** `task pdfa` (PDF/A-3b) a `task pdfua` (PDF/UA-1), nebo `--pdf-standard a-3b,ua-1`. Před odevzdáním ověř shodu se standardem nástrojem [veraPDF](https://verapdf.org/) (profil PDF/A + PDF/UA se vybere automaticky podle metadat souboru).
+- **Archivní/přístupné PDF:** `typst compile --pdf-standard a-3b,ua-1 main.typ` (PDF/A-3b + PDF/UA-1). Před odevzdáním ověř shodu se standardem nástrojem [veraPDF](https://verapdf.org/) (profil PDF/A + PDF/UA se vybere automaticky podle metadat souboru).
 - **Elektronická vs. tištěná verze:** pro odevzdávané elektronické PDF můžeš vypnout vakáty `twoside: false`; tištěná verze zůstává `twoside: true`.
 
 ### Licence
@@ -575,7 +559,6 @@ Thesis metadata are read from `config.toml` via `thesis-config()` (`#show: unob-
 | `theme` | dict | see below | Colour switches |
 | `bibliography` | `none` \| `bibliography(...)` \| array | `none` | Bibliography |
 | `appendix` | `none` \| content | `none` | Appendices |
-| `docs` | bool | `false` | Show the internal API documentation (final mode only) |
 | `submit_check` | bool | `false` | Strict pre-submission validation |
 | `symbols` | `false` \| dict \| `true` | `false` | Symbols for the List of Symbols (see `glossary.toml`) |
 | `vlna` | bool \| `auto` | `auto` | Czech non-breaking spaces; `auto` = on in final, off in draft (faster writing loop) |
@@ -673,10 +656,6 @@ The template uses the **TeX Gyre** family, bundled in `template/fonts/`:
 - `TeX Gyre Cursor` — code and listings
 
 In the web app the fonts load automatically. Locally pass the folder via `--font-path template/fonts`, or install the fonts system-wide (then `--font-path` is not needed). The full family is available from [CTAN](https://mirrors.ctan.org/fonts/tex-gyre.zip).
-
-### Working in this repository
-
-When working directly in this repository there is a development sample `main.typ` in the root (it imports the local `lib.typ`) and a [Taskfile](https://taskfile.dev/): `task build`, `task watch`, `task draft`, `task fonts`, `task clean`, `task pdfa`, `task pdfua`, `task archive`.
 
 ### Performance and regression checks
 
@@ -783,7 +762,7 @@ The template intentionally does not export custom boxes, callout blocks, or draw
 - **Accessibility (PDF/UA):** always add `alt` text to images you insert — especially a scanned assignment, e.g. `assignment_front: image("assignment.png", alt: "Thesis assignment")`. The template sets the document language, PDF metadata (`title`, `author`, …), and `alt` on the faculty logos for you; add `alt` to your own content. Typst also writes a tagged PDF by default, which is the baseline for accessibility.
 - **Symbols:** glossary entries with a `symbol` field (and `unit`) are typeset into the List of Symbols (`symbols: ...`, `outlines.symbols: true`).
 - **Authoring helpers:** `#todo[...]` and `#note[...]` show only in draft; `#landscape[...]` rotates a wide table/figure by 90° on a portrait page. `submit_check: true` rejects leftover `#todo`.
-- **Archival/accessible PDF:** `task pdfa` (PDF/A-3b) and `task pdfua` (PDF/UA-1), or `--pdf-standard a-3b,ua-1`. Before submission, verify conformance with [veraPDF](https://verapdf.org/) (the PDF/A + PDF/UA profile is selected automatically from the file's metadata).
+- **Archival/accessible PDF:** `typst compile --pdf-standard a-3b,ua-1 main.typ` (PDF/A-3b + PDF/UA-1). Before submission, verify conformance with [veraPDF](https://verapdf.org/) (the PDF/A + PDF/UA profile is selected automatically from the file's metadata).
 - **Electronic vs. printed version:** for the submitted electronic PDF you can disable blank versos with `twoside: false`; keep `twoside: true` for print.
 
 ### License

@@ -92,10 +92,6 @@
     cs: "Parametr `theme` musí být slovník (`dictionary`) nebo `false`.",
     en: "`theme` must be a dictionary or `false`.",
   ),
-  "error_docs_bool": (
-    cs: "Parametr `docs` musí být typu bool.",
-    en: "`docs` must be a bool.",
-  ),
   "error_twoside_bool": (
     cs: "Parametr `twoside` musí být typu bool (`true` nebo `false`).",
     en: "`twoside` must be a bool (`true` or `false`).",

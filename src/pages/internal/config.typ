@@ -1,4 +1,4 @@
-#import "validation.typ": panic-bilingual
+#import "i18n/index.typ": panic-bilingual
 #import "people.typ": person
 
 /// Normalizuje vstup. Pokud není slovník, vrátí prázdný.
@@ -41,7 +41,7 @@
 #let _passthrough-keys = (
   "lang", "draft", "faculty", "programme", "specialisation", "thesis",
   "declaration", "ai_used", "keywords", "outlines", "theme",
-  "docs", "submit_check", "vlna", "fancy_heading", "twoside",
+  "submit_check", "vlna", "fancy_heading", "twoside",
 )
 // Klíče s osobami — obalí se přes person(), aby dostaly výchozí pole.
 #let _person-keys = ("author", "supervisor", "first_advisor", "second_advisor")

@@ -1,8 +1,7 @@
 #import "utils.typ": has-person, has-value, plain-text
 #import "i18n/index.typ": (
-  current-lang, is-supported-faculty, is-supported-language, is-supported-thesis-type, t,
+  current-lang, is-supported-faculty, is-supported-language, is-supported-thesis-type, panic-bilingual, t,
 )
-#import "i18n/data.typ": translations
 #import "people.typ": validate-person
 
 // Funkce: panic-i18n
@@ -12,14 +11,6 @@
 // Jazyk se proto musí vyhodnotit UVNITŘ kontextu a předat explicitně.
 #let panic-i18n(key) = context {
   panic(t(key, lang: current-lang()))
-}
-
-// Funkce: panic-bilingual
-// Účel: Vyvolá dvojjazyčnou chybu (cs / en) bez závislosti na kontextu.
-//       Používá se v místech mimo sazbu, kde `panic-i18n` nelze použít.
-#let panic-bilingual(key) = {
-  let message = translations.at(key)
-  panic(message.cs + " / " + message.en)
 }
 
 // Přípustné hodnoty strany zadání: `none` (placeholder), `false` (strana se
@@ -48,7 +39,7 @@
 #let validate-config(config) = {
   let (
     lang, draft, university, thesis, author, supervisor, first_advisor, second_advisor,
-    declaration, assignment, outlines, acronyms, terms, symbols, docs, submit_check,
+    declaration, assignment, outlines, acronyms, terms, symbols, submit_check,
     vlna, fancy_heading, twoside,
   ) = config
 
@@ -107,10 +98,6 @@
 
   if type(twoside) != bool {
     panic-i18n("error_twoside_bool")
-  }
-
-  if type(docs) != bool {
-    panic-i18n("error_docs_bool")
   }
 
   if type(declaration.declaration) != bool or type(declaration.ai_used) != bool {
