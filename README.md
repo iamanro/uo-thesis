@@ -56,6 +56,7 @@ git clone https://github.com/iamanro/uo-thesis.git ~/.local/share/typst/packages
 Bez Gitu: z [posledního vydání](https://github.com/iamanro/uo-thesis/releases/latest) stáhni `unob-thesis-<verze>.tar.gz` (otestovaný v CI, ověříš ho přes `SHA256SUMS`) a rozbal ho do složky balíčku z tabulky:
 
 ```bash
+mkdir -p ~/.local/share/typst/packages/local/unob-thesis/0.1.0
 tar -xzf unob-thesis-0.1.0.tar.gz -C ~/.local/share/typst/packages/local/unob-thesis/0.1.0
 ```
 

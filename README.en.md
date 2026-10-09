@@ -56,6 +56,7 @@ git clone https://github.com/iamanro/uo-thesis.git ~/.local/share/typst/packages
 Without Git: download `unob-thesis-<version>.tar.gz` from the [latest release](https://github.com/iamanro/uo-thesis/releases/latest) (tested in CI, verify it with `SHA256SUMS`) and extract it into the package folder from the table:
 
 ```bash
+mkdir -p ~/.local/share/typst/packages/local/unob-thesis/0.1.0
 tar -xzf unob-thesis-0.1.0.tar.gz -C ~/.local/share/typst/packages/local/unob-thesis/0.1.0
 ```
 
