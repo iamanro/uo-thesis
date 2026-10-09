@@ -11,7 +11,7 @@ Všechny fakulty · česky i anglicky · PDF/A a PDF/UA · sazba pod sekundu
 
 <img src=".github/assets/hero.webp" alt="Ukázka vysázené práce: titulní strana, obsah, seznam zkratek a kapitola s tabulkou, rovnicí a výpisem kódu" width="100%">
 
-[Rychlý start](#rychlý-start) · [Psaní práce](#psaní-práce) · [Reference](#reference) · [Vývoj](#vývoj) · [Licence](#licence) · [📄 Tahák: Typst místo Wordu (PDF)](docs/tahak.pdf)
+[Rychlý start](#rychlý-start) · [Psaní práce](#psaní-práce) · [Reference](#reference) · [Vývoj](#vývoj) · [Licence](#licence) · [Tahák: Typst místo Wordu (PDF)](docs/tahak.pdf)
 
 </div>
 
