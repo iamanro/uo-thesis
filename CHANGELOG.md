@@ -6,12 +6,6 @@ verzování dle [SemVer](https://semver.org/lang/cs/).
 
 ## [Nevydáno]
 
-### Opraveno
-- **Ukázky pro fakulty** — ukázka `vlf` byla profil s logem Univerzity obrany a logo `uo` bez konceptu ani `uo-fvl` se
-  v hotových ukázkách neukazovalo. Profily v CI mají nově ukázku pro každou fakultu s jejím vlastním logem
-  (`template` = fvl, `cs-fvt-electronic`, `en-vlf-print`, `cs-uo`) a samostatné ukázky variant `uo-*`
-  (`cs-uo-fvl`, `cs-uo-fvt`, `en-uo-vlf`). Dokumentace říká, že `uo-*` je jen pro zvláštní účely.
-
 ## [0.1.1] – 2026-10-11
 
 ### Přidáno
@@ -33,6 +27,10 @@ verzování dle [SemVer](https://semver.org/lang/cs/).
   pruhy a tenká linka pod hlavičkou; vnější linky zůstávají a nezakrývá je podbarvení.
 
 ### Opraveno
+- **Ukázky pro fakulty** — ukázka `vlf` byla profil s logem Univerzity obrany a logo `uo` bez konceptu ani `uo-fvl` se
+  v hotových ukázkách neukazovalo. Profily v CI mají nově ukázku pro každou fakultu s jejím vlastním logem
+  (`template` = fvl, `cs-fvt-electronic`, `en-vlf-print`, `cs-uo`) a samostatné ukázky variant `uo-*`
+  (`cs-uo-fvl`, `cs-uo-fvt`, `en-uo-vlf`). Dokumentace říká, že `uo-*` je jen pro zvláštní účely.
 - **Špatný typ v `config.toml`** — `twoside = "yes"` skončilo chybou Typstu „expected boolean, found string“
   bez jména klíče. `thesis-config` nyní hned ohlásí klíč, očekávaný typ a nalezenou hodnotu; `vlna = "auto"`
   v TOML znamená výchozí chování.
