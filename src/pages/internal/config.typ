@@ -43,6 +43,19 @@
   "declaration", "ai_used", "keywords", "outlines", "theme",
   "submit_check", "vlna", "fancy_heading", "twoside",
 )
+// Očekávané typy klíčů; špatný typ se ohlásí hned s názvem klíče. (Kontroly ve
+// `validate-config` se vyhodnocují až při sazbě, takže by je předběhla chyba Typstu
+// typu „expected boolean, found string" bez jména klíče.)
+#let _text-key = (str, "řetězec", "a string")
+#let _bool-key = (bool, "true nebo false", "true or false")
+#let _table-key = (dictionary, "tabulka", "a table")
+#let _key-types = (
+  lang: _text-key, faculty: _text-key,
+  draft: _bool-key, declaration: _bool-key, ai_used: _bool-key, submit_check: _bool-key,
+  fancy_heading: _bool-key, twoside: _bool-key,
+  thesis: _table-key, keywords: _table-key, outlines: _table-key, theme: _table-key,
+)
+
 // Klíče s osobami — obalí se přes person(), aby dostaly výchozí pole.
 #let _person-keys = ("author", "supervisor", "first_advisor", "second_advisor")
 
@@ -64,7 +77,15 @@
     if key in _person-keys {
       result.insert(key, person(..value))
     } else if key in _passthrough-keys {
-      result.insert(key, value)
+      let expected = _key-types.at(key, default: none)
+      if expected != none and type(value) != expected.first() {
+        panic(
+          "Klíč `" + key + "` v config.toml musí být " + expected.at(1) + ", nalezeno: " + repr(value)
+            + ". / Key `" + key + "` in config.toml must be " + expected.at(2) + ", found: " + repr(value) + ".",
+        )
+      }
+      // `vlna = "auto"` v TOML (Typst `auto` v TOML zapsat nejde) = výchozí chování.
+      result.insert(key, if key == "vlna" and value == "auto" { auto } else { value })
     } else {
       panic(
         "Neznámý klíč `" + key + "` v config.toml. Povolené klíče / allowed keys: "

@@ -155,6 +155,29 @@ Body.
                 self.assertIn(message, result.stderr)
 
 
+class ConfigErrors(TypstCase):
+    """`thesis-config` hlásí špatný typ hned a se jménem klíče."""
+
+    def config(self, body):
+        return self.compile('#import "../../src/lib.typ": *\n' + body + "\nx\n")
+
+    def test_wrong_type_names_the_key_and_the_expected_type(self):
+        result = self.config('#let c = thesis-config((twoside: "yes"))')
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("`twoside`", result.stderr)
+        self.assertIn("true nebo false", result.stderr)
+        self.assertIn('"yes"', result.stderr)
+
+    def test_unknown_key_is_still_reported(self):
+        result = self.config("#let c = thesis-config((twosied: true))")
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("Neznámý klíč `twosied`", result.stderr)
+
+    def test_vlna_auto_from_toml_means_the_default(self):
+        result = self.config('#assert(thesis-config((vlna: "auto")).vlna == auto)')
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+
 class Genitive(TypstCase):
     """Supervisor's name in the 2nd case, as printed in the declaration."""
 

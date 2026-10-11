@@ -19,20 +19,21 @@ verzování dle [SemVer](https://semver.org/lang/cs/).
   `UPDATE_SNAPSHOTS=1 python3 scripts/ci.py check`.
 
 ### Změněno
+- **Závislosti** — `@preview/vlna` 0.3.0 → 0.4.0 (vysázené stránky beze změny).
+  `codly`, `codly-languages` a Typst 0.15.1 jsou aktuální.
 - **Vzhled tabulek** — záhlaví má jemné podbarvení (barva fakulty, bez barev šedá), řádky těla střídavé
   pruhy a tenká linka pod hlavičkou; vnější linky zůstávají a nezakrývá je podbarvení.
 
 ### Opraveno
+- **Špatný typ v `config.toml`** — `twoside = "yes"` skončilo chybou Typstu „expected boolean, found string“
+  bez jména klíče. `thesis-config` nyní hned ohlásí klíč, očekávaný typ a nalezenou hodnotu; `vlna = "auto"`
+  v TOML znamená výchozí chování.
 - **`submit_check` a výpisy kódu** — ikony jazyka v `codly` jsou obrázky bez `alt`, takže práce s výpisem
   kódu neprošla kontrolou a nešla exportovat jako PDF/UA. Ikony jsou vypnuté, název jazyka zůstává.
 - **Číslování výpisů** — čítač výpisů se nenuloval v kapitolách a přílohách (příloha začínala „B–4“).
   Nyní se nuluje spolu s obrázky, tabulkami a rovnicemi.
 - **Dokumentace PDF/UA** — README a tahák výslovně uvádějí, že PDF/UA-1 vyžaduje `alt` u každé rovnice,
   takže pro práce s matematikou je prakticky nedosažitelné; doporučený export je PDF/A-3b.
-
-### Změněno
-- **Závislosti** — `@preview/vlna` 0.3.0 → 0.4.0 (vysázené stránky beze změny).
-  `codly`, `codly-languages` a Typst 0.15.1 jsou aktuální.
 
 ## [0.1.0] – 2026-10-09
 
