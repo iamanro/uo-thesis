@@ -6,6 +6,8 @@ verzování dle [SemVer](https://semver.org/lang/cs/).
 
 ## [Nevydáno]
 
+## [0.1.1] – 2026-10-11
+
 ### Přidáno
 - **Ukázková diplomová práce** (`examples/diplomka/`, 40 stran, z toho 19 stran textu): fiktivní práce o modelování
   vybíjení Li-ion článku s matematikou a číslovanými rovnicemi, chemií (`typsium`), fyzikou
@@ -80,5 +82,6 @@ První vydání šablony.
   `typst init`, sedm profilů šablony plus PDF/A-3b a PDF/UA-1, vydání
   otestovaných artefaktů z tagu `v<verze>`.
 
-[Nevydáno]: https://github.com/iamanro/uo-thesis/compare/v0.1.0...HEAD
+[Nevydáno]: https://github.com/iamanro/uo-thesis/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/iamanro/uo-thesis/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/iamanro/uo-thesis/releases/tag/v0.1.0
