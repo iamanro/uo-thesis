@@ -178,6 +178,23 @@ class ConfigErrors(TypstCase):
         self.assertEqual(result.returncode, 0, result.stderr)
 
 
+class FacultyLogos(TypstCase):
+    """Každá fakulta má vlastní logo; varianty `uo-*` mají logo Univerzity obrany."""
+
+    EXPECTED = {"fvl": "FVL", "fvt": "FVT", "vlf": "VLF", "uo": "UO",
+                "uo-fvl": "UO", "uo-fvt": "UO", "uo-vlf": "UO"}
+
+    def test_logo_per_faculty(self):
+        names = ", ".join(json.dumps(name) for name in self.EXPECTED)
+        self.source.write_text('#import "../../src/styling/theme.typ": get-logo-path\n'
+                               f"#metadata(({names},).map(get-logo-path)) <logos>\n")
+        result = subprocess.run([TYPST, "eval", *self.flags, "--in", str(self.source),
+                                 "query(<logos>).first().value"], capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(json.loads(result.stdout),
+                         [f"../assets/logo{name}.svg" for name in self.EXPECTED.values()])
+
+
 class Genitive(TypstCase):
     """Supervisor's name in the 2nd case, as printed in the declaration."""
 

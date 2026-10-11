@@ -123,7 +123,7 @@ Thesis metadata go into **`config.toml`**, the text into separate files:
 
 ```toml
 lang    = "cs"
-faculty = "fvl"        # fvl | fvt | vlf | uo; with the UO logo: uo-fvl | uo-fvt | uo-vlf
+faculty = "fvl"        # fvl | fvt | vlf | uo (each with its own logo); uo-fvl | uo-fvt | uo-vlf for special purposes only
 
 [thesis]
 type  = "master"       # bachelor | master | doctoral
@@ -207,7 +207,7 @@ Metadata are read from `config.toml` via `thesis-config()`. Every parameter can 
 |---|---|---|---|
 | `lang` | `"cs"` \| `"en"` | `"cs"` | Document language |
 | `draft` | bool | `false` | Draft mode (see Draft and final below) |
-| `faculty` | `"fvl"` \| `"fvt"` \| `"vlf"` \| `"uo"` \| `"uo-fvl"` \| `"uo-fvt"` \| `"uo-vlf"` | `"uo"` | Faculty; `uo-*` variants = faculty with the University of Defence logo |
+| `faculty` | `"fvl"` \| `"fvt"` \| `"vlf"` \| `"uo"` \| `"uo-fvl"` \| `"uo-fvt"` \| `"uo-vlf"` | `"uo"` | Faculty with its own logo; the `uo-*` variants (faculty with the University of Defence logo) are for special purposes, normally use the plain faculty |
 | `programme` | content / string | `[]` | Study programme |
 | `specialisation` | content / string | `[]` | Specialisation (typeset as "Field of Study" for doctoral theses) |
 | `thesis` | `(type, title)` | — | `type`: `"bachelor"` \| `"master"` \| `"doctoral"` |
@@ -389,7 +389,7 @@ The template deliberately exports no boxes, callouts, or drawing tools. If you n
 
 ```bash
 python3 -m unittest discover -s tests -v       # regression tests (Typst + Poppler)
-python3 scripts/ci.py check --output dist      # same as CI: package, typst init, 9 PDFs + the example thesis
+python3 scripts/ci.py check --output dist      # same as CI: package, typst init, 11 PDFs + the example thesis
 ```
 
 Want to contribute? Setup, code map, and guidelines are in [`CONTRIBUTING.md`](.github/CONTRIBUTING.md); report bugs and ideas via [Issues](https://github.com/iamanro/uo-thesis/issues/new/choose).
@@ -414,7 +414,7 @@ For large theses try `--jobs 8` instead of the automatic thread count (fewer thr
 <details>
 <summary><b>CI/CD and releases</b></summary>
 
-The **Typst CI** workflow (`.github/workflows/ci.yml`) runs on pull requests, `main`, and manual dispatch: Ubuntu 24.04, the Typst version from `package.compiler` in `typst.toml` with a verified SHA-256, bundled fonts only, commit-pinned actions, read-only permissions. It runs the tests, **installs the template from the built archive with `typst init @local/…`**, and typesets seven profiles (CS/EN, final/draft, all seven faculty variants, single- and double-sided, running header) plus PDF/A-3b and PDF/UA-1, which are validated with [veraPDF](https://verapdf.org/), and the example thesis (also as PDF/A-3b). The text of every page is compared with the snapshots in `tests/snapshots/`. Compiler warnings are errors. The `typst-dist` artifact (PDFs, `unob-thesis-<version>.tar.gz`, `build-info.json`, `SHA256SUMS`) is kept for 14 days.
+The **Typst CI** workflow (`.github/workflows/ci.yml`) runs on pull requests, `main`, and manual dispatch: Ubuntu 24.04, the Typst version from `package.compiler` in `typst.toml` with a verified SHA-256, bundled fonts only, commit-pinned actions, read-only permissions. It runs the tests, **installs the template from the built archive with `typst init @local/…`**, and typesets nine profiles (CS/EN, final/draft, a sample for each of `fvl`, `fvt`, `vlf`, `uo` with its own logo, and the `uo-*` variants, single- and double-sided, running header) plus PDF/A-3b and PDF/UA-1, which are validated with [veraPDF](https://verapdf.org/), and the example thesis (also as PDF/A-3b). The text of every page is compared with the snapshots in `tests/snapshots/`. Compiler warnings are errors. The `typst-dist` artifact (PDFs, `unob-thesis-<version>.tar.gz`, `build-info.json`, `SHA256SUMS`) is kept for 14 days.
 
 Locally (Python 3.12+, Git, Poppler; the installer targets Linux x86_64):
 

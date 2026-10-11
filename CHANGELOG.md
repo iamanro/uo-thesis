@@ -6,6 +6,12 @@ verzování dle [SemVer](https://semver.org/lang/cs/).
 
 ## [Nevydáno]
 
+### Opraveno
+- **Ukázky pro fakulty** — ukázka `vlf` byla profil s logem Univerzity obrany a logo `uo` bez konceptu ani `uo-fvl` se
+  v hotových ukázkách neukazovalo. Profily v CI mají nově ukázku pro každou fakultu s jejím vlastním logem
+  (`template` = fvl, `cs-fvt-electronic`, `en-vlf-print`, `cs-uo`) a samostatné ukázky variant `uo-*`
+  (`cs-uo-fvl`, `cs-uo-fvt`, `en-uo-vlf`). Dokumentace říká, že `uo-*` je jen pro zvláštní účely.
+
 ## [0.1.1] – 2026-10-11
 
 ### Přidáno
