@@ -79,6 +79,11 @@ class Snapshots(unittest.TestCase):
         self.assertIn("'e'", changed)
         self.assertIn("'x'", changed)
 
+    def test_line_end_hyphenation_and_ligatures_are_not_differences(self):
+        # Různé verze Poppleru vypíšou totéž PDF jednou spojené a jednou rozdělené slovo.
+        self.assertIsNone(CI.snapshot_difference(["Standardization office"], ["Standardization ofﬁce"]))
+        self.assertIsNone(CI.snapshot_difference(["Standardization"], ["Stan dardization"]))
+
     def test_different_page_count_is_reported(self):
         self.assertIn("počet stran 1 → 2", CI.snapshot_difference(["a"], ["a", "b"]))
 

@@ -2,7 +2,6 @@
 """Validate and build the actual distributable template; Python 3.12+ only."""
 import argparse
 from collections import Counter
-import difflib
 import gzip
 import hashlib
 import json
@@ -14,6 +13,7 @@ import sys
 import tarfile
 import tempfile
 import tomllib
+import unicodedata
 
 ROOT = Path(__file__).resolve().parents[1]
 PACKAGE_PATHS = ("src", "template", "typst.toml", "README.md", "README.en.md", "CHANGELOG.md",
@@ -38,11 +38,14 @@ SNAPSHOT_PROFILES = (*PROFILES, "ukazka-diplomka")
 
 
 def page_texts(pdf):
-    """Text jednotlivých stran PDF; datum a rok (závisí na času sestavení) se nahradí zástupcem."""
+    """Text jednotlivých stran PDF; datum a rok (závisí na času sestavení) se nahradí zástupcem.
+    Rozdělená slova se spojí a ligatury rozloží, protože verze Poppleru je vypisují různě."""
     text = subprocess.run(["pdftotext", str(pdf), "-"], check=True, text=True,
                           capture_output=True).stdout
     pages = []
     for page in text.split("\f")[:-1] if text.endswith("\f") else text.split("\f"):
+        page = unicodedata.normalize("NFKC", page)
+        page = re.sub(r"\xad\s*", "", page)
         page = " ".join(page.split())
         page = re.sub(r"(dne )\d{1,2}\. \d{1,2}\. \d{4}", r"\1<datum>", page)
         page = re.sub(r"(BRNO|HRADEC KRÁLOVÉ) \d{4}", r"\1 <rok>", page)
@@ -51,13 +54,18 @@ def page_texts(pdf):
 
 
 def snapshot_difference(expected, actual):
-    """Popis rozdílu mezi dvěma seznamy textů stran, nebo None. Pořadí slov na straně se
-    nesrovnává (různé verze Poppleru řadí matematiku různě), srovnává se množina slov."""
+    """Popis rozdílu mezi dvěma seznamy textů stran, nebo None. Srovnává se množina písmen
+    a číslic na straně: nezáleží na pořadí (Poppler řadí matematiku různě), na mezerách ani na
+    dělení slov na konci řádku, ale přidané či ubrané slovo a přesun textu mezi stranami ano."""
     if len(expected) != len(actual):
         return f"počet stran {len(expected)} → {len(actual)}"
+
+    def letters(page):
+        return Counter(char for char in unicodedata.normalize("NFKC", page) if char.isalnum())
+
     for number, (old, new) in enumerate(zip(expected, actual), start=1):
-        before, after = Counter(old.split()), Counter(new.split())
-        if before != after:
+        if letters(old) != letters(new):
+            before, after = Counter(old.split()), Counter(new.split())
             removed = sorted((before - after).elements())[:12]
             added = sorted((after - before).elements())[:12]
             return f"strana {number}: ubylo {removed}, přibylo {added}"
