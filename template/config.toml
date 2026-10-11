@@ -10,7 +10,7 @@
 
 lang    = "cs"     # jazyk dokumentu: "cs" | "en"
 draft   = false    # pracovní režim (širší okraje, bez titulní strany)
-faculty = "fvl"    # "fvl" | "fvt" | "vlf" | "uo"; s logem UO: "uo-fvl" | "uo-fvt" | "uo-vlf"
+faculty = "fvl"    # "fvl" | "fvt" | "vlf" | "uo" — každá s vlastním logem; "uo-fvl" | "uo-fvt" | "uo-vlf" jen pro zvláštní účely (logo UO)
 
 programme      = "Řízení a použití ozbrojených sil"
 specialisation = "Management informačních zdrojů"

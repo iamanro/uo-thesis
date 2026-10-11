@@ -18,16 +18,20 @@ import unicodedata
 ROOT = Path(__file__).resolve().parents[1]
 PACKAGE_PATHS = ("src", "template", "typst.toml", "README.md", "README.en.md", "CHANGELOG.md",
                  "LICENSE", "LICENSE-MIT-0", "NOTICE", "thumbnail.png")
+# Ukázka pro každou fakultu s jejím logem (template = fvl, výstup `typst init`), pak varianty `uo-*`
+# (logo Univerzity obrany, určené pro zvláštní účely) a pracovní režim.
 PROFILES = {
     "template": {},
-    "cs-electronic": {"lang": "cs", "faculty": "fvt", "draft": False,
-                      "twoside": False, "fancy_heading": True},
-    "en-print": {"lang": "en", "faculty": "vlf", "draft": False,
-                 "twoside": True, "fancy_heading": True},
-    "cs-draft": {"lang": "cs", "faculty": "uo", "draft": True},
-    "en-draft": {"lang": "en", "faculty": "uo-fvl", "draft": True},
+    "cs-fvt-electronic": {"lang": "cs", "faculty": "fvt", "draft": False,
+                          "twoside": False, "fancy_heading": True},
+    "en-vlf-print": {"lang": "en", "faculty": "vlf", "draft": False,
+                     "twoside": True, "fancy_heading": True},
+    "cs-uo": {"lang": "cs", "faculty": "uo", "draft": False},
+    "cs-uo-fvl": {"lang": "cs", "faculty": "uo-fvl", "draft": False},
     "cs-uo-fvt": {"lang": "cs", "faculty": "uo-fvt", "draft": False},
     "en-uo-vlf": {"lang": "en", "faculty": "uo-vlf", "draft": False},
+    "cs-draft": {"lang": "cs", "faculty": "uo", "draft": True},
+    "en-draft": {"lang": "en", "faculty": "uo-fvl", "draft": True},
 }
 
 

@@ -20,7 +20,7 @@ SEZNAM ZKRATEK AČR Armáda České republiky ISO International Organization for
 
 SEZNAM POJMŮ Zero Trust: Bezpečnostní model, který implicitně nedůvěřuje žádnému prvku sítě a vyžaduje ověření každého přístupu. 11
 
-SEZNAM SYMBOLŮ 𝜌 kg m−3 hustota 𝑣max m s−1 maximální rychlost 12
+SEZNAM SYMBOLŮ ρ kg m−3 hustota vmax m s−1 maximální rychlost 12
 
 ÚVOD Zde je úvodní text práce. 13
 

@@ -16,7 +16,7 @@ ln -sfn "$PWD" ~/.local/share/typst/packages/local/unob-thesis/0.1.1
 # Živý náhled ukázkového projektu
 typst watch --font-path template/fonts template/main.typ
 
-# Testy a kompletní kontrola jako v CI (balíček → typst init → 9 PDF + ukázková práce)
+# Testy a kompletní kontrola jako v CI (balíček → typst init → 11 PDF + ukázková práce)
 python3 -m unittest discover -s tests -v
 python3 scripts/ci.py check --output "$(mktemp -d)"
 
@@ -43,7 +43,7 @@ UPDATE_SNAPSHOTS=1 python3 scripts/ci.py check --output "$(mktemp -d)"
 
 - **Nejmenší změna, která problém vyřeší celý.** Žádné nové volby ani závislosti „pro budoucnost“; nový balíček z Universe jen s jasným důvodem.
 - **Nová logika má test** v `tests/` (větev, parser, validace, skloňování). Testuj přes veřejné rozhraní, jako stávající testy.
-- **Sazba je ručně doladěná.** CI porovnává text každé strany sedmi profilů a ukázkové práce se snapshoty; změna, která nemá měnit PDF, musí projít beze změny snapshotů. Záměrnou změnu (`UPDATE_SNAPSHOTS=1`) popiš v PR, projdi diff snapshotů a přilož snímek před/po (`pdftoppm -r 100 -png`), protože snapshoty hlídají text a počet stran, ne vzhled.
+- **Sazba je ručně doladěná.** CI porovnává text každé strany devíti profilů a ukázkové práce se snapshoty; změna, která nemá měnit PDF, musí projít beze změny snapshotů. Záměrnou změnu (`UPDATE_SNAPSHOTS=1`) popiš v PR, projdi diff snapshotů a přilož snímek před/po (`pdftoppm -r 100 -png`), protože snapshoty hlídají text a počet stran, ne vzhled.
 - **Komentáře česky** a jen tam, kde vysvětlují *proč*. Zkratka se známým omezením dostane komentář, který omezení pojmenuje.
 - **Veřejné API** (`src/lib.typ`, parametry `unob-thesis`, klíče `config.toml`) měň jen s aktualizací obou README a záznamem v [`CHANGELOG.md`](../CHANGELOG.md) v sekci `[Nevydáno]`.
 - **Commity** v angličtině podle [Conventional Commits](https://www.conventionalcommits.org/): `fix:`, `feat:`, `docs:`, `refactor:`, `perf:`, `ci:`, `chore:`.

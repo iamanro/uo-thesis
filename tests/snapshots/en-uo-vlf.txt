@@ -34,7 +34,7 @@ LIST OF TERMS Zero Trust: Bezpečnostní model, který implicitně nedůvěřuje
 
 
 
-LIST OF SYMBOLS 𝜌 kg m−3 hustota 𝑣max m s−1 maximální rychlost 19
+LIST OF SYMBOLS ρ kg m−3 hustota vmax m s−1 maximální rychlost 19
 
 
 

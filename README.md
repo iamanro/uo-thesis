@@ -123,7 +123,7 @@ Metadata vyplňuješ v **`config.toml`**, text v samostatných souborech:
 
 ```toml
 lang    = "cs"
-faculty = "fvl"        # fvl | fvt | vlf | uo; s logem UO: uo-fvl | uo-fvt | uo-vlf
+faculty = "fvl"        # fvl | fvt | vlf | uo (každá s vlastním logem); uo-fvl | uo-fvt | uo-vlf jen pro zvláštní účely
 
 [thesis]
 type  = "master"       # bachelor | master | doctoral
@@ -207,7 +207,7 @@ Metadata se čtou z `config.toml` přes `thesis-config()`. Všechny parametry lz
 |---|---|---|---|
 | `lang` | `"cs"` \| `"en"` | `"cs"` | Jazyk dokumentu |
 | `draft` | bool | `false` | Pracovní režim (viz Draft a final níže) |
-| `faculty` | `"fvl"` \| `"fvt"` \| `"vlf"` \| `"uo"` \| `"uo-fvl"` \| `"uo-fvt"` \| `"uo-vlf"` | `"uo"` | Fakulta; varianty `uo-*` = fakulta s logem Univerzity obrany |
+| `faculty` | `"fvl"` \| `"fvt"` \| `"vlf"` \| `"uo"` \| `"uo-fvl"` \| `"uo-fvt"` \| `"uo-vlf"` | `"uo"` | Fakulta s vlastním logem; varianty `uo-*` (fakulta s logem Univerzity obrany) jsou určené pro zvláštní účely, běžně použij samotnou fakultu |
 | `programme` | obsah / řetězec | `[]` | Studijní program |
 | `specialisation` | obsah / řetězec | `[]` | Studijní specializace (u disertace se sází jako „Zaměření studia") |
 | `thesis` | `(type, title)` | — | `type`: `"bachelor"` \| `"master"` \| `"doctoral"` |
@@ -389,7 +389,7 @@ Sekce `[faculty]` obsahuje oficiální barvy fakult — neměň je bez svolení 
 
 ```bash
 python3 -m unittest discover -s tests -v       # regresní testy (Typst + Poppler)
-python3 scripts/ci.py check --output dist      # totéž co CI: balíček, typst init, 9 PDF + ukázková práce
+python3 scripts/ci.py check --output dist      # totéž co CI: balíček, typst init, 11 PDF + ukázková práce
 ```
 
 Chceš přispět? Postup, struktura kódu a zásady jsou v [`CONTRIBUTING.md`](.github/CONTRIBUTING.md); chyby a návrhy hlas přes [Issues](https://github.com/iamanro/uo-thesis/issues/new/choose).
@@ -414,7 +414,7 @@ U velkých prací vyzkoušej `--jobs 8` místo automatického počtu vláken (na
 <details>
 <summary><b>CI/CD a vydání</b></summary>
 
-Workflow **Typst CI** (`.github/workflows/ci.yml`) běží pro pull requesty, `main` a ruční spuštění: Ubuntu 24.04, Typst z `package.compiler` v `typst.toml` s ověřeným SHA-256, jen přibalené fonty, akce připnuté na commity, jen právo čtení. Spustí testy, z archivu balíčku **skutečně nainstaluje šablonu přes `typst init @local/…`** a vysází sedm profilů (CS/EN, final/draft, všech sedm variant fakulty, jedno- i oboustranná sazba, živé záhlaví) plus PDF/A-3b a PDF/UA-1, které validuje [veraPDF](https://verapdf.org/), a ukázkovou práci (i jako PDF/A-3b). Text každé strany se porovnává se snapshoty v `tests/snapshots/`. Varování kompilátoru jsou chyba. Artefakt `typst-dist` (PDF, `unob-thesis-<verze>.tar.gz`, `build-info.json`, `SHA256SUMS`) se drží 14 dní.
+Workflow **Typst CI** (`.github/workflows/ci.yml`) běží pro pull requesty, `main` a ruční spuštění: Ubuntu 24.04, Typst z `package.compiler` v `typst.toml` s ověřeným SHA-256, jen přibalené fonty, akce připnuté na commity, jen právo čtení. Spustí testy, z archivu balíčku **skutečně nainstaluje šablonu přes `typst init @local/…`** a vysází devět profilů (CS/EN, final/draft, ukázka pro každou fakultu `fvl`, `fvt`, `vlf`, `uo` s jejím logem a varianty `uo-*`, jedno- i oboustranná sazba, živé záhlaví) plus PDF/A-3b a PDF/UA-1, které validuje [veraPDF](https://verapdf.org/), a ukázkovou práci (i jako PDF/A-3b). Text každé strany se porovnává se snapshoty v `tests/snapshots/`. Varování kompilátoru jsou chyba. Artefakt `typst-dist` (PDF, `unob-thesis-<verze>.tar.gz`, `build-info.json`, `SHA256SUMS`) se drží 14 dní.
 
 Lokálně (Python 3.12+, Git, Poppler; instalátor pro Linux x86_64):
 

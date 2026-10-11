@@ -34,7 +34,7 @@ SEZNAM POJMŮ Zero Trust: Bezpečnostní model, který implicitně nedůvěřuje
 
 
 
-SEZNAM SYMBOLŮ 𝜌 kg m−3 hustota 𝑣max m s−1 maximální rychlost 19
+SEZNAM SYMBOLŮ ρ kg m−3 hustota vmax m s−1 maximální rychlost 19
 
 
 
