@@ -39,11 +39,12 @@ Typst je sázecí program, který z textových souborů vyrobí PDF. Šablona `u
 - *Literatura* je v souboru `references.bib`, v textu stačí `@novak2020`. Seznam zdrojů se vysází sám.
 - *Zkratky a pojmy* jsou v `glossary.toml`, v textu se píše `#trm("iso")`.
 - *Kontrola před odevzdáním* (`submit_check = true`) zastaví kompilaci, když zůstal ukázkový text, chybí abstrakt nebo zadání, má obrázek bez popisu nebo zbylo `#todo`.
-- PDF/A a PDF/UA vyrobí `typst compile --pdf-standard a-3b,ua-1 main.typ`.
+- Archivní PDF/A vyrobí `typst compile --pdf-standard a-3b main.typ`. PDF/UA (přístupné) vyžaduje popis `alt` u každého obrázku i rovnice, u práce s matematikou je proto náročné.
 
 == Co je jinak a co Typst neumí
 
-- Výstupem je PDF, ne `.docx`. Vedoucímu se posílá PDF, komentovat se do něj dá běžným prohlížečem. Pokud vedoucí trvá na `.docx`, domluvte se předem.
+- Výstupem je PDF, ne `.docx`. Vedoucímu se posílá PDF, komentovat se do něj dá běžným prohlížečem.
+- Když vedoucí chce Word, jde PDF převést v Adobe Acrobatu (*Soubor › Exportovat do › Microsoft Word*) nebo online nástrojem Adobe „PDF do Wordu“. Výsledek je jen pro čtení a komentáře: obsah, čísla a odkazy v něm nejsou živá pole, tabulky a rovnice se často rozsypou a stránkování se liší. Práci dál pište v Typstu a po komentářích převod zopakujte.
 - Text se píše se značkami (`= Nadpis`, `*tučně*`, `_kurzíva_`). Je to pár věcí, tabulka je na druhé straně. Chybová hláška ukáže soubor a řádek.
 - Spolupráce více autorů na jednom textu funguje přes Git nebo sdílený projekt na typst.app, ne tak jako sledování změn ve Wordu.
 - Šablona zatím není v oficiálním katalogu Typst Universe, instaluje se z GitHubu jako lokální balíček (krok 1 níže).

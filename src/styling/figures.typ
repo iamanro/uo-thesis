@@ -1,7 +1,8 @@
 #import "../config.typ": cfg
 
 /// Nastaví vzhled popisků a číslování obrázků, tabulek a rovnic.
-#let apply-figure-styles(body) = {
+/// `accent`: barva fakulty pro záhlaví tabulek (`none` = neutrální šedá, např. při `theme.color = false`).
+#let apply-figure-styles(body, accent: none) = {
   set figure(numbering: n => numbering(
     "1.1",
     // Před první číslovanou kapitolou je čítač 0 — vynutíme alespoň 1.
@@ -21,12 +22,21 @@
   show figure.where(kind: table): set block(breakable: true)
 
   // Knižní styl (booktabs): bez svislých čar a mřížky; silnější linka nahoře
-  // a dole (kreslí ji obalový blok), tenčí `table.hline()` pod hlavičkou.
-  set table(stroke: none, inset: (x: cfg.table.inset-x, y: cfg.table.inset-y))
+  // a dole (kreslí ji obalový blok), tenká linka pod hlavičkou. Hlavička má
+  // jemné podbarvení (barva fakulty, jinak šedá) a těla tabulky střídavé pruhy
+  // pro čitelnost dlouhých řádků; v černobílém tisku zůstává jen světlý odstín.
+  let header-fill = if accent == none { luma(92%) } else { accent.lighten(80%) }
+  let zebra-fill = if accent == none { luma(97%) } else { accent.lighten(94%) }
+  set table(
+    stroke: (_, y) => if y == 0 { (bottom: cfg.table.rule-inner) },
+    fill: (_, y) => if y == 0 { header-fill } else if calc.even(y) { zebra-fill },
+    inset: (x: cfg.table.inset-x, y: cfg.table.inset-y),
+  )
   set table.hline(stroke: cfg.table.rule-inner)
   show table: it => block(
     stroke: (top: cfg.table.rule-outer, bottom: cfg.table.rule-outer),
-    inset: 0pt,
+    // Odsazení o tloušťku linky: podbarvení buněk nesmí zakrýt vnější linky.
+    inset: (y: cfg.table.rule-outer),
     breakable: true,
     it,
   )

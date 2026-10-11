@@ -1,0 +1,58 @@
+# Ukázková (fiktivní) diplomová práce — konfigurace.
+# Všechny osoby, data a výsledky jsou smyšlené a slouží jen k předvedení šablony.
+
+lang    = "cs"
+draft   = false
+faculty = "fvt"
+
+programme      = "Vojenské technologie"
+specialisation = "Elektronické systémy"
+
+declaration = true
+ai_used     = false
+
+# Přísná kontrola před odevzdáním: tato práce ji prochází (viz scripts/ci.py).
+submit_check  = true
+fancy_heading = true
+twoside       = false   # elektronická verze bez prázdných stran
+
+[thesis]
+type  = "master"
+title = "Modelování vybíjení lithium-iontového článku pro přenosné komunikační prostředky"
+
+[author]
+prefix  = "kpt."
+name    = "Petr"
+surname = "Svoboda"
+sex     = "M"
+
+[supervisor]
+prefix  = "plk. doc. Ing."
+name    = "Jana"
+surname = "Horáková"
+suffix  = "Ph.D."
+sex     = "F"
+
+[first_advisor]
+prefix  = "Ing."
+name    = "Tomáš"
+surname = "Dvořák"
+
+[keywords]
+czech   = "lithium-iontový článek, elektrochemický model, náhradní obvod, teplotní závislost, simulace"
+english = "lithium-ion cell, electrochemical model, equivalent circuit, temperature dependence, simulation"
+
+[outlines]
+headings  = true
+acronyms  = true
+terms     = true
+symbols   = true
+figures   = true
+tables    = true
+equations = false
+listings  = true
+
+[theme]
+color           = true
+links_colored   = true
+faculty_colored = true

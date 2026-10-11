@@ -32,7 +32,9 @@
   show link: set text(fill: link_color)
 
   show: codly-init.with()
-  codly(languages: codly-languages)
+  // Bez ikon jazyka: ikony jsou obrázky bez `alt` textu, takže by blokovaly `submit_check`
+  // a PDF/UA. Název jazyka u výpisu zůstává.
+  codly(languages: codly-languages, display-icon: false)
 
   show: if vlna != false { apply-vlna } else { it => it }
   if draft != true {

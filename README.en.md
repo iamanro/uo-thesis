@@ -24,7 +24,7 @@ All faculties · Czech and English · PDF/A and PDF/UA · typesets in under a se
 - ⚙️ **One `config.toml`** — all metadata and switches in one place; a typo in a key is reported immediately.
 - 📚 **Glossary, symbols, citations** — `#trm` for acronyms and terms with Czech grammatical cases, a list of symbols with units, ČSN ISO 690.
 - ✅ **Pre-submission check** — `submit_check` rejects sample text, a missing abstract or assignment, images without `alt`, and leftover `#todo`s.
-- ♿ **Archival and accessible PDF** — PDF/A-3b and PDF/UA-1 with one compiler flag.
+- ♿ **Archival and accessible PDF** — PDF/A-3b with one compiler flag; PDF/UA-1 needs `alt` text on every image and equation (see [accessibility](#reference)).
 - ✍️ **Draft mode** — wide margin for notes, `#todo` / `#note` visible only in drafts, faster typesetting.
 - ⚡ **Fast and lean** — the sample thesis typesets in ~0.25 s; the only dependencies are `vlna` and `codly`.
 
@@ -32,6 +32,25 @@ All faculties · Czech and English · PDF/A and PDF/UA · typesets in under a se
 <img src=".github/assets/faculties.webp" alt="Title pages for FVL, FVT, VLF, and the University of Defence" width="100%">
 <br><sub>Title pages for <code>fvl</code>, <code>fvt</code>, <code>vlf</code>, and <code>uo</code> — logo, faculty name, and city are set automatically.</sub>
 </div>
+
+## Example thesis
+
+A complete fictitious master's thesis of 40 pages (19 pages of text) lives in [`examples/diplomka/`](examples/diplomka/); the finished PDF is attached to the [latest release](https://github.com/iamanro/uo-thesis/releases/latest) as `ukazka-diplomka.pdf`. It shows the whole template in action: mathematics and numbered equations, chemical formulas and reactions, physics operators, numbers with units and uncertainties, graphs and diagrams drawn directly in Typst, subfigures, tables, code listings in three languages, a glossary with symbols, citations, appendices, a landscape page, and `submit_check`. The text is in Czech.
+
+<img src=".github/assets/example.webp" alt="Pages of the example thesis: chemical reactions and equations, equivalent circuit, discharge graphs, code listing" width="100%">
+
+| Area | Package |
+|---|---|
+| Chemistry | [`typsium`](https://typst.app/universe/package/typsium) |
+| Physics (derivatives, operators) | [`physica`](https://typst.app/universe/package/physica) |
+| Numbers, units, uncertainties | [`zero`](https://typst.app/universe/package/zero) |
+| Graphs and drawings | [`cetz`](https://typst.app/universe/package/cetz) + [`cetz-plot`](https://typst.app/universe/package/cetz-plot) |
+| Diagrams | [`fletcher`](https://typst.app/universe/package/fletcher) |
+| Subfigures | [`subpar`](https://typst.app/universe/package/subpar) |
+
+```bash
+typst compile --root . --font-path template/fonts examples/diplomka/main.typ
+```
 
 ## Quick start
 
@@ -346,19 +365,21 @@ The `[faculty]` section holds the official faculty colours — do not change the
 <details>
 <summary><b>Additional packages</b></summary>
 
-The template deliberately exports no boxes, callouts, or drawing tools. If you need more, import Typst Universe packages directly in your thesis: `@preview/showybox`, `@preview/frame-it`, `@preview/cetz`, `@preview/fletcher`, `@preview/physica`, `@preview/zero`, `@preview/subpar`.
+The template deliberately exports no boxes, callouts, or drawing tools. If you need more, import Typst Universe packages directly in your thesis. Tested with the template (see the [example thesis](#example-thesis)): `@preview/typsium` (chemistry), `@preview/physica` (physics), `@preview/zero` (units), `@preview/cetz` and `@preview/cetz-plot` (graphs), `@preview/fletcher` (diagrams), `@preview/subpar` (subfigures). More options: `@preview/showybox`, `@preview/frame-it`.
 
 > [!WARNING]
-> **Do not import `@preview/vlna`.** The template already handles Czech non-breaking spaces (`@preview/vlna:0.3.0` in `src/styling/packages.typ`). A second `#show: apply-vlna` applies every rule twice — same output, much slower compile (544-page dissertation: 7.9 s → 11.2 s). For part of the text use `#vlna-off()` / `#vlna-on()`.
+> **Do not import `@preview/vlna`.** The template already handles Czech non-breaking spaces (`@preview/vlna:0.4.0` in `src/styling/packages.typ`). A second `#show: apply-vlna` applies every rule twice — same output, much slower compile (544-page dissertation: 7.9 s → 11.2 s). For part of the text use `#vlna-off()` / `#vlna-on()`.
 
 </details>
 
 <details>
 <summary><b>Good practice and accessibility</b></summary>
 
+- **Supervisor wants Word:** the typeset PDF can be converted with Adobe Acrobat (*File › Export a PDF › Microsoft Word*) or Adobe's online PDF-to-Word tool. Use the result for reading and comments, not for further writing: fields, numbering, and cross-references are not live, and equations and tables may break. Keep writing in Typst and convert again.
 - Replace all sample content (text, references, glossary, metadata) with your own and turn on `submit_check` before submitting.
 - **Accessibility (PDF/UA):** give every image an `alt` text, especially the assignment scan: `assignment_front: image("zadani.png", alt: "Thesis assignment")`. The template sets the document language, metadata, and logo `alt` texts; Typst exports tagged PDF.
-- **Archival PDF:** `typst compile --pdf-standard a-3b,ua-1 main.typ`. Verify conformance with [veraPDF](https://verapdf.org/); a successful export does not replace a screen-reader check.
+- **Archival PDF:** `typst compile --pdf-standard a-3b main.typ`. Verify conformance with [veraPDF](https://verapdf.org/); a successful export does not replace a screen-reader check.
+- **PDF/UA-1 and mathematics:** `--pdf-standard ua-1` requires `alt` text on every image **and every equation**, including inline `$R_0$`. A thesis with a lot of mathematics therefore can hardly be exported as PDF/UA-1; the example thesis is exported as PDF/A-3b only. Without equations and with described images the template itself passes.
 - **Electronic vs. printed:** for the electronic PDF turn off blank pages with `twoside = false`; the printed version stays `twoside = true`.
 - Prefer vector graphics (`.svg`) and shrink large images before submitting.
 
@@ -368,7 +389,7 @@ The template deliberately exports no boxes, callouts, or drawing tools. If you n
 
 ```bash
 python3 -m unittest discover -s tests -v       # regression tests (Typst + Poppler)
-python3 scripts/ci.py check --output dist      # same as CI: package, typst init, 9 PDFs
+python3 scripts/ci.py check --output dist      # same as CI: package, typst init, 9 PDFs + the example thesis
 ```
 
 Want to contribute? Setup, code map, and guidelines are in [`CONTRIBUTING.md`](.github/CONTRIBUTING.md); report bugs and ideas via [Issues](https://github.com/iamanro/uo-thesis/issues/new/choose).
@@ -393,7 +414,7 @@ For large theses try `--jobs 8` instead of the automatic thread count (fewer thr
 <details>
 <summary><b>CI/CD and releases</b></summary>
 
-The **Typst CI** workflow (`.github/workflows/ci.yml`) runs on pull requests, `main`, and manual dispatch: Ubuntu 24.04, the Typst version from `package.compiler` in `typst.toml` with a verified SHA-256, bundled fonts only, commit-pinned actions, read-only permissions. It runs the tests, **installs the template from the built archive with `typst init @local/…`**, and typesets seven profiles (CS/EN, final/draft, all seven faculty variants, single- and double-sided, running header) plus PDF/A-3b and PDF/UA-1. Compiler warnings are errors. The `typst-dist` artifact (PDFs, `unob-thesis-<version>.tar.gz`, `build-info.json`, `SHA256SUMS`) is kept for 14 days.
+The **Typst CI** workflow (`.github/workflows/ci.yml`) runs on pull requests, `main`, and manual dispatch: Ubuntu 24.04, the Typst version from `package.compiler` in `typst.toml` with a verified SHA-256, bundled fonts only, commit-pinned actions, read-only permissions. It runs the tests, **installs the template from the built archive with `typst init @local/…`**, and typesets seven profiles (CS/EN, final/draft, all seven faculty variants, single- and double-sided, running header) plus PDF/A-3b and PDF/UA-1, which are validated with [veraPDF](https://verapdf.org/), and the example thesis (also as PDF/A-3b). The text of every page is compared with the snapshots in `tests/snapshots/`. Compiler warnings are errors. The `typst-dist` artifact (PDFs, `unob-thesis-<version>.tar.gz`, `build-info.json`, `SHA256SUMS`) is kept for 14 days.
 
 Locally (Python 3.12+, Git, Poppler; the installer targets Linux x86_64):
 

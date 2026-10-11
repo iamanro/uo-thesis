@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="595" height="842" viewBox="0 0 595 842">
+  <rect x="0" y="0" width="595" height="842" fill="#ffffff"/>
+  <rect x="40" y="40" width="515" height="762" fill="none" stroke="#999999" stroke-width="1" stroke-dasharray="6 4"/>
+  <text x="297" y="110" text-anchor="middle" font-family="TeX Gyre Termes" font-size="22" font-weight="bold" fill="#333333">Zadání diplomové práce</text>
+  <text x="297" y="140" text-anchor="middle" font-family="TeX Gyre Termes" font-size="13" fill="#666666">(ukázkový sken, líc)</text>
+  <g stroke="#cccccc" stroke-width="6">
+    <line x1="80" y1="210" x2="515" y2="210"/><line x1="80" y1="245" x2="470" y2="245"/>
+    <line x1="80" y1="280" x2="515" y2="280"/><line x1="80" y1="315" x2="430" y2="315"/>
+    <line x1="80" y1="350" x2="515" y2="350"/><line x1="80" y1="385" x2="380" y2="385"/>
+  </g>
+  <text x="297" y="760" text-anchor="middle" font-family="TeX Gyre Termes" font-size="12" fill="#888888">Na tomto místě je v reálné práci naskenované zadání.</text>
+</svg>

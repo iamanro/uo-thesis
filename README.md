@@ -24,7 +24,7 @@ Všechny fakulty · česky i anglicky · PDF/A a PDF/UA · sazba pod sekundu
 - ⚙️ **Vše v jednom `config.toml`** — metadata a přepínače na jednom místě, překlep v klíči šablona hned ohlásí.
 - 📚 **Glosář, symboly, citace** — `#trm` pro zkratky a pojmy s českými pády, seznam symbolů s jednotkami, ČSN ISO 690.
 - ✅ **Kontrola před odevzdáním** — `submit_check` odmítne ukázkový text, chybějící abstrakt či zadání, obrázky bez `alt` i zapomenutá `#todo`.
-- ♿ **Archivní a přístupné PDF** — PDF/A-3b a PDF/UA-1 jedním přepínačem kompilátoru.
+- ♿ **Archivní a přístupné PDF** — PDF/A-3b jedním přepínačem kompilátoru; PDF/UA-1 vyžaduje popis `alt` u každého obrázku a rovnice (viz [přístupnost](#reference)).
 - ✍️ **Pracovní režim** — široký okraj na poznámky, `#todo` / `#note` viditelné jen v draftu, rychlejší sazba.
 - ⚡ **Rychlá a štíhlá** — ukázková práce se vysází za ~0,25 s; jediné závislosti jsou `vlna` a `codly`.
 
@@ -32,6 +32,25 @@ Všechny fakulty · česky i anglicky · PDF/A a PDF/UA · sazba pod sekundu
 <img src=".github/assets/faculties.webp" alt="Titulní strany pro FVL, FVT, VLF a Univerzitu obrany" width="100%">
 <br><sub>Titulní strana pro <code>fvl</code>, <code>fvt</code>, <code>vlf</code> a <code>uo</code> — logo, název fakulty i město se nastaví samy.</sub>
 </div>
+
+## Ukázková práce
+
+Kompletní fiktivní diplomovou práci o 40 stranách (z toho 19 stran textu) najdeš ve složce [`examples/diplomka/`](examples/diplomka/); hotové PDF je v [posledním vydání](https://github.com/iamanro/uo-thesis/releases/latest) jako `ukazka-diplomka.pdf`. Ukazuje celou šablonu v provozu: matematiku a číslované rovnice, chemické vzorce a reakce, fyzikální operátory, čísla s jednotkami a nejistotami, grafy a schémata nakreslené přímo v Typstu, podobrázky, tabulky, výpisy kódu ve třech jazycích, glosář se symboly, citace, přílohy, stranu na šířku a `submit_check`.
+
+<img src=".github/assets/example.webp" alt="Strany ukázkové práce: chemické reakce a rovnice, náhradní obvod, grafy vybíjení, výpis kódu" width="100%">
+
+| Oblast | Balíček |
+|---|---|
+| Chemie | [`typsium`](https://typst.app/universe/package/typsium) |
+| Fyzika (derivace, operátory) | [`physica`](https://typst.app/universe/package/physica) |
+| Čísla, jednotky, nejistoty | [`zero`](https://typst.app/universe/package/zero) |
+| Grafy a kresby | [`cetz`](https://typst.app/universe/package/cetz) + [`cetz-plot`](https://typst.app/universe/package/cetz-plot) |
+| Schémata | [`fletcher`](https://typst.app/universe/package/fletcher) |
+| Podobrázky | [`subpar`](https://typst.app/universe/package/subpar) |
+
+```bash
+typst compile --root . --font-path template/fonts examples/diplomka/main.typ
+```
 
 ## Rychlý start
 
@@ -346,19 +365,21 @@ Sekce `[faculty]` obsahuje oficiální barvy fakult — neměň je bez svolení 
 <details>
 <summary><b>Doplňkové balíčky</b></summary>
 
-Šablona záměrně neexportuje boxy, callouty ani kreslicí nástroje. Když potřebuješ víc, importuj balíčky z Typst Universe přímo v práci: `@preview/showybox`, `@preview/frame-it`, `@preview/cetz`, `@preview/fletcher`, `@preview/physica`, `@preview/zero`, `@preview/subpar`.
+Šablona záměrně neexportuje boxy, callouty ani kreslicí nástroje. Když potřebuješ víc, importuj balíčky z Typst Universe přímo v práci. Ověřené s šablonou (viz [ukázková práce](#ukázková-práce)): `@preview/typsium` (chemie), `@preview/physica` (fyzika), `@preview/zero` (jednotky), `@preview/cetz` a `@preview/cetz-plot` (grafy), `@preview/fletcher` (schémata), `@preview/subpar` (podobrázky). Další možnosti: `@preview/showybox`, `@preview/frame-it`.
 
 > [!WARNING]
-> **Neimportuj `@preview/vlna`.** Nezlomitelné mezery řeší šablona sama (`@preview/vlna:0.3.0` v `src/styling/packages.typ`). Druhé `#show: apply-vlna` aplikuje pravidla dvakrát — výsledek je stejný, ale kompilace se zpomalí (544stránková disertace: 7,9 s → 11,2 s). Pro část textu použij `#vlna-off()` / `#vlna-on()`.
+> **Neimportuj `@preview/vlna`.** Nezlomitelné mezery řeší šablona sama (`@preview/vlna:0.4.0` v `src/styling/packages.typ`). Druhé `#show: apply-vlna` aplikuje pravidla dvakrát — výsledek je stejný, ale kompilace se zpomalí (544stránková disertace: 7,9 s → 11,2 s). Pro část textu použij `#vlna-off()` / `#vlna-on()`.
 
 </details>
 
 <details>
 <summary><b>Dobrá praxe a přístupnost</b></summary>
 
+- **Vedoucí chce Word:** vysázené PDF jde převést Adobe Acrobatem (*Soubor › Exportovat do › Microsoft Word*) nebo online nástrojem Adobe „PDF do Wordu“. Výsledek slouží ke čtení a komentářům, ne k dalšímu psaní: pole, číslování a odkazy nejsou živé, rovnice a tabulky se mohou rozsypat. Pište dál v Typstu a převod zopakujte.
 - Nahraď veškerý ukázkový obsah (text, reference, glosář, metadata) vlastním a před odevzdáním zapni `submit_check`.
 - **Přístupnost (PDF/UA):** u každého obrázku doplň `alt`, zejména u skenu zadání: `assignment_front: image("zadani.png", alt: "Zadání práce")`. Jazyk dokumentu, metadata a `alt` log nastavuje šablona; Typst exportuje otagované PDF.
-- **Archivní PDF:** `typst compile --pdf-standard a-3b,ua-1 main.typ`. Shodu ověř nástrojem [veraPDF](https://verapdf.org/); úspěšný export nenahrazuje kontrolu čtečkou.
+- **Archivní PDF:** `typst compile --pdf-standard a-3b main.typ`. Shodu ověř nástrojem [veraPDF](https://verapdf.org/); úspěšný export nenahrazuje kontrolu čtečkou.
+- **PDF/UA-1 a matematika:** `--pdf-standard ua-1` vyžaduje popis `alt` u každého obrázku **i každé rovnice**, včetně inline zápisů typu `$R_0$`. Práce s větším množstvím matematiky se proto do PDF/UA-1 prakticky nepřevede; ukázková práce se exportuje jen jako PDF/A-3b. Bez rovnic a s popsanými obrázky prochází i šablona sama.
 - **Elektronická vs. tištěná verze:** pro elektronické PDF vypni vakáty `twoside = false`, tištěná verze zůstává `twoside = true`.
 - Preferuj vektorovou grafiku (`.svg`) a větší obrázky před odevzdáním zmenši.
 
@@ -368,7 +389,7 @@ Sekce `[faculty]` obsahuje oficiální barvy fakult — neměň je bez svolení 
 
 ```bash
 python3 -m unittest discover -s tests -v       # regresní testy (Typst + Poppler)
-python3 scripts/ci.py check --output dist      # totéž co CI: balíček, typst init, 9 PDF
+python3 scripts/ci.py check --output dist      # totéž co CI: balíček, typst init, 9 PDF + ukázková práce
 ```
 
 Chceš přispět? Postup, struktura kódu a zásady jsou v [`CONTRIBUTING.md`](.github/CONTRIBUTING.md); chyby a návrhy hlas přes [Issues](https://github.com/iamanro/uo-thesis/issues/new/choose).
@@ -393,7 +414,7 @@ U velkých prací vyzkoušej `--jobs 8` místo automatického počtu vláken (na
 <details>
 <summary><b>CI/CD a vydání</b></summary>
 
-Workflow **Typst CI** (`.github/workflows/ci.yml`) běží pro pull requesty, `main` a ruční spuštění: Ubuntu 24.04, Typst z `package.compiler` v `typst.toml` s ověřeným SHA-256, jen přibalené fonty, akce připnuté na commity, jen právo čtení. Spustí testy, z archivu balíčku **skutečně nainstaluje šablonu přes `typst init @local/…`** a vysází sedm profilů (CS/EN, final/draft, všech sedm variant fakulty, jedno- i oboustranná sazba, živé záhlaví) plus PDF/A-3b a PDF/UA-1. Varování kompilátoru jsou chyba. Artefakt `typst-dist` (PDF, `unob-thesis-<verze>.tar.gz`, `build-info.json`, `SHA256SUMS`) se drží 14 dní.
+Workflow **Typst CI** (`.github/workflows/ci.yml`) běží pro pull requesty, `main` a ruční spuštění: Ubuntu 24.04, Typst z `package.compiler` v `typst.toml` s ověřeným SHA-256, jen přibalené fonty, akce připnuté na commity, jen právo čtení. Spustí testy, z archivu balíčku **skutečně nainstaluje šablonu přes `typst init @local/…`** a vysází sedm profilů (CS/EN, final/draft, všech sedm variant fakulty, jedno- i oboustranná sazba, živé záhlaví) plus PDF/A-3b a PDF/UA-1, které validuje [veraPDF](https://verapdf.org/), a ukázkovou práci (i jako PDF/A-3b). Text každé strany se porovnává se snapshoty v `tests/snapshots/`. Varování kompilátoru jsou chyba. Artefakt `typst-dist` (PDF, `unob-thesis-<verze>.tar.gz`, `build-info.json`, `SHA256SUMS`) se drží 14 dní.
 
 Lokálně (Python 3.12+, Git, Poppler; instalátor pro Linux x86_64):
 
