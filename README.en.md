@@ -60,7 +60,7 @@ typst compile --root . --font-path template/fonts examples/diplomka/main.typ
 **1. Install the template** (Linux):
 
 ```bash
-git clone https://github.com/iamanro/uo-thesis.git ~/.local/share/typst/packages/local/unob-thesis/0.1.0
+git clone https://github.com/iamanro/uo-thesis.git ~/.local/share/typst/packages/local/unob-thesis/0.1.1
 ```
 
 <details>
@@ -68,15 +68,15 @@ git clone https://github.com/iamanro/uo-thesis.git ~/.local/share/typst/packages
 
 | System | Package folder |
 |---|---|
-| Linux | `~/.local/share/typst/packages/local/unob-thesis/0.1.0/` |
-| macOS | `~/Library/Application Support/typst/packages/local/unob-thesis/0.1.0/` |
-| Windows | `%APPDATA%\typst\packages\local\unob-thesis\0.1.0\` |
+| Linux | `~/.local/share/typst/packages/local/unob-thesis/0.1.1/` |
+| macOS | `~/Library/Application Support/typst/packages/local/unob-thesis/0.1.1/` |
+| Windows | `%APPDATA%\typst\packages\local\unob-thesis\0.1.1\` |
 
 Without Git: download `unob-thesis-<version>.tar.gz` from the [latest release](https://github.com/iamanro/uo-thesis/releases/latest) (tested in CI, verify it with `SHA256SUMS`) and extract it into the package folder from the table:
 
 ```bash
-mkdir -p ~/.local/share/typst/packages/local/unob-thesis/0.1.0
-tar -xzf unob-thesis-0.1.0.tar.gz -C ~/.local/share/typst/packages/local/unob-thesis/0.1.0
+mkdir -p ~/.local/share/typst/packages/local/unob-thesis/0.1.1
+tar -xzf unob-thesis-0.1.1.tar.gz -C ~/.local/share/typst/packages/local/unob-thesis/0.1.1
 ```
 
 </details>
@@ -84,7 +84,7 @@ tar -xzf unob-thesis-0.1.0.tar.gz -C ~/.local/share/typst/packages/local/unob-th
 **2. Create your project** — this makes a `my-thesis` folder with `main.typ`, `config.toml`, chapters, and fonts:
 
 ```bash
-typst init @local/unob-thesis:0.1.0 my-thesis
+typst init @local/unob-thesis:0.1.1 my-thesis
 ```
 
 Without the Typst command line, copy the contents of the `template/` folder into a new folder.
@@ -109,7 +109,7 @@ The web app cannot see local packages (`@local/…`), so you upload the template
 
 1. At [typst.app](https://typst.app/) create an **Empty project**.
 2. From the repository, drag the **contents of the `template/` folder** (including `fonts/`) and the **`src/` folder** next to it.
-3. In `main.typ` replace `"@local/unob-thesis:0.1.0"` with `"src/lib.typ"`, and in the files in `chapters/` with `"../src/lib.typ"`.
+3. In `main.typ` replace `"@local/unob-thesis:0.1.1"` with `"src/lib.typ"`, and in the files in `chapters/` with `"../src/lib.typ"`.
 4. Open `main.typ`; download the PDF with **Download PDF**.
 
 </details>
@@ -147,7 +147,7 @@ english = "first, second, third"
 **`main.typ`** is a fixed skeleton — normally you only add an `#include` for each new chapter:
 
 ```typ
-#import "@local/unob-thesis:0.1.0": *
+#import "@local/unob-thesis:0.1.1": *
 
 #let glossary = toml("glossary.toml")
 
@@ -191,7 +191,7 @@ my-thesis/
 └── fonts/            TeX Gyre (Termes, Termes Math, Cursor)
 ```
 
-In chapter files import helpers **from the package** (`#import "@local/unob-thesis:0.1.0": trm, flex-caption`), not from `src/…`. Add a new chapter with an `#include` line in `main.typ` before `#conclusion[…]`.
+In chapter files import helpers **from the package** (`#import "@local/unob-thesis:0.1.1": trm, flex-caption`), not from `src/…`. Add a new chapter with an `#include` line in `main.typ` before `#conclusion[…]`.
 
 > [!IMPORTANT]
 > Before submission set **`submit_check = true`** in `config.toml` and keep `draft = false`. The template rejects sample content, a missing abstract, introduction, assignment, or keywords, images without `alt` text, and leftover `#todo`s.
@@ -403,7 +403,7 @@ To preview template changes by hand, link the repository as a local package (Lin
 
 ```bash
 mkdir -p ~/.local/share/typst/packages/local/unob-thesis
-ln -sfn "$PWD" ~/.local/share/typst/packages/local/unob-thesis/0.1.0
+ln -sfn "$PWD" ~/.local/share/typst/packages/local/unob-thesis/0.1.1
 typst watch --font-path template/fonts template/main.typ
 ```
 

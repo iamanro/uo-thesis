@@ -2,7 +2,7 @@
 // Kompilace z kořene repozitáře:
 //   typst compile --root . --font-path template/fonts examples/diplomka/main.typ
 //
-// V reálné práci se import níže nahradí `#import "@local/unob-thesis:0.1.0": *`
+// V reálné práci se import níže nahradí `#import "@local/unob-thesis:0.1.1": *`
 // (nebo `@preview/…`, až bude šablona v Typst Universe); zde míří na zdrojové
 // soubory v repozitáři, aby ukázka šla sázet bez instalace balíčku.
 #import "../../src/lib.typ": *

@@ -51,8 +51,8 @@ Typst je sázecí program, který z textových souborů vyrobí PDF. Šablona `u
 
 == Začít jde za pár minut
 
-+ *Instalace.* Z #link("https://github.com/iamanro/uo-thesis/releases/latest")[Releases na GitHubu] stáhněte `unob-thesis-0.1.0.tar.gz` a rozbalte do složky lokálních balíčků Typstu. Cesty pro Linux, macOS a Windows jsou v README.
-+ *Projekt.* `typst init @local/unob-thesis:0.1.0 moje-prace` vytvoří kostru s kapitolami, glosářem, seznamem literatury a fonty.
++ *Instalace.* Z #link("https://github.com/iamanro/uo-thesis/releases/latest")[Releases na GitHubu] stáhněte `unob-thesis-0.1.1.tar.gz` a rozbalte do složky lokálních balíčků Typstu. Cesty pro Linux, macOS a Windows jsou v README.
++ *Projekt.* `typst init @local/unob-thesis:0.1.1 moje-prace` vytvoří kostru s kapitolami, glosářem, seznamem literatury a fonty.
 + *Psaní.* Ve VS Code s rozšířením Tinymist otevřete `main.typ` a zapněte Preview, PDF se obnovuje při psaní. Bez instalace jde pracovat i na typst.app, tam je potřeba nahrát i složku `src/` (postup je v README).
 
 #pagebreak()
@@ -76,7 +76,7 @@ Typst je sázecí program, který z textových souborů vyrobí PDF. Šablona `u
   [Zkratka], [poprvé `#trm("iso", style: first)`, dále `#trm("iso")`],
   [Poznámka pro sebe], [`#todo[doplnit zdroj]`, v odevzdané verzi není vidět],
 )
-#text(size: 9pt, fill: muted)[Funkce šablony (`trm`, `todo`, `flex-caption`) se v kapitole načtou řádkem `#import "@local/unob-thesis:0.1.0": trm, todo`. Ukázkové kapitoly ho mají.]
+#text(size: 9pt, fill: muted)[Funkce šablony (`trm`, `todo`, `flex-caption`) se v kapitole načtou řádkem `#import "@local/unob-thesis:0.1.1": trm, todo`. Ukázkové kapitoly ho mají.]
 
 == Jak vypadá kapitola
 
