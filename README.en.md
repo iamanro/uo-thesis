@@ -220,6 +220,7 @@ Metadata are read from `config.toml` via `thesis-config()`. Every parameter can 
 | `acknowledgement` | `false` \| content | `false` | Acknowledgement |
 | `declaration` | bool | `true` | Declaration of authorship |
 | `ai_used` | bool | `false` | AI-usage paragraph in the declaration |
+| `ai_scope` | string \| content | `none` | Scope of AI use; printed in the declaration after the tools sentence (no trailing period) |
 | `abstract` | `(czech, english)` | empty | Abstracts |
 | `keywords` | `(czech, english)` | empty | Keywords (comma-separated strings) |
 | `introduction` | content | `[]` | Introduction |

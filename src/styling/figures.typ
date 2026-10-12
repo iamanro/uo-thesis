@@ -47,6 +47,24 @@
   // Oddělovač popisku skládáme ručně (nezlomitelná mezera `~` mezi číslem a
   // názvem), proto `figure.caption.separator` záměrně nenastavujeme — v tomto
   // `show` pravidlu se stejně nepoužívá, takže by neměl žádný efekt.
+  // Odkaz uprostřed věty zní „tabulka 2.1“ / „obrázek 2.1“ (malé písmeno; Opatření
+  // rektorky UO č. 12/2023, čl. 22 odst. 8 a 9). Na začátku věty:
+  // `#ref(<label>, supplement: [Tabulka])`. Vlastní `supplement` se nemění.
+  show ref: it => {
+    let el = it.element
+    // Přepisuje se jen výchozí (lokalizovaný) supplement, vlastní zůstává.
+    let default-supplement = (
+      el != none and el.func() == figure and type(el.supplement) == content
+        and el.supplement.has("text") and el.supplement.text in ("Tabulka", "Obrázek", "Table", "Figure")
+    )
+    if it.supplement == auto and default-supplement and el.kind in (table, image) {
+      context {
+        let names = if text.lang == "en" { (table: "table", image: "figure") } else { (table: "tabulka", image: "obrázek") }
+        ref(it.target, supplement: [#names.at(if el.kind == table { "table" } else { "image" })])
+      }
+    } else { it }
+  }
+
   show figure.caption: it => {
     // Obrázky mají vlastní mezeru popisku; tabulky/kód/rovnice tu tabulkovou.
     let gap = if it.kind == image { cfg.figure.caption-gap } else { cfg.table.caption-gap }

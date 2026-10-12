@@ -17,6 +17,7 @@ specialisation = "Management informačních zdrojů"
 
 declaration = true     # čestné prohlášení
 ai_used     = true     # odstavec o použití AI v prohlášení
+# ai_scope  = "část textu a překladu abstraktu"  # rozsah použití AI v prohlášení (čl. 12 odst. 1 Opatření rektorky UO č. 12/2023); bez koncové tečky
 
 submit_check  = false  # přísná kontrola před odevzdáním
 # vlna = true          # nezlomitelné mezery; výchozí `auto` = zapnuto, v draftu vypnuto (rychlejší psaní)

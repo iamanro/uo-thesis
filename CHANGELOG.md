@@ -6,6 +6,23 @@ verzování dle [SemVer](https://semver.org/lang/cs/).
 
 ## [Nevydáno]
 
+### Přidáno
+- **`ai_scope`** — volitelný klíč: rozsah použití AI, který čl. 12 odst. 1 Opatření rektorky UO
+  č. 12/2023 vyžaduje v čestném prohlášení („Rozsah použití: …“).
+
+### Změněno
+- **Disertace bez zadání** — u `type = "doctoral"` se výchozí placeholder zadání nesází a `submit_check`
+  zadání nevyžaduje (čl. 6 odst. 5 a čl. 10 Opatření rektorky); výslovně předané zadání se vloží.
+- **Číslo strany na OBSAHU** se netiskne, číslování začíná za ním (čl. 22 odst. 6); obsah se do pořadí
+  stran počítá.
+- **Odkazy na tabulky a obrázky** uprostřed věty zní malým písmenem („tabulka 2.1“, čl. 22 odst. 8 a 9).
+  Na začátku věty `#ref(<label>, supplement: [Tabulka])`; vlastní `supplement` se nemění.
+- **Čestné prohlášení** — s `ai_used = true` končí odstavec o AI větou o identifikaci, popisu a doložení
+  výsledků generovaných AI; souhlas se zpřístupněním zní „pro studium“ (Opatření děkana FVL č. 1/2024,
+  příloha 10).
+- **Nadpis bibliografie** je výchozí SEZNAM POUŽITÝCH ZDROJŮ (EN: REFERENCES); vlastní `title:`
+  v `bibliography(...)` má přednost.
+
 ## [0.1.1] – 2026-10-11
 
 ### Přidáno

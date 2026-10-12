@@ -1,4 +1,4 @@
-#import "internal/i18n/index.typ": normalize-thesis-type as i18n-normalize-thesis-type, setup-language
+#import "internal/i18n/index.typ": normalize-thesis-type as i18n-normalize-thesis-type, setup-language, t
 #import "../styling/base.typ": apply-base-styles
 #import "../styling/figures.typ": apply-figure-styles
 #import "../styling/headings.typ": apply-heading-styles
@@ -37,6 +37,7 @@
   acknowledgement: false,
    declaration: true,
   ai_used: false,
+  ai_scope: none,
   acronyms: false,
   terms: false,
   symbols: false,
@@ -85,8 +86,15 @@
   }
 
   let university = (faculty: faculty, programme: programme, specialisation: specialisation)
-  let assignment = (front: assignment_front, back: assignment_back)
-  let declaration_config = (declaration: declaration, ai_used: ai_used)
+  // Disertace zadání nemá (Opatření rektorky UO č. 12/2023, čl. 6 odst. 5 a čl. 10):
+  // výchozí placeholder se u ní nesází; výslovně předané zadání se respektuje.
+  let is-doctoral = i18n-normalize-thesis-type(thesis.type) == "doctoral"
+  let assignment = if is-doctoral and assignment_front == none and assignment_back == none {
+    (front: false, back: false)
+  } else {
+    (front: assignment_front, back: assignment_back)
+  }
+  let declaration_config = (declaration: declaration, ai_used: ai_used, ai_scope: ai_scope)
   let outline_config = normalize-outlines(outlines)
   let theme_config = normalize-theme-config(theme)
 
@@ -162,6 +170,7 @@
     introduction: introduction,
     assignment: assignment,
     bibliography: bibliography,
+    assignment_required: not is-doctoral,
   ))
 
   validate-image-alt(submit_check, lang)
@@ -222,6 +231,8 @@
   if bibliography != none {
     // Podpora jedné i více bibliografií (Typst 0.15+)
     let bibs = if type(bibliography) == array { bibliography } else { (bibliography,) }
+    // `std.`: parametr `bibliography` zastiňuje stejnojmennou funkci.
+    set std.bibliography(title: t("bibliography", lang: lang))
     for bib in bibs {
       bib
     }
