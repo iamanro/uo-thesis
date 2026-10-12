@@ -1,5 +1,5 @@
 #import "internal/i18n/index.typ": t
-#import "../styling/helpers.typ": frontmatter-heading
+#import "../styling/helpers.typ": frontmatter-heading, start-page-numbering-after
 #import "../config.typ": cfg
 #import "internal/glossary/render.typ": generate-acronyms-list, generate-symbols-list, generate-terms-list
 
@@ -9,7 +9,7 @@
   glossary,
   lang: "cs",
 ) = {
-  // Tisk čísel stran zapíná volající (render-final-layout) těsně před OBSAHEM.
+  // Tisk čísel stran se zapíná těsně za OBSAHEM (bez OBSAHU: v render-final-layout).
 
   if outlines.headings != false {
     show outline.entry.where(level: 1): it => {
@@ -38,6 +38,8 @@
       depth: cfg.outline.depth,
       title: t("toc", lang: lang),
     )
+    // Čl. 22 odst. 6: OBSAH se do pořadí stran počítá, ale číslo nenese.
+    start-page-numbering-after()
   }
 
   // Zkratky, pojmy a symboly — seznamy vypisují všechny položky z glossary.toml

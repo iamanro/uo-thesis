@@ -95,6 +95,10 @@
   if type(declaration.declaration) != bool or type(declaration.ai_used) != bool {
     panic-i18n("error_declaration_bool")
   }
+  let ai_scope = declaration.at("ai_scope", default: none)
+  if ai_scope != none and type(ai_scope) != str and type(ai_scope) != content {
+    panic-i18n("error_ai_scope_type")
+  }
 
   validate-assignment-page(assignment.front)
   validate-assignment-page(assignment.back)
@@ -112,6 +116,7 @@
     return
   }
   let (draft, thesis, author, supervisor, abstract, keywords, introduction, assignment, bibliography) = submitted
+  let assignment_required = submitted.at("assignment_required", default: true)
 
   let require_value(value, error_key) = {
     if not has-value(value) {
@@ -167,7 +172,7 @@
     panic-bilingual("error_submit_check_keywords_en_sample")
   }
 
-  if assignment.front == none or assignment.front == false or assignment.back == none or assignment.back == false {
+  if assignment_required and (assignment.front == none or assignment.front == false or assignment.back == none or assignment.back == false) {
     panic-i18n("error_submit_check_assignment_required")
   }
 }

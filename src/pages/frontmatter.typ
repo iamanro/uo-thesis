@@ -101,6 +101,13 @@
           nástroje umělé inteligence. Tyto nástroje byly využity v souladu s platnými obecně závaznými právními předpisy, vnitřními předpisy
           Univerzity obrany#if university.faculty != "uo" [ a #text(lang: "cs")[#faculty-name(university.faculty, variant: 2, lang: "cs")]]
           a etickými normami.
+          #if declaration.at("ai_scope", default: none) != none [
+            Rozsah použití: #{
+              let s = declaration.ai_scope
+              if type(s) == str { s.trim(".", at: end) } else { s }
+            }.
+          ]
+          Veškeré výsledky, které byly generovány nebo ovlivněny nástroji umělé inteligence, jsou v této práci identifikovány, popsány a podloženy relevantními informacemi o použitých algoritmech, tréninkových datech a metodologii.
         ]
       } else {
         _gendered(author.sex, [nepoužil], [nepoužila])
@@ -130,7 +137,7 @@
 
       Souhlasím se zpřístupněním své
       #thesis_type(2)
-      pro prezenční studium v prostorách knihovny Univerzity obrany.
+      pro studium v prostorách knihovny Univerzity obrany.
 
       #v(2cm)
       #align(center, grid(

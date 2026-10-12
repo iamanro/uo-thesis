@@ -155,6 +155,90 @@ Body.
                 self.assertIn(message, result.stderr)
 
 
+class Regulations(TypstCase):
+    """Opatření rektorky UO č. 12/2023: disertace bez zadání, rozsah AI, odkazy na tabulky."""
+
+    def thesis(self, kind="doctoral", extra="", body="Body.", lang="cs", check=True):
+        return self.compile('''#import "../../src/lib.typ": *
+#show: unob-thesis.with(
+  lang: "''' + lang + '''", faculty: "fvl", submit_check: ''' + str(check).lower() + ''',
+  thesis: (type: "''' + kind + '''", title: "Real title"),
+  author: person(name: "Petr", surname: "Svoboda", sex: "M"),
+  supervisor: person(name: "Jana", surname: "Nováková", sex: "F"),
+  keywords: (czech: "a, b, c", english: "a, b, c"),
+  bibliography: bibliography("../../template/references.bib", full: true),
+  abstract: (czech: [Vlastní abstrakt.], english: [Own abstract.]),
+  introduction: [Vlastní úvod.],
+  ''' + extra + '''
+)
+''' + body)
+
+    def text(self):
+        text = subprocess.run(["pdftotext", str(self.pdf), "-"],
+                              capture_output=True, text=True, check=True).stdout
+        return " ".join(text.replace("\u2060", "").split())  # WORD JOINER před odkazy
+
+    def test_doctoral_has_no_assignment_and_passes_submit_check(self):
+        result = self.thesis()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertNotIn("Zde patří zadání", self.text())
+
+    def test_master_still_requires_assignment(self):
+        result = self.thesis(kind="master")
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("zadání", result.stderr)
+
+    def test_explicit_assignment_is_kept_for_doctoral(self):
+        result = self.thesis(extra="assignment_front: [Líc zadání], assignment_back: [Rub zadání],")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("Líc zadání", self.text())
+
+    def test_ai_scope_is_printed_once_with_a_single_period(self):
+        result = self.thesis(extra='ai_used: true, ai_scope: "část textu a kódu.",', check=False)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        text = self.text()
+        self.assertIn("Rozsah použití: část textu a kódu. Veškeré výsledky", text)
+
+    def test_scope_without_ai_is_not_printed(self):
+        result = self.thesis(extra='ai_scope: "část textu",', check=False)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertNotIn("Rozsah použití", self.text())
+
+    def test_reference_to_a_table_is_lowercase_unless_the_supplement_is_given(self):
+        body = '''= Kapitola
+#figure(table(columns: 1, [x]), caption: [Popis]) <t>
+Viz @t a #ref(<t>, supplement: [Tabulka]) a #ref(<t>, supplement: none).
+'''
+        result = self.thesis(body=body, check=False)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        text = self.text()
+        self.assertIn("Viz tabulka 1.1 a Tabulka 1.1 a 1.1", text)
+
+
+class NonBreakingSpaces(TypstCase):
+    """Jednopísmenná předložka nesmí skončit řádek ani před odkazem."""
+
+    def test_no_line_ends_with_a_single_letter_preposition(self):
+        filler = "slovo "
+        paragraphs = "\n\n".join(
+            f"{filler * n}v @t, {filler * n}a @t, {filler * n}s @t." for n in range(1, 45))
+        result = self.compile('''#import "../../src/lib.typ": *
+#show: unob-thesis.with(
+  lang: "cs", faculty: "fvl", thesis: (type: "doctoral", title: "Real title"),
+  author: person(name: "Petr", surname: "Svoboda", sex: "M"),
+  supervisor: person(name: "Jana", surname: "Nováková", sex: "F"),
+  declaration: false, vlna: true,
+)
+= Kapitola
+#figure(table(columns: 1, [x]), caption: [Popis]) <t>
+''' + paragraphs)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        lines = subprocess.run(["pdftotext", "-layout", str(self.pdf), "-"],
+                               capture_output=True, text=True, check=True).stdout.splitlines()
+        bad = [line.strip() for line in lines if line.rstrip().endswith((" v", " a", " s", " k", " z", " o", " u", " i"))]
+        self.assertEqual(bad, [])
+
+
 class ConfigErrors(TypstCase):
     """`thesis-config` hlásí špatný typ hned a se jménem klíče."""
 

@@ -14,6 +14,7 @@
   "list_symbols": (cs: [SEZNAM SYMBOLŮ], en: [LIST OF SYMBOLS]),
   "introduction": (cs: [ÚVOD], en: [INTRODUCTION]),
   "conclusion": (cs: [ZÁVĚR], en: [CONCLUSION]),
+  "bibliography": (cs: [SEZNAM POUŽITÝCH ZDROJŮ], en: [REFERENCES]),
   "list_appendices": (cs: [SEZNAM PŘÍLOH], en: [LIST OF APPENDICES]),
   "appendix": (cs: [PŘÍLOHA], en: [APPENDIX]),
   "university_name": (cs: [Univerzita obrany], en: [University of Defence]),
@@ -94,6 +95,10 @@
   "error_declaration_bool": (
     cs: "Hodnoty v `declaration` musí být typu bool.",
     en: "`declaration` values must be bool.",
+  ),
+  "error_ai_scope_type": (
+    cs: "`ai_scope` musí být řetězec nebo obsah (rozsah použití AI v čestném prohlášení).",
+    en: "`ai_scope` must be a string or content (scope of AI use in the declaration).",
   ),
   "error_assignment_content": (
     cs: "`assignment_front` a `assignment_back` musí být `none` nebo obsah Typstu, například `image(...)`.",

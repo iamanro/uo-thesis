@@ -220,6 +220,7 @@ Metadata se čtou z `config.toml` přes `thesis-config()`. Všechny parametry lz
 | `acknowledgement` | `false` \| obsah | `false` | Poděkování |
 | `declaration` | bool | `true` | Čestné prohlášení |
 | `ai_used` | bool | `false` | Odstavec o použití AI v prohlášení |
+| `ai_scope` | řetězec \| obsah | `none` | Rozsah použití AI; vypíše se v prohlášení za větou o nástrojích (bez koncové tečky) |
 | `abstract` | `(czech, english)` | prázdné | Abstrakty |
 | `keywords` | `(czech, english)` | prázdné | Klíčová slova (řetězce oddělené čárkou) |
 | `introduction` | obsah | `[]` | Úvod |

@@ -46,13 +46,13 @@
     lang: lang,
   )
   render-abstracts(abstract, keywords)
-  // Od OBSAHU dál se tiskne číslo strany. Čítač běží PRŮBĚŽNĚ od titulní strany
+  // Číslo strany se tiskne od strany za OBSAHEM (čl. 22 odst. 6 Opatření rektorky UO č. 12/2023). Čítač běží PRŮBĚŽNĚ od titulní strany
   // (titulka a úvodní části se počítají, jen se na nich číslo netiskne), takže
   // čísla v OBSAHU odpovídají skutečné pozici listu a lichá čísla zůstávají na
   // líci — s tím počítá `pagebreak(to: "odd")` u kapitol. Nulovat tu čítač
   // NELZE: zalomení na líc (H1 nadpis OBSAHU) proběhne až po nulování, takže by
   // posunulo celou řadu o jedna a převrátilo paritu lichá/sudá.
-  start-page-numbering-after()
+  if outlines.headings == false { start-page-numbering-after() }
   render-lists(outlines, glossary, lang: lang)
   render-introduction(introduction, lang: lang)
   // Od tohoto místa dál (tělo práce) smí běžné záhlaví (fancy_heading) sázet

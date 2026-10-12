@@ -40,7 +40,7 @@
 // Klíče config.toml předávané šabloně beze změny (datové hodnoty).
 #let _passthrough-keys = (
   "lang", "draft", "faculty", "programme", "specialisation", "thesis",
-  "declaration", "ai_used", "keywords", "outlines", "theme",
+  "declaration", "ai_used", "ai_scope", "keywords", "outlines", "theme",
   "submit_check", "vlna", "fancy_heading", "twoside",
 )
 // Očekávané typy klíčů; špatný typ se ohlásí hned s názvem klíče. (Kontroly ve
@@ -50,7 +50,7 @@
 #let _bool-key = (bool, "true nebo false", "true or false")
 #let _table-key = (dictionary, "tabulka", "a table")
 #let _key-types = (
-  lang: _text-key, faculty: _text-key,
+  lang: _text-key, faculty: _text-key, ai_scope: _text-key,
   draft: _bool-key, declaration: _bool-key, ai_used: _bool-key, submit_check: _bool-key,
   fancy_heading: _bool-key, twoside: _bool-key,
   thesis: _table-key, keywords: _table-key, outlines: _table-key, theme: _table-key,
