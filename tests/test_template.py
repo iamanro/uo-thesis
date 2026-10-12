@@ -174,8 +174,9 @@ class Regulations(TypstCase):
 ''' + body)
 
     def text(self):
-        return " ".join(subprocess.run(["pdftotext", str(self.pdf), "-"],
-                                       capture_output=True, text=True, check=True).stdout.split())
+        text = subprocess.run(["pdftotext", str(self.pdf), "-"],
+                              capture_output=True, text=True, check=True).stdout
+        return " ".join(text.replace("\u2060", "").split())  # WORD JOINER před odkazy
 
     def test_doctoral_has_no_assignment_and_passes_submit_check(self):
         result = self.thesis()
@@ -212,6 +213,30 @@ Viz @t a #ref(<t>, supplement: [Tabulka]) a #ref(<t>, supplement: none).
         self.assertEqual(result.returncode, 0, result.stderr)
         text = self.text()
         self.assertIn("Viz tabulka 1.1 a Tabulka 1.1 a 1.1", text)
+
+
+class NonBreakingSpaces(TypstCase):
+    """Jednopísmenná předložka nesmí skončit řádek ani před odkazem."""
+
+    def test_no_line_ends_with_a_single_letter_preposition(self):
+        filler = "slovo "
+        paragraphs = "\n\n".join(
+            f"{filler * n}v @t, {filler * n}a @t, {filler * n}s @t." for n in range(1, 45))
+        result = self.compile('''#import "../../src/lib.typ": *
+#show: unob-thesis.with(
+  lang: "cs", faculty: "fvl", thesis: (type: "doctoral", title: "Real title"),
+  author: person(name: "Petr", surname: "Svoboda", sex: "M"),
+  supervisor: person(name: "Jana", surname: "Nováková", sex: "F"),
+  declaration: false, vlna: true,
+)
+= Kapitola
+#figure(table(columns: 1, [x]), caption: [Popis]) <t>
+''' + paragraphs)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        lines = subprocess.run(["pdftotext", "-layout", str(self.pdf), "-"],
+                               capture_output=True, text=True, check=True).stdout.splitlines()
+        bad = [line.strip() for line in lines if line.rstrip().endswith((" v", " a", " s", " k", " z", " o", " u", " i"))]
+        self.assertEqual(bad, [])
 
 
 class ConfigErrors(TypstCase):

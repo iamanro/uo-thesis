@@ -23,6 +23,12 @@ verzování dle [SemVer](https://semver.org/lang/cs/).
 - **Nadpis bibliografie** je výchozí SEZNAM POUŽITÝCH ZDROJŮ (EN: REFERENCES); vlastní `title:`
   v `bibliography(...)` má přednost.
 
+### Opraveno
+- **Nezlomitelná mezera před odkazem** (#10) — `vlna` váže předložku jen k následujícímu textu, takže
+  řádek mohl končit na „v“, „s“, „a“ před `@label`. Před odkaz se nově vkládá WORD JOINER
+  (v textové vrstvě PDF je neviditelný). Před voláním funkce (`#strong[..]`) a u jednoslabičných
+  předložek (ve, na, do, …) zůstává zlom možný.
+
 ## [0.1.1] – 2026-10-11
 
 ### Přidáno

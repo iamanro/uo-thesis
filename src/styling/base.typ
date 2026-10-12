@@ -36,7 +36,17 @@
   // a PDF/UA. Název jazyka u výpisu zůstává.
   codly(languages: codly-languages, display-icon: false)
 
-  show: if vlna != false { apply-vlna } else { it => it }
+  // `vlna` váže jednopísmennou předložku či spojku jen k NÁSLEDUJÍCÍMU TEXTU. Odkaz (`@label`)
+  // je samostatný prvek, takže mezera před ním zůstává zlomitelná a řádek může končit na „v“,
+  // „s“, „a“. Spojka WORD JOINER před odkazem zakáže zlom před ním (ani citační číslo se
+  // nemá oddělovat od předchozího slova). Před voláním funkce (`#strong[..]`) to nejde.
+  show: if vlna != false {
+    body => {
+      show: apply-vlna
+      show ref: it => [#sym.wj#it]
+      body
+    }
+  } else { it => it }
   if draft != true {
     // Pravidlo: Při `draft: false` přidá kompenzaci proti vdovám a sirotkům.
     show par: it => {
