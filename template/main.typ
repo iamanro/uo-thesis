@@ -1,4 +1,4 @@
-#import "@local/unob-thesis:0.1.1": *
+#import "@local/unob-thesis:0.1.2": *
 
 // ============================================================
 // Tento soubor běžně NEUPRAVUJETE.

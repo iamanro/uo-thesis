@@ -1,6 +1,6 @@
 [package]
 name = "unob-thesis"
-version = "0.1.1"
+version = "0.1.2"
 entrypoint = "src/lib.typ"
 authors = ["Iamanro <https://iamanro.dev>"]
 license = "AGPL-3.0-or-later AND MIT-0"
