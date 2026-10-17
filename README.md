@@ -60,7 +60,7 @@ typst compile --root . --font-path template/fonts examples/diplomka/main.typ
 **1. Nainstaluj šablonu** (Linux):
 
 ```bash
-git clone https://github.com/iamanro/uo-thesis.git ~/.local/share/typst/packages/local/unob-thesis/0.1.1
+git clone https://github.com/iamanro/uo-thesis.git ~/.local/share/typst/packages/local/unob-thesis/0.1.2
 ```
 
 <details>
@@ -68,15 +68,15 @@ git clone https://github.com/iamanro/uo-thesis.git ~/.local/share/typst/packages
 
 | Systém | Složka balíčku |
 |---|---|
-| Linux | `~/.local/share/typst/packages/local/unob-thesis/0.1.1/` |
-| macOS | `~/Library/Application Support/typst/packages/local/unob-thesis/0.1.1/` |
-| Windows | `%APPDATA%\typst\packages\local\unob-thesis\0.1.1\` |
+| Linux | `~/.local/share/typst/packages/local/unob-thesis/0.1.2/` |
+| macOS | `~/Library/Application Support/typst/packages/local/unob-thesis/0.1.2/` |
+| Windows | `%APPDATA%\typst\packages\local\unob-thesis\0.1.2\` |
 
 Bez Gitu: z [posledního vydání](https://github.com/iamanro/uo-thesis/releases/latest) stáhni `unob-thesis-<verze>.tar.gz` (otestovaný v CI, ověříš ho přes `SHA256SUMS`) a rozbal ho do složky balíčku z tabulky:
 
 ```bash
-mkdir -p ~/.local/share/typst/packages/local/unob-thesis/0.1.1
-tar -xzf unob-thesis-0.1.1.tar.gz -C ~/.local/share/typst/packages/local/unob-thesis/0.1.1
+mkdir -p ~/.local/share/typst/packages/local/unob-thesis/0.1.2
+tar -xzf unob-thesis-0.1.2.tar.gz -C ~/.local/share/typst/packages/local/unob-thesis/0.1.2
 ```
 
 </details>
@@ -84,7 +84,7 @@ tar -xzf unob-thesis-0.1.1.tar.gz -C ~/.local/share/typst/packages/local/unob-th
 **2. Založ projekt** — vznikne složka `moje-prace` s `main.typ`, `config.toml`, kapitolami a fonty:
 
 ```bash
-typst init @local/unob-thesis:0.1.1 moje-prace
+typst init @local/unob-thesis:0.1.2 moje-prace
 ```
 
 Bez příkazové řádky Typstu stačí zkopírovat obsah složky `template/` do nové složky.
@@ -109,7 +109,7 @@ Webová aplikace lokální balíčky (`@local/…`) nevidí, proto do projektu n
 
 1. Na [typst.app](https://typst.app/) vytvoř prázdný projekt (**Empty project**).
 2. Z repozitáře přetáhni **obsah složky `template/`** (včetně `fonts/`) a vedle něj **složku `src/`**.
-3. V `main.typ` nahraď `"@local/unob-thesis:0.1.1"` za `"src/lib.typ"` a v souborech v `chapters/` za `"../src/lib.typ"`.
+3. V `main.typ` nahraď `"@local/unob-thesis:0.1.2"` za `"src/lib.typ"` a v souborech v `chapters/` za `"../src/lib.typ"`.
 4. Otevři `main.typ`; PDF stáhneš tlačítkem **Download PDF**.
 
 </details>
@@ -147,7 +147,7 @@ english = "first, second, third"
 **`main.typ`** je pevná kostra — běžně do ní jen přidáš `#include` nové kapitoly:
 
 ```typ
-#import "@local/unob-thesis:0.1.1": *
+#import "@local/unob-thesis:0.1.2": *
 
 #let glossary = toml("glossary.toml")
 
@@ -191,7 +191,7 @@ moje-prace/
 └── fonts/            TeX Gyre (Termes, Termes Math, Cursor)
 ```
 
-V souborech kapitol importuj pomocné funkce **z balíčku** (`#import "@local/unob-thesis:0.1.1": trm, flex-caption`), ne z `src/…`. Novou kapitolu přidej řádkem `#include` v `main.typ` před `#conclusion[…]`.
+V souborech kapitol importuj pomocné funkce **z balíčku** (`#import "@local/unob-thesis:0.1.2": trm, flex-caption`), ne z `src/…`. Novou kapitolu přidej řádkem `#include` v `main.typ` před `#conclusion[…]`.
 
 > [!IMPORTANT]
 > Před odevzdáním zapni v `config.toml` **`submit_check = true`** a nech `draft = false`. Šablona odmítne ukázkový obsah, chybějící abstrakt, úvod, zadání či klíčová slova, obrázky bez `alt` textu a zbylá `#todo`.
@@ -404,7 +404,7 @@ Ruční náhled úprav šablony — propoj repozitář jako lokální balíček 
 
 ```bash
 mkdir -p ~/.local/share/typst/packages/local/unob-thesis
-ln -sfn "$PWD" ~/.local/share/typst/packages/local/unob-thesis/0.1.1
+ln -sfn "$PWD" ~/.local/share/typst/packages/local/unob-thesis/0.1.2
 typst watch --font-path template/fonts template/main.typ
 ```
 

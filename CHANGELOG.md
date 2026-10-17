@@ -6,6 +6,8 @@ verzování dle [SemVer](https://semver.org/lang/cs/).
 
 ## [Nevydáno]
 
+## [0.1.2] – 2026-10-17
+
 ### Přidáno
 - **`ai_scope`** — volitelný klíč: rozsah použití AI, který čl. 12 odst. 1 Opatření rektorky UO
   č. 12/2023 vyžaduje v čestném prohlášení („Rozsah použití: …“).
@@ -109,6 +111,7 @@ První vydání šablony.
   `typst init`, sedm profilů šablony plus PDF/A-3b a PDF/UA-1, vydání
   otestovaných artefaktů z tagu `v<verze>`.
 
-[Nevydáno]: https://github.com/iamanro/uo-thesis/compare/v0.1.1...HEAD
+[Nevydáno]: https://github.com/iamanro/uo-thesis/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/iamanro/uo-thesis/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/iamanro/uo-thesis/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/iamanro/uo-thesis/releases/tag/v0.1.0

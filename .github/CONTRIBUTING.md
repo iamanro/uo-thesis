@@ -9,9 +9,9 @@ Díky, že chceš šablonu vylepšit! Chyby a návrhy hlas přes [formuláře v 
 Potřebuješ Typst ve verzi z `package.compiler` v [`typst.toml`](../typst.toml), Python 3.12+, Git a `pdftotext` / `pdfinfo` (Poppler).
 
 ```bash
-# Repozitář jako lokální balíček @local/unob-thesis:0.1.1 (Linux)
+# Repozitář jako lokální balíček @local/unob-thesis:0.1.2 (Linux)
 mkdir -p ~/.local/share/typst/packages/local/unob-thesis
-ln -sfn "$PWD" ~/.local/share/typst/packages/local/unob-thesis/0.1.1
+ln -sfn "$PWD" ~/.local/share/typst/packages/local/unob-thesis/0.1.2
 
 # Živý náhled ukázkového projektu
 typst watch --font-path template/fonts template/main.typ

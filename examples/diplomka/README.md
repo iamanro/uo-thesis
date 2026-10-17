@@ -9,7 +9,7 @@ typst compile --root . --font-path template/fonts examples/diplomka/main.typ
 
 | Soubor | Obsah |
 |---|---|
-| `main.typ` | Kostra práce; importuje šablonu přímo ze `src/` (v reálné práci `@local/unob-thesis:0.1.1`) |
+| `main.typ` | Kostra práce; importuje šablonu přímo ze `src/` (v reálné práci `@local/unob-thesis:0.1.2`) |
 | `config.toml` | Metadata, `submit_check = true`, `twoside = false` |
 | `chapters/` | Úvod, teorie, cíl, metody, výsledky, závěr |
 | `appendix.typ` | Přílohy A–C (odvození, kód grafů, údaje) |

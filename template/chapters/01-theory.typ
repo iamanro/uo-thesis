@@ -1,5 +1,5 @@
 // Zkratky/pojmy do textu přes #trm(...). Importujte z balíčku (ne z src/…).
-#import "@local/unob-thesis:0.1.1": first, plural, trm
+#import "@local/unob-thesis:0.1.2": first, plural, trm
 
 = TEORETICKÁ ČÁST / ANALÝZA SOUČASNÉHO STAVU
 
